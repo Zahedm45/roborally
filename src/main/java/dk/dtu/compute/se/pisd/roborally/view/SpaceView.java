@@ -22,7 +22,9 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -101,22 +103,69 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
+            updateWalls();
             updatePlayer();
 
+            //BoardTemplate boardTem = new BoardTemplate();
+//            Space space = this.space;
+//            if (space != null && space instanceof ConveyorBelt) {
+//
+//                Pane pane = new Pane();
+//                Rectangle rectangle =
+//                        new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+//                rectangle.setFill(Color.TRANSPARENT);
+//                pane.getChildren().add(rectangle);
+//// SOUTH
+//                Line line =
+//                        new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
+//                                SPACE_HEIGHT-2);
+//                line.setStroke(Color.RED);
+//                line.setStrokeWidth(5);
+//                pane.getChildren().add(line);
+//                this.getChildren().add(pane);
+//
+//            }
 
-            Pane pane = new Pane();
-            Rectangle rectangle =
-                    new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
-            rectangle.setFill(Color.TRANSPARENT);
-            pane.getChildren().add(rectangle);
-// SOUTH
-            Line line =
-                    new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
-                            SPACE_HEIGHT-2);
-            line.setStroke(Color.RED);
-            line.setStrokeWidth(5);
-            pane.getChildren().add(line);
-            this.getChildren().add(pane);
+
+
+
+
+        }
+    }
+    private void updateWalls(){
+        Space space = this.space;
+        if (space != null && !space.getWalls().isEmpty()) {
+            for (Heading wall : space.getWalls()) {
+
+                Polygon fig = new Polygon(.0,0.0,
+                        70.0,0.0,
+                        70.0,5.0,
+                        0.0,5.0);
+
+                switch (wall) {
+                    case EAST:
+                        fig.setTranslateX(32.5);
+                        fig.setRotate((90*wall.ordinal()) % 360);
+                        break;
+
+                    case SOUTH:
+                        fig.setTranslateY(32.5);
+                        break;
+
+                    case WEST:
+                        fig.setTranslateX(-32.5);
+                        fig.setRotate((90*wall.ordinal()) % 360);
+                        break;
+
+                    case NORTH:
+                        fig.setTranslateY(-32.5);
+                        break;
+                }
+
+                fig.setFill(Color.ORANGERED);
+                this.getChildren().add(fig);
+
+            }
         }
     }
 
