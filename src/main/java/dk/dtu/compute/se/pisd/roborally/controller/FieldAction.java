@@ -29,7 +29,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public interface FieldAction {
+public abstract class FieldAction {
 
     /**
      * Executes the field action for a given space. In order to be able to do
