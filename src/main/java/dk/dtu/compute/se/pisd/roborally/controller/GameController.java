@@ -207,24 +207,73 @@ public class GameController {
         }
     }
 
+    /**
+     * This method pushes other players that are in front of the current player.
+     * In other words, if there any barriers for a player to move forward,
+     * cause of other robots' stands, then the other players will be pushed by
+     * the current player.
+     * @param player current player
+     * @param space
+     * @param heading
+     * @throws ImpossibleMoveException Throws exception if there any barriers
+     * to move other then players, for instance walls.
+     * @author Zahed(s186517)
+     */
+
+    private void moveToSpace(@NotNull Player player,
+                             @NotNull Space space, @NotNull Heading heading) throws
+            ImpossibleMoveException {
+        Player other = space.getPlayer();
+        if (other != null) {
+            Space target = board.getNeighbour(space, heading);
+            if (target != null) {
+                moveToSpace(other, target, heading);
+            } else {
+                throw new ImpossibleMoveException(player, space, heading);
+            }
+        }
+        player.setSpace(space);
+
+        //space.runActions(this);
+    }
+
+
+
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
-
+        Space current = player.getSpace();
+        Heading heading = player.getHeading();
+        if (current != null && player.board == current.board) {
+            Space target = board.getNeighbour(current, player.getHeading());
+            if (target != null) {
+                try {
+                    moveToSpace(player, target, heading);
+                } catch (ImpossibleMoveException e) {// we don't do anything here  for now;// we just catch theexception so that// we do no pass it on to the caller// (which would be very bad style).}   }   }   }
+                }
+            }
+        }
     }
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
 
     }
 
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
+        if(player!=null&&player.board==board){
+            player.setHeading(player.getHeading().next());
+        }
 
     }
 
     // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
-
+        if(player!=null&&player.board==board){
+            player.setHeading(player.getHeading().prev());
+        }
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
@@ -248,4 +297,21 @@ public class GameController {
         assert false;
     }
 
+}
+
+
+
+
+class ImpossibleMoveException extends Exception {
+
+    private Player player;
+    private Space space;
+    private Heading heading;
+
+    public ImpossibleMoveException(Player player, Space space, Heading heading) {
+        super("Move impossible");
+        this.player = player;
+        this.space = space;
+        this.heading = heading;
+    }
 }
