@@ -93,15 +93,15 @@ public class Space extends Subject {
         return belt;
     }
 
-    public CheckPoint getCheckPoints() {
-        CheckPoint checkPoint = null;
-        for (FieldAction action : this.actions) {
-            if (action instanceof CheckPoint && checkPoint == null) {
-                checkPoint = (CheckPoint) action;
-            }
-        }
-        return checkPoint;
-    }
+//    public CheckPoint getCheckPoints() {
+//        CheckPoint checkPoint = null;
+//        for (FieldAction action : this.actions) {
+//            if (action instanceof CheckPoint && checkPoint == null) {
+//                checkPoint = (CheckPoint) action;
+//            }
+//        }
+//        return checkPoint;
+//    }
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space

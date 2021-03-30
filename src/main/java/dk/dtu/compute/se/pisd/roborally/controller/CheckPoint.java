@@ -4,7 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 public class CheckPoint extends FieldAction {
     private int number;
-    public int getSpace() {
+    public int getNumber() {
         return number;
     }
 

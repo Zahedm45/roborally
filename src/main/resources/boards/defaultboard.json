@@ -4,13 +4,13 @@
   "spaces": [
     {
       "walls": [
-        "WEST"
+
       ],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
-            "number":1
+            "heading": "WEST"
           }
         }
       ],
@@ -118,9 +118,9 @@
       ],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
           "INSTANCE": {
-            "heading": "EAST"
+            "number": 2
           }
         }
       ],
@@ -163,9 +163,9 @@
       ],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
           "INSTANCE": {
-            "heading": "NORTH"
+            "number": 1
           }
         }
       ],

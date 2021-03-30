@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
@@ -31,6 +32,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -39,6 +42,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.net.URISyntaxException;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 
@@ -110,10 +115,12 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();
             }
+            for (FieldAction action : this.space.getActions()) {
+                if (action instanceof CheckPoint) {
+                    addImage("image/checkpoint" + ((CheckPoint) action).getNumber() + ".png", -90);
+                }
+            }
             updatePlayer();
-
-
-
         }
     }
 
@@ -189,5 +196,32 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+
+
+
+
+    private ImageView addImage(String name) {
+        Image img = null;
+        try {
+            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        ImageView imgView = new ImageView(img);
+        imgView.setImage(img);
+        imgView.setFitHeight(SPACE_HEIGHT);
+        imgView.setFitWidth(SPACE_WIDTH);
+        imgView.setVisible(true);
+        this.getChildren().add(imgView);
+
+        return imgView;
+    }
+
+    private ImageView addImage(String name, double rotation) {
+        ImageView imageView = addImage(name);
+        imageView.setRotate(rotation);
+
+        return imageView;
+    }
 
 }
