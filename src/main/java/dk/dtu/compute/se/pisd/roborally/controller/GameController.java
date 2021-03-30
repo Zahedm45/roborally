@@ -132,12 +132,14 @@ public class GameController {
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
+
     }
 
     // XXX: V2
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
+
     }
 
     // XXX: V2
@@ -166,6 +168,20 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+// action on the fields.
+
+                    for (int i = 0; i < this.board.getPlayersNumber(); i++) {
+                        for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
+//                if (won)
+//                    break;
+
+                            action.doAction(this, this.board.getPlayer(i).getSpace());
+                        }
+
+                    }
+
+
+
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
