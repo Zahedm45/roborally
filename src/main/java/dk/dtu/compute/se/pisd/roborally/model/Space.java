@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
@@ -40,6 +41,7 @@ public class Space extends Subject {
 
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
+    //private List<CheckPoint> checkPoints = new ArrayList<>();
 
     public final Board board;
 
@@ -89,6 +91,16 @@ public class Space extends Subject {
             }
         }
         return belt;
+    }
+
+    public CheckPoint getCheckPoints() {
+        CheckPoint checkPoint = null;
+        for (FieldAction action : this.actions) {
+            if (action instanceof CheckPoint && checkPoint == null) {
+                checkPoint = (CheckPoint) action;
+            }
+        }
+        return checkPoint;
     }
 
     void playerChanged() {
