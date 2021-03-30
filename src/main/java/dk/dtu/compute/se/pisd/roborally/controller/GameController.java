@@ -285,6 +285,9 @@ public class GameController {
     public void moveForward(@NotNull Player player) {
         Space current = player.getSpace();
         Heading heading = player.getHeading();
+        if (current.getWalls().contains(player.getHeading())) {
+            return;
+        }
         if (current != null && player.board == current.board) {
             Space target = board.getNeighbour(current, player.getHeading());
             if (target != null) {

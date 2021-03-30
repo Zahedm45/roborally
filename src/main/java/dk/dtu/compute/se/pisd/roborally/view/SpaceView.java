@@ -110,6 +110,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();
             }
+            updateBelt();
 
         }
     }
@@ -169,5 +170,53 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
         }
     }
+
+
+    private void updateBelt(){
+        ConveyorBelt belt = space.getConveyorBelt();
+        if (belt != null) {
+
+            Polygon fig = new Polygon(0.0, 0.0,
+                    60.0, 0.0,
+                    30.0, 60.0);
+
+            fig.setFill(Color.LIGHTGRAY);
+
+            fig.setRotate((90*belt.getHeading().ordinal())%360);
+            this.getChildren().add(fig);
+        }
+
+    }
+
+
+
+//    private void updateBelt(){
+//        ConveyorBelt belt = space.getConveyorBelt();
+//        if(belt != null) {
+//            Heading heading = space.getConveyorBelt().getHeading();
+//            Polygon fig = new Polygon(0.0, 0.0, 60.0, 0.0,
+//                    30.0, 60.0);
+//
+//            fig.setFill(Color.LIGHTGRAY);
+//
+//            if (heading == NORTH) {
+//                fig.setRotate((180 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+//
+//            }
+////
+////            switch (heading) {
+//////                case WEST:
+//////                    fig.setRotate((90 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+//////                    break;
+////                case NORTH:
+////                    fig.setRotate((180 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+////                    break;
+////
+////            }
+//
+//            this.getChildren().add(fig);
+//
+//        }
+//    }
 
 }
