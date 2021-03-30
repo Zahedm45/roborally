@@ -174,7 +174,6 @@ public class GameController {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
 //                if (won)
 //                    break;
-
                             action.doAction(this, this.board.getPlayer(i).getSpace());
                         }
 
@@ -278,21 +277,21 @@ public class GameController {
      * @author Zahed(s186517)
      */
 
-    private void moveToSpace(@NotNull Player player,
-                             @NotNull Space space, @NotNull Heading heading) throws
+    public void moveToSpace(@NotNull Player player,
+                            @NotNull Space space, @NotNull Heading heading) throws
             ImpossibleMoveException {
-        Player other = space.getPlayer();
-        if (other != null) {
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                moveToSpace(other, target, heading);
-            } else {
-                throw new ImpossibleMoveException(player, space, heading);
+            Player other = space.getPlayer();
+            if (other != null) {
+                Space target = board.getNeighbour(space, heading);
+                if (target != null) {
+                    moveToSpace(other, target, heading);
+                } else {
+                    throw new ImpossibleMoveException(player, space, heading);
+                }
             }
-        }
-        player.setSpace(space);
+            player.setSpace(space);
 
-        //space.runActions(this);
+            //space.runActions(this);
     }
 
 
