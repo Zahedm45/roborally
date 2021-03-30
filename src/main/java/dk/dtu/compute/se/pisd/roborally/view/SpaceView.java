@@ -22,16 +22,25 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 
 /**
  * ...
@@ -45,10 +54,12 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static int SPACE_WIDTH = 75;  // 60; // 75;
 
     public final Space space;
+    //public final SpaceTemplate spaceMap;
 
 
     public SpaceView(@NotNull Space space) {
         this.space = space;
+        //this.spaceMap = spaceMap;
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -95,7 +106,117 @@ public class SpaceView extends StackPane implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == this.space) {
             updatePlayer();
+
+            if (!this.space.getWalls().isEmpty()) {
+                updateWalls();
+            }
+            updateBelt();
+
         }
     }
+
+
+    /**
+     * This method draws the walls on the spaces. The reason why if-statement has
+     * been used throughout the method is because there could be more than one
+     * walls on the same space.
+     * @author Zahed(s186517)
+     */
+
+    private void updateWalls(){
+        for (Heading wall : space.getWalls()) {
+            Pane pane = new Pane();
+            Rectangle rectangle =
+                    new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+            rectangle.setFill(Color.TRANSPARENT);
+            pane.getChildren().add(rectangle);
+
+            if (wall == SOUTH) {
+                Line line =
+                        new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
+                                SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
+
+            if (wall == WEST) {
+                Line line =
+                        new Line(2,  2, 2, SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
+
+            if (wall == NORTH) {
+                Line line =
+                        new Line(2, 2, SPACE_WIDTH-2,
+                                2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
+
+            if (wall == EAST) {
+                Line line = new Line(SPACE_HEIGHT-2, 2, SPACE_WIDTH-2,
+                        SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
+
+    private void updateBelt(){
+        ConveyorBelt belt = space.getConveyorBelt();
+        if (belt != null) {
+
+            Polygon fig = new Polygon(0.0, 0.0,
+                    60.0, 0.0,
+                    30.0, 60.0);
+
+            fig.setFill(Color.LIGHTGRAY);
+
+            fig.setRotate((90*belt.getHeading().ordinal())%360);
+            this.getChildren().add(fig);
+        }
+
+    }
+
+
+
+//    private void updateBelt(){
+//        ConveyorBelt belt = space.getConveyorBelt();
+//        if(belt != null) {
+//            Heading heading = space.getConveyorBelt().getHeading();
+//            Polygon fig = new Polygon(0.0, 0.0, 60.0, 0.0,
+//                    30.0, 60.0);
+//
+//            fig.setFill(Color.LIGHTGRAY);
+//
+//            if (heading == NORTH) {
+//                fig.setRotate((180 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+//
+//            }
+////
+////            switch (heading) {
+//////                case WEST:
+//////                    fig.setRotate((90 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+//////                    break;
+////                case NORTH:
+////                    fig.setRotate((180 * space.getConveyorBelt().getHeading().ordinal()) % 360);
+////                    break;
+////
+////            }
+//
+//            this.getChildren().add(fig);
+//
+//        }
+//    }
 
 }
