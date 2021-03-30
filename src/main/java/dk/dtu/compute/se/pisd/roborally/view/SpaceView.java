@@ -85,6 +85,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void updatePlayer() {
         this.getChildren().clear();
+        updateBelt();
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -105,12 +106,14 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
-            updatePlayer();
+            this.getChildren().clear();
 
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();
             }
-            updateBelt();
+            updatePlayer();
+
+
 
         }
     }
@@ -173,6 +176,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     private void updateBelt(){
+        this.getChildren().clear();
         ConveyorBelt belt = space.getConveyorBelt();
         if (belt != null) {
 
