@@ -180,7 +180,6 @@ public class GameController {
                     }
 
 
-
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
@@ -258,6 +257,18 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                case U_TURN:
+                    this.turnRight(player);
+                    this.turnRight(player);
+                    break;
+                case MOVE_3:
+                    this.fastForward(player);
+                    this.moveForward(player);
+                    break;
+                case BACK_UP:
+                    backUp(player);
+                    break;
+
                 default:
                     // DO NOTHING (for now)
             }
@@ -298,6 +309,33 @@ public class GameController {
             //space.runActions(this);
     }
 
+    public void backUp(@NotNull Player player) {
+        Heading heading = null;
+
+        switch (player.getHeading()) {
+            case SOUTH:
+                heading = Heading.NORTH;
+                break;
+            case EAST:
+                heading = Heading.WEST;
+                break;
+            case NORTH:
+                heading = Heading.SOUTH;
+                break;
+            case WEST:
+                heading = Heading.EAST;
+                break;
+        }
+        Space target =
+                player.getSpace().board.getNeighbour(player.getSpace(), heading);
+        try {
+            moveToSpace(player, target, heading);
+        } catch (ImpossibleMoveException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
     // TODO Assignment V2
