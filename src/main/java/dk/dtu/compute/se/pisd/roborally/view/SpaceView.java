@@ -40,6 +40,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
+
 /**
  * ...
  *
@@ -103,72 +105,69 @@ public class SpaceView extends StackPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
-            updateWalls();
             updatePlayer();
 
-            //BoardTemplate boardTem = new BoardTemplate();
-//            Space space = this.space;
-//            if (space != null && space instanceof ConveyorBelt) {
-//
-//                Pane pane = new Pane();
-//                Rectangle rectangle =
-//                        new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
-//                rectangle.setFill(Color.TRANSPARENT);
-//                pane.getChildren().add(rectangle);
-//// SOUTH
-//                Line line =
-//                        new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
-//                                SPACE_HEIGHT-2);
-//                line.setStroke(Color.RED);
-//                line.setStrokeWidth(5);
-//                pane.getChildren().add(line);
-//                this.getChildren().add(pane);
-//
-//            }
-
-
-
-
+            if (!this.space.getWalls().isEmpty()) {
+                updateWalls();
+            }
 
         }
     }
+
+
+    /**
+     * This method draws the walls on the spaces. The reason why if-statement has
+     * been used throughout the method is because there could be more than one
+     * walls on the same space.
+     * @author Zahed(s186517)
+     */
+
     private void updateWalls(){
-        Space space = this.space;
-        if (space != null && !space.getWalls().isEmpty()) {
-            for (Heading wall : space.getWalls()) {
+        for (Heading wall : space.getWalls()) {
+            Pane pane = new Pane();
+            Rectangle rectangle =
+                    new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+            rectangle.setFill(Color.TRANSPARENT);
+            pane.getChildren().add(rectangle);
 
-                Polygon fig = new Polygon(.0,0.0,
-                        70.0,0.0,
-                        70.0,5.0,
-                        0.0,5.0);
+            if (wall == SOUTH) {
+                Line line =
+                        new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
+                                SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
 
-                switch (wall) {
-                    case EAST:
-                        fig.setTranslateX(32.5);
-                        fig.setRotate((90*wall.ordinal()) % 360);
-                        break;
+            if (wall == WEST) {
+                Line line =
+                        new Line(2,  2, 2, SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
 
-                    case SOUTH:
-                        fig.setTranslateY(32.5);
-                        break;
+            if (wall == NORTH) {
+                Line line =
+                        new Line(2, 2, SPACE_WIDTH-2,
+                                2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
+            }
 
-                    case WEST:
-                        fig.setTranslateX(-32.5);
-                        fig.setRotate((90*wall.ordinal()) % 360);
-                        break;
-
-                    case NORTH:
-                        fig.setTranslateY(-32.5);
-                        break;
-                }
-
-                fig.setFill(Color.ORANGERED);
-                this.getChildren().add(fig);
-
+            if (wall == EAST) {
+                Line line = new Line(SPACE_HEIGHT-2, 2, SPACE_WIDTH-2,
+                        SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+                this.getChildren().add(pane);
             }
         }
     }
-
-
 
 }

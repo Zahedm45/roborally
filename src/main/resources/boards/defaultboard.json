@@ -1,10 +1,10 @@
 {
-  "width": 8,
+  "width": 10,
   "height": 8,
   "spaces": [
     {
       "walls": [
-        "SOUTH"
+        "EAST"
       ],
       "actions": [
         {
@@ -19,7 +19,7 @@
     },
     {
       "walls": [
-        "NORTH"
+        "WEST"
       ],
       "actions": [
         {
@@ -114,7 +114,7 @@
     },
     {
       "walls": [
-        "NORTH"
+
       ],
       "actions": [
         {
@@ -129,7 +129,6 @@
     },
     {
       "walls": [
-        "EAST"
       ],
       "actions": [
         {
@@ -144,7 +143,6 @@
     },
     {
       "walls": [
-        "SOUTH"
       ],
       "actions": [
         {

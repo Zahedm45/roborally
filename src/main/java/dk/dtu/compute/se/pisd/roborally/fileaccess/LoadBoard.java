@@ -68,7 +68,7 @@ public class LoadBoard {
             // fileReader = new FileReader(filename);
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-            System.out.println("it has being called");
+            //System.out.println("it has being called");
 
             result = new Board(template.width, template.height);
             for (SpaceTemplate spaceTemplate: template.spaces) {
