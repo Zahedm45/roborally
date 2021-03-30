@@ -48,6 +48,8 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+    private int lastCheckPoint;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -133,4 +135,15 @@ public class Player extends Subject {
         return cards[i];
     }
 
+
+    public int getLastCheckPoint() {
+        return lastCheckPoint;
+    }
+    public boolean addLastCheckPoint(int checkPointNum) {
+        if ((lastCheckPoint + 1) == checkPointNum) {
+            lastCheckPoint = checkPointNum;
+            return true;
+        }
+        return false;
+    }
 }

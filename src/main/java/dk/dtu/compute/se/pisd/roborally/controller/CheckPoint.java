@@ -10,6 +10,6 @@ public class CheckPoint extends FieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        return false;
+        return space.getPlayer().addLastCheckPoint(this.number);
     }
 }
