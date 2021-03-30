@@ -281,6 +281,11 @@ public class GameController {
                             @NotNull Space space, @NotNull Heading heading) throws
             ImpossibleMoveException {
             Player other = space.getPlayer();
+            if (space.getWalls().contains(heading)) {
+                return;
+            }
+
+
             if (other != null) {
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
@@ -290,7 +295,6 @@ public class GameController {
                 }
             }
             player.setSpace(space);
-
             //space.runActions(this);
     }
 
@@ -300,9 +304,8 @@ public class GameController {
     public void moveForward(@NotNull Player player) {
         Space current = player.getSpace();
         Heading heading = player.getHeading();
-        if (current.getWalls().contains(player.getHeading())) {
-            return;
-        }
+
+
         if (current != null && player.board == current.board) {
             Space target = board.getNeighbour(current, player.getHeading());
             if (target != null) {
