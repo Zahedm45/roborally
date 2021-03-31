@@ -38,7 +38,7 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-class Repository implements IRepository {
+public class Repository implements IRepository {
 	
 	private static final String GAME_GAMEID = "gameID";
 
@@ -66,7 +66,7 @@ class Repository implements IRepository {
 
 	private Connector connector;
 	
-	Repository(Connector connector){
+	public Repository(Connector connector){
 		this.connector = connector;
 	}
 

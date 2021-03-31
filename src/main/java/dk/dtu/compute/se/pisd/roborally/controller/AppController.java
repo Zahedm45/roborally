@@ -21,11 +21,14 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.sun.jdi.connect.Connector;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -38,6 +41,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -102,11 +106,19 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        IRepository iRepository;
+        //iRepository.createGameInDB(gameController.board);
+
     }
 
     public void loadGame() {
         // XXX needs to be implememted eventually
         // for now, we just create a new game
+        //LoadBoard.loadBoard();
+
+
+        IRepository repository = new Repository(new Connector());
+
         if (gameController == null) {
             newGame();
         }

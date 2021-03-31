@@ -31,7 +31,7 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public interface  IRepository {
+public interface IRepository {
 	
  	boolean createGameInDB(Board game);
 	
