@@ -31,4 +31,3 @@ CREATE TABLE IF NOT EXISTS Player (
 
 SET FOREIGN_KEY_CHECKS = 1;;
 
-// TODO still some stuff missing here
