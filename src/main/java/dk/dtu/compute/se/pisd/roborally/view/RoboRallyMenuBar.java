@@ -26,6 +26,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ...
  *
@@ -47,6 +51,12 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem stopGame;
 
     private MenuItem exitApp;
+
+    public List<Integer> gameToDownLoad = new ArrayList<>();
+
+
+
+    //private MenuItem savedGame;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
@@ -70,6 +80,8 @@ public class RoboRallyMenuBar extends MenuBar {
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
+
+
         exitApp = new MenuItem("Exit");
         exitApp.setOnAction( e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
@@ -79,7 +91,22 @@ public class RoboRallyMenuBar extends MenuBar {
         update();
     }
 
-    public void update() {
+//    private int game() {
+//        gameToDownLoad.add(1);
+//        gameToDownLoad.add(2);
+////        controlMenu = new Menu("Maya");
+////        this.getMenus().add(controlMenu);
+//        MenuItem ne = new MenuItem("SELECT");
+//        ne.setText("dlældæs");
+//        controlMenu.getItems().add(ne);
+//
+//        System.out.println("helr");
+//        update();
+//
+//        return 0;
+//    }
+
+    private void update() {
         if (appController.isGameRunning()) {
             newGame.setVisible(false);
             stopGame.setVisible(true);

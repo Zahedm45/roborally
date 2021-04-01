@@ -29,7 +29,7 @@ package dk.dtu.compute.se.pisd.roborally.dal;
  */
 public class GameInDB {
 
-    public final int id;
+    private final int id;
     public final String name;
 
     public GameInDB(int id, String name) {

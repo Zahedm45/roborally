@@ -35,11 +35,10 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
+import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -111,8 +110,8 @@ public class AppController implements Observer {
     public void saveGame() {
         // XXX needs to be implemented eventually
         IRepository repository = new Repository(new Connector());
-        currentGameID = this.gameController.board.getGameId();
-
+        Integer currentGameID = this.gameController.board.getGameId();
+        // need to rewrite
         if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
             repository.createGameInDB(this.gameController.board);
         } else {
@@ -123,12 +122,46 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implememted eventually
         IRepository repository = new Repository(new Connector());
-        List<GameInDB> gamesId = repository.getGames();
+
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.setContentText("Choose a game:");
+        dialog.getItems().addAll(repository.getGames());
+        dialog.showAndWait();
+        Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
+
+        if (playerChosenGID != null) {
+            this.gameController =
+                    new GameController(repository.loadGameFromDB(playerChosenGID));
+            this.roboRally.createBoardView(this.gameController);
+        }
 
 
-        int a = gamesId.get(2).id;
-        this.gameController = new GameController(repository.loadGameFromDB(a));
-        this.roboRally.createBoardView(this.gameController);
+
+
+
+
+
+//
+//
+//        int a = gamesId.get(2).id;
+//        this.gameController = new GameController(repository.loadGameFromDB(a));
+//        this.roboRally.createBoardView(this.gameController);
+
+
+
+//        loadGame = new MenuItem("Load Game");
+//        loadGame.setOnAction( e -> this.appController.loadGame());
+//        controlMenu.getItems().add(loadGame);
+
+
+//        //Menu menu1 = new Menu("LOAD GAMES");
+//        MenuItem gamesToLoad = new MenuItem("Maya");
+////        gamesToLoad.setOnAction(e -> exit());
+//        rallyMenuBar.controlMenu = new Menu("LOAD FROM DB");
+//        rallyMenuBar.controlMenu.getItems().add(gamesToLoad);
+//        //rallyMenuBar.menu.getItems().add(gamesToLoad);
+//        //rallyMenuBar.update();
+
 
     }
 
