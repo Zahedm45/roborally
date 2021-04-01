@@ -135,34 +135,6 @@ public class AppController implements Observer {
             this.roboRally.createBoardView(this.gameController);
         }
 
-
-
-
-
-
-
-//
-//
-//        int a = gamesId.get(2).id;
-//        this.gameController = new GameController(repository.loadGameFromDB(a));
-//        this.roboRally.createBoardView(this.gameController);
-
-
-
-//        loadGame = new MenuItem("Load Game");
-//        loadGame.setOnAction( e -> this.appController.loadGame());
-//        controlMenu.getItems().add(loadGame);
-
-
-//        //Menu menu1 = new Menu("LOAD GAMES");
-//        MenuItem gamesToLoad = new MenuItem("Maya");
-////        gamesToLoad.setOnAction(e -> exit());
-//        rallyMenuBar.controlMenu = new Menu("LOAD FROM DB");
-//        rallyMenuBar.controlMenu.getItems().add(gamesToLoad);
-//        //rallyMenuBar.menu.getItems().add(gamesToLoad);
-//        //rallyMenuBar.update();
-
-
     }
 
     /**
