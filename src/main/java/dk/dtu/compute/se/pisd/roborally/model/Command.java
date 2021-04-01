@@ -45,8 +45,8 @@ public enum Command {
 
     MOVE_3("Move3"),
     //AGAIN("Again"),
-    U_TURN("U-Turn"),
-    BACK_UP("Back-Up");
+    U_TURN("U Turn"),
+    BACK_UP("Back Up");
 
     final public String displayName;
 

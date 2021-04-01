@@ -29,9 +29,11 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.Connector;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+
 import dk.dtu.compute.se.pisd.roborally.dal.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
@@ -133,6 +135,9 @@ public class AppController implements Observer {
             this.gameController =
                     new GameController(repository.loadGameFromDB(playerChosenGID));
             this.roboRally.createBoardView(this.gameController);
+//            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
+//                this.gameController.board.setPhase();
+//            }
         }
 
     }
