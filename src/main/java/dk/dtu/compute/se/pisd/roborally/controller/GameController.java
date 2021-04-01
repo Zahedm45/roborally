@@ -292,9 +292,9 @@ public class GameController {
                             @NotNull Space space, @NotNull Heading heading) throws
             ImpossibleMoveException {
             Player other = space.getPlayer();
-            if (space.getWalls().contains(heading)) {
-                return;
-            }
+//            if (space.getWalls().contains(heading)) {
+//                return;
+//            }
 
 
             if (other != null) {

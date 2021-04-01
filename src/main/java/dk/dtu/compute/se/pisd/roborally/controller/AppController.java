@@ -117,7 +117,7 @@ public class AppController implements Observer {
         //LoadBoard.loadBoard();
 
 
-        IRepository repository = new Repository(new Connector());
+       // IRepository repository = new Repository(new Connector());
 
         if (gameController == null) {
             newGame();
