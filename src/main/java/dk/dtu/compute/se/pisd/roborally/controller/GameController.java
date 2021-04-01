@@ -291,22 +291,23 @@ public class GameController {
     public void moveToSpace(@NotNull Player player,
                             @NotNull Space space, @NotNull Heading heading) throws
             ImpossibleMoveException {
-            Player other = space.getPlayer();
-//            if (space.getWalls().contains(heading)) {
-//                return;
-//            }
+        Player other = space.getPlayer();
+        // if there is a wall
+        if (player.getSpace().getWalls().contains(heading)) {
+            return;
+        }
 
 
-            if (other != null) {
-                Space target = board.getNeighbour(space, heading);
-                if (target != null) {
-                    moveToSpace(other, target, heading);
-                } else {
-                    throw new ImpossibleMoveException(player, space, heading);
-                }
+        if (other != null) {
+            Space target = board.getNeighbour(space, heading);
+            if (target != null) {
+                moveToSpace(other, target, heading);
+            } else {
+                throw new ImpossibleMoveException(player, space, heading);
             }
-            player.setSpace(space);
-            //space.runActions(this);
+        }
+        player.setSpace(space);
+        //space.runActions(this);
     }
 
     public void backUp(@NotNull Player player) {
