@@ -61,6 +61,7 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
+   // private
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -105,26 +106,22 @@ public class AppController implements Observer {
 
 
 
+    Integer currentGameID = null;
+
     public void saveGame() {
         // XXX needs to be implemented eventually
-        Repository repository = new Repository(new Connector());
-        repository.createGameInDB(this.gameController.board);
+        IRepository repository = new Repository(new Connector());
+        currentGameID = this.gameController.board.getGameId();
 
-
+        if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
+            repository.createGameInDB(this.gameController.board);
+        } else {
+            repository.updateGameInDB(this.gameController.board);
+        }
     }
 
     public void loadGame() {
         // XXX needs to be implememted eventually
-        // for now, we just create a new game
-        //LoadBoard.loadBoard();
-
-
-       //IRepository repository = new Repository(new Connector());
-
-//        if (gameController == null) {
-//            newGame();
-//        }
-
         IRepository repository = new Repository(new Connector());
         List<GameInDB> gamesId = repository.getGames();
 
