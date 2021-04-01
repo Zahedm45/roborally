@@ -42,4 +42,7 @@ public class GameInDB {
         return id + ": " + name;
     }
 
+    public int getId() {
+        return id;
+    }
 }

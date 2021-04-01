@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.dal.Connector;
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
@@ -124,7 +125,13 @@ public class AppController implements Observer {
 //            newGame();
 //        }
 
-        Repository repository = new Repository(new Connector());
+        IRepository repository = new Repository(new Connector());
+        List<GameInDB> gamesId = repository.getGames();
+
+
+        int a = gamesId.get(2).id;
+        this.gameController = new GameController(repository.loadGameFromDB(a));
+        this.roboRally.createBoardView(this.gameController);
 
     }
 
