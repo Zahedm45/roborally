@@ -1,6 +1,6 @@
-/* Need to switch of FK check for MySQL since there are crosswise FK references */
 SET FOREIGN_KEY_CHECKS = 0;;
 
+DROP TABLE IF EXISTS Game;;
 CREATE TABLE IF NOT EXISTS Game (
   gameID int NOT NULL UNIQUE AUTO_INCREMENT,
 
@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS Game (
   FOREIGN KEY (gameID, currentPlayer) REFERENCES Player(gameID, playerID)
 );;
 
+DROP TABLE IF EXISTS Player;;
 CREATE TABLE IF NOT EXISTS Player (
   gameID int NOT NULL,
   playerID tinyint NOT NULL,
@@ -38,5 +39,3 @@ CREATE TABLE IF NOT EXISTS Player (
 );;
 
 SET FOREIGN_KEY_CHECKS = 1;;
-
-

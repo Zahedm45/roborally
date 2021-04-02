@@ -81,24 +81,27 @@ public class Repository implements IRepository {
 		this.connector = connector;
 	}
 
-//	private void createCardFieldsInDB(Board game) throws SQLException {
-//		// TODO code should be more defensive
-//		PreparedStatement ps = getSelectPlayersStatementU();
-//		ps.setInt(1, game.getGameId());
-//
-//		ResultSet rs = ps.executeQuery();
-//		for (int i = 0; i < game.getPlayersNumber(); i++) {
-//			Player player = game.getPlayer(i);
-//			rs.moveToInsertRow();
-//
-//			rs.updateString(FIRST_POSITION, "helo");
-////			rs.updateString(SECOND_POSITION, "hdd");
-////			rs.updateString(THIRD_POSITION, "dldlld");
-////			rs.insertRow();
-//		}
-//
-//		rs.close();
-//	}
+	private void createCardFieldsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement ps = getSelectPlayersStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+
+		int cardNum = 1;
+		for (int j = 0; j < 5; j++) {
+			Player player = game.getPlayer(j);
+			rs.moveToInsertRow();
+			if (player.getProgramField(j).getCard() != null) {
+				String strOfNu = String.valueOf(cardNum);
+				String lowercaseCardName = player.getProgramField(j).getCard().getName().toLowerCase();
+				rs.updateString(CARD + strOfNu, lowercaseCardName);
+			}
+			cardNum++;
+			rs.insertRow();
+		}
+		rs.close();
+	}
 
 
 	@Override
@@ -139,8 +142,8 @@ public class Repository implements IRepository {
 				/* TOODO this method needs to be implemented first
 				createCardFieldsInDB(game);
 				 */
-				//createCardFieldsInDB(game);
 
+				//createCardFieldsInDB(game);
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
