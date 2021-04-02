@@ -83,25 +83,23 @@ public class Repository implements IRepository {
 
 	private void createCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
-		PreparedStatement ps = getSelectPlayersStatementU();
-		ps.setInt(1, game.getGameId());
-
-		ResultSet rs = ps.executeQuery();
-
-		int cardNum = 1;
-		for (int j = 0; j < 5; j++) {
-			Player player = game.getPlayer(j);
-			rs.moveToInsertRow();
-			if (player.getProgramField(j).getCard() != null) {
-				String strOfNu = String.valueOf(cardNum);
-				String lowercaseCardName = player.getProgramField(j).getCard().getName().toLowerCase();
-				rs.updateString(CARD + strOfNu, lowercaseCardName);
+		PreparedStatement rs = getInsertPlayerRegisterFieldU();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			rs.setInt(1, game.getGameId());
+			rs.setInt(2, i);
+			for (int j = 3; j < 8; j++) {
+				CommandCard playerCard = player.getProgramField(j-3).getCard();
+				if (playerCard != null){
+					rs.setString(j, playerCard.getName());
+				} else rs.setString(j, "null");
 			}
-			cardNum++;
-			rs.insertRow();
+			rs.executeUpdate();
 		}
 		rs.close();
 	}
+
+
 
 
 	@Override
@@ -143,7 +141,7 @@ public class Repository implements IRepository {
 				createCardFieldsInDB(game);
 				 */
 
-				//createCardFieldsInDB(game);
+				createCardFieldsInDB(game);
 
 				// since current player is a foreign key, it can oly be
 				// inserted after the players are created, since MySQL does
@@ -326,22 +324,13 @@ public class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
 
-
-			int cardNum = 1;
-			for (int j = 0; j < 5; j++) {
-				if (player.getProgramField(j).getCard() != null) {
-					String strOfNu = String.valueOf(cardNum);
-					String lowercaseCardName = player.getProgramField(j).getCard().getName().toLowerCase();
-					rs.updateString(CARD + strOfNu, lowercaseCardName);
-				}
-				cardNum++;
-			}
-
 			rs.insertRow();
-
 		}
-
 		rs.close();
+	}
+
+	private void loadCardField(Board game){
+		PreparedStatement ps = get
 	}
 
 	private void loadPlayersFromDB(Board game) throws SQLException {
@@ -415,6 +404,44 @@ public class Repository implements IRepository {
 		}
 		return insert_game_stmt;
 	}
+
+
+
+	private static final String SQL_CREATE_REGISTER_FIELD =
+			"INSERT INTO RegisterField(gameID, playerID, card1, card2, card3, card4, card5) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private PreparedStatement insert_register_field = null;
+
+	private PreparedStatement getInsertPlayerRegisterFieldU() {
+		if (insert_register_field == null) {
+			Connection connection = connector.getConnection();
+			try {
+				insert_register_field = connection.prepareStatement(SQL_CREATE_REGISTER_FIELD);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return insert_register_field;
+	}
+
+	private static final String SQL_SELECT_REGISTER_FIELD =
+			"SELECT * FROM RegisterField WHERE gameID = ? ORDER BY playerID ASC";
+	private PreparedStatement select_register_field = null;
+	private PreparedStatement getRegisterFieldStatement(){
+		if (select_register_field == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_register_field =
+						connection.prepareStatement(SQL_CREATE_REGISTER_FIELD);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return select_register_field;
+	}
+
+
+
+
 
 	private static final String SQL_SELECT_GAME =
 			"SELECT * FROM Game WHERE gameID = ?";
@@ -496,6 +523,7 @@ public class Repository implements IRepository {
 		}
 		return select_games_stmt;
 	}
+
 
 
 
