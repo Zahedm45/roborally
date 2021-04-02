@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -48,9 +50,6 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public int programCardSize;
-    //public int cardSize = cards.length;
-
     private int lastCheckPoint;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -69,7 +68,6 @@ public class Player extends Subject {
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new CommandCardField(this);
         }
-        this.programCardSize = program.length;
     }
 
     public String getName() {
@@ -151,4 +149,5 @@ public class Player extends Subject {
         }
         return false;
     }
+
 }
