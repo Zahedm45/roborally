@@ -274,6 +274,9 @@ public class Repository implements IRepository {
 			/* TOODO this method needs to be implemented first
 			loadCardFieldsFromDB(game);
 			*/
+			loadCardFieldFromDB(game);
+
+
 
 			return game;
 		} catch (SQLException e) {
@@ -329,8 +332,31 @@ public class Repository implements IRepository {
 		rs.close();
 	}
 
-	private void loadCardField(Board game){
-		PreparedStatement ps = get
+	private void loadCardFieldFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getRegisterFieldStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		int i = 0;
+		while (rs.next()) {
+			int playerID = rs.getInt(PLAYER_PLAYERID);
+			//int gameID = rs.getInt(PLAYER_PLAYERID);
+
+
+			if (i++ == playerID) {
+
+				CommandCard commandCard = null;
+				for (int j = 1; j < 6; j++) {
+					String strJ = String.valueOf(j);
+					String card= rs.getString(CARD+strJ);
+					if (Command.valueOf(card) != null) {
+						commandCard = new CommandCard(Command.valueOf(card));
+						game.getPlayer(i).getProgramField(j).setCard(commandCard);
+					}
+				}
+			}
+		}
+		rs.close();
+
 	}
 
 	private void loadPlayersFromDB(Board game) throws SQLException {
@@ -426,12 +452,12 @@ public class Repository implements IRepository {
 	private static final String SQL_SELECT_REGISTER_FIELD =
 			"SELECT * FROM RegisterField WHERE gameID = ? ORDER BY playerID ASC";
 	private PreparedStatement select_register_field = null;
-	private PreparedStatement getRegisterFieldStatement(){
+	private PreparedStatement getRegisterFieldStatementU(){
 		if (select_register_field == null) {
 			Connection connection = connector.getConnection();
 			try {
 				select_register_field =
-						connection.prepareStatement(SQL_CREATE_REGISTER_FIELD);
+						connection.prepareStatement(SQL_SELECT_REGISTER_FIELD);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
