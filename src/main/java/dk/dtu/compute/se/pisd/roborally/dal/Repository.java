@@ -76,12 +76,12 @@ class Repository implements IRepository {
 
 
 	private Connector connector;
+	private SubRepository subRepository;
 
 	public Repository(Connector connector){
 		this.connector = connector;
+		this.subRepository = new SubRepository(this, connector);
 	}
-
-
 
 
 
@@ -259,7 +259,7 @@ class Repository implements IRepository {
 			/* TOODO this method needs to be implemented first
 			loadCardFieldsFromDB(game);
 			*/
-			loadCardFieldFromDB(game);
+			loadCardFieldsFromDB(game);
 
 
 
@@ -331,6 +331,23 @@ class Repository implements IRepository {
 				} else rs.setString(j, null);
 			}
 			rs.executeUpdate();
+
+			PreparedStatement commandField = subRepository.getInsertPlayerCommandField();
+			if (commandField != null) {
+				commandField.setInt(1, game.getGameId());
+				commandField.setInt(2, i);
+				for (int k = 3; k < 11; k++) {
+					CommandCard cardField = player.getCardField(k-3).getCard();
+					if (cardField != null) {
+						commandField.setString(k, cardField.getName());
+					} else commandField.setString(k, null);
+
+				}
+				commandField.executeUpdate();
+			}
+
+
+
 		}
 		rs.close();
 	}
@@ -356,14 +373,13 @@ class Repository implements IRepository {
 
 	}
 
-	private void loadCardFieldFromDB(Board game) throws SQLException {
+	private void loadCardFieldsFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getRegisterFieldStatement();
 		ps.setInt(1, game.getGameId());
 		ResultSet rs = ps.executeQuery();
 		int i = 0;
 		while (rs.next()) {
 			int playerID = rs.getInt(PLAYER_PLAYERID);
-			//int gameID = rs.getInt(PLAYER_PLAYERID);
 			if (i++ == playerID) {
 
 				for (int j = 1; j < 6; j++) {
@@ -380,6 +396,31 @@ class Repository implements IRepository {
 			}
 		}
 		rs.close();
+		PreparedStatement ps2 = subRepository.getCommandCardFieldStatement();
+		ps2.setInt(1, game.getGameId());
+		ResultSet rs2 = ps2.executeQuery();
+
+
+		int counter = 0;
+		while (rs2.next()) {
+			int playerID = rs2.getInt(PLAYER_PLAYERID);
+
+			if (counter++ == playerID) {
+				for (int k = 1; k < 9; k++) {
+					String strK = String.valueOf(k);
+					String cardName = rs2.getString(CARD + strK);
+					if (cardName != null) {
+						Command command = Command.getCardByDisplayName(cardName);
+						if (command != null) {
+							CommandCard commandCard = new CommandCard(command);
+							game.getPlayer(counter-1).getCardField((k-1) ).setCard(commandCard);
+						}
+					}
+				}
+			}
+		}
+
+		rs2.close();
 	}
 
 	private void loadPlayersFromDB(Board game) throws SQLException {
@@ -433,6 +474,8 @@ class Repository implements IRepository {
 
 		// TODO error handling/consistency check: check whether all players were updated
 	}
+
+
 
 	private static final String SQL_INSERT_GAME =
 			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
