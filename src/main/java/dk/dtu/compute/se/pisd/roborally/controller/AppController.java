@@ -26,11 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.dal.Connector;
-import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
-import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.*;
 
-import dk.dtu.compute.se.pisd.roborally.dal.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
@@ -44,9 +41,7 @@ import javafx.scene.control.Alert.AlertType;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * ...
@@ -111,7 +106,7 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-        IRepository repository = new Repository(new Connector());
+        IRepository repository = RepositoryAccess.getRepository();
         Integer currentGameID = this.gameController.board.getGameId();
         // need to rewrite
         if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
@@ -123,21 +118,24 @@ public class AppController implements Observer {
 
     public void loadGame() {
         // XXX needs to be implememted eventually
-        IRepository repository = new Repository(new Connector());
+        IRepository repository = RepositoryAccess.getRepository();
 
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
         dialog.getItems().addAll(repository.getGames());
+        Collections.reverse(dialog.getItems());
         dialog.showAndWait();
-        Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
+        if (dialog.selectedItemProperty().getValue() != null) {
+            Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
-        if (playerChosenGID != null) {
-            this.gameController =
-                    new GameController(repository.loadGameFromDB(playerChosenGID));
-            this.roboRally.createBoardView(this.gameController);
+            if (playerChosenGID != null) {
+                this.gameController =
+                        new GameController(repository.loadGameFromDB(playerChosenGID));
+                this.roboRally.createBoardView(this.gameController);
 //            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
 //                this.gameController.board.setPhase();
 //            }
+            }
         }
 
     }

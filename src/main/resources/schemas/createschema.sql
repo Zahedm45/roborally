@@ -44,3 +44,21 @@ CREATE TABLE IF NOT EXISTS RegisterField(
 PRIMARY KEY (gameID, playerID),
 FOREIGN KEY (gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
+
+CREATE TABLE IF NOT EXISTS CommandCardField(
+ gameID int,
+ playerID tinyint NOT NULL,
+
+ card1 varchar(255),
+ card2 varchar(255),
+ card3 varchar(255),
+ card4 varchar(255),
+ card5 varchar(255),
+ card6 varchar(255),
+ card7 varchar(255),
+ card8 varchar(255),
+
+
+PRIMARY KEY (gameID, playerID),
+FOREIGN KEY (gameID, playerID) REFERENCES Player(gameID, playerID)
+);;
