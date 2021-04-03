@@ -30,6 +30,7 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.stage.FileChooser;
 
 import java.io.*;
 
@@ -154,6 +155,17 @@ public class LoadBoard {
                 } catch (IOException e2) {}
             }
         }
+    }
+
+    public String fileLoader() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Json Files", "*.json"));
+        File givenFile = fileChooser.showOpenDialog(null);
+        if (givenFile == null) {
+            return "";
+        }
+        return givenFile.getAbsolutePath();
     }
 
 }
