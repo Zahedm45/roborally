@@ -35,7 +35,7 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Repository implements IRepository {
+class Repository implements IRepository {
 
 	private static final String GAME_GAMEID = "gameID";
 

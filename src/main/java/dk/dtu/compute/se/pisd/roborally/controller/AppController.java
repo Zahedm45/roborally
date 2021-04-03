@@ -26,11 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.dal.Connector;
-import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
-import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.*;
 
-import dk.dtu.compute.se.pisd.roborally.dal.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
@@ -111,7 +108,7 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-        IRepository repository = new Repository(new Connector());
+        IRepository repository = RepositoryAccess.getRepository();
         Integer currentGameID = this.gameController.board.getGameId();
         // need to rewrite
         if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
@@ -123,7 +120,7 @@ public class AppController implements Observer {
 
     public void loadGame() {
         // XXX needs to be implememted eventually
-        IRepository repository = new Repository(new Connector());
+        IRepository repository = RepositoryAccess.getRepository();
 
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
