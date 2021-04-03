@@ -125,7 +125,6 @@ public class AppController implements Observer {
         dialog.getItems().addAll(repository.getGames());
         Collections.reverse(dialog.getItems());
         dialog.showAndWait();
-        System.out.println(dialog.selectedItemProperty());
         if (dialog.selectedItemProperty().getValue() != null) {
             Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
