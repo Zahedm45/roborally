@@ -41,9 +41,7 @@ import javafx.scene.control.Alert.AlertType;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * ...
@@ -125,16 +123,20 @@ public class AppController implements Observer {
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
         dialog.getItems().addAll(repository.getGames());
+        Collections.reverse(dialog.getItems());
         dialog.showAndWait();
-        Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
+        System.out.println(dialog.selectedItemProperty());
+        if (dialog.selectedItemProperty().getValue() != null) {
+            Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
-        if (playerChosenGID != null) {
-            this.gameController =
-                    new GameController(repository.loadGameFromDB(playerChosenGID));
-            this.roboRally.createBoardView(this.gameController);
+            if (playerChosenGID != null) {
+                this.gameController =
+                        new GameController(repository.loadGameFromDB(playerChosenGID));
+                this.roboRally.createBoardView(this.gameController);
 //            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
 //                this.gameController.board.setPhase();
 //            }
+            }
         }
 
     }
