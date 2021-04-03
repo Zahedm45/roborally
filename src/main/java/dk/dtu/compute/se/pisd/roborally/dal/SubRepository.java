@@ -54,17 +54,18 @@ import java.sql.SQLException;
         return select_command_card_field;
     }
 
-    private static final String SQL_SELECT_PLAYER_REGISTER =
-            "SELECT * FROM RegisterField WHERE gameID = ? ";
+    private static final String SQL_SELECT_COMMAND_CARD_FIELD_UPDATE =
+            "SELECT * FROM CommandCardField WHERE gameID = ? ";
 
-    private PreparedStatement select_player_register_stmt = null;
+    private PreparedStatement select_command_card_field_stmt = null;
 
-    private PreparedStatement getSelectRegisterFieldStatementU() {
-        if (select_player_register_stmt == null) {
+    protected PreparedStatement getSelectCommandCardFieldStatementU() {
+        if (select_command_card_field_stmt == null) {
             Connection connection = connector.getConnection();
             try {
-                select_player_register_stmt =
-                        connection.prepareStatement(SQL_SELECT_PLAYER_REGISTER,
+                select_command_card_field_stmt =
+                        connection.prepareStatement(
+                                SQL_SELECT_COMMAND_CARD_FIELD_UPDATE,
                                 ResultSet.TYPE_FORWARD_ONLY,
                                 ResultSet.CONCUR_UPDATABLE);
             } catch (SQLException e) {
@@ -72,7 +73,7 @@ import java.sql.SQLException;
                 e.printStackTrace();
             }
         }
-        return select_player_register_stmt;
+        return select_command_card_field_stmt;
     }
 
 

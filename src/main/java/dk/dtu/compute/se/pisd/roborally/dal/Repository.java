@@ -371,6 +371,25 @@ class Repository implements IRepository {
 		}
 		rs.close();
 
+
+		PreparedStatement ps2 = subRepository.getSelectCommandCardFieldStatementU();
+		ps2.setInt(1, game.getGameId());
+		ResultSet rs2 = ps2.executeQuery();
+
+		while (rs2.next()) {
+			int playerID = rs2.getInt(PLAYER_PLAYERID);
+			for (int k = 0; k < 8; k++) {
+				String strJ = String.valueOf(k + 1);
+				CommandCard str =
+						game.getPlayer(playerID).getCardField((k)).getCard();
+				if (str != null) {
+					rs2.updateString(CARD + strJ, str.getName());
+				} else rs2.updateString(CARD + strJ, null);
+			}
+			rs2.updateRow();
+		}
+		rs2.close();
+
 	}
 
 	private void loadCardFieldsFromDB(Board game) throws SQLException {
