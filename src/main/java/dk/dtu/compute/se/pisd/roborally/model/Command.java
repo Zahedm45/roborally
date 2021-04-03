@@ -72,4 +72,19 @@ public enum Command {
         return options;
     }
 
+    public static Command getCardByDisplayName(String name){
+
+        return switch (name) {
+            case "Fwd" -> FORWARD;
+            case "Turn Right" -> RIGHT;
+            case "Turn Left" -> LEFT;
+            case "Fast Fwd" -> FAST_FORWARD;
+            case "Left OR Right" -> OPTION_LEFT_RIGHT;
+            case "Move3" -> MOVE_3;
+            case "U Turn" -> U_TURN;
+            case "Back Up" -> BACK_UP;
+            default -> null;
+        };
+    }
+
 }

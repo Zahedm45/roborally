@@ -81,23 +81,7 @@ public class Repository implements IRepository {
 		this.connector = connector;
 	}
 
-	private void createCardFieldsInDB(Board game) throws SQLException {
-		// TODO code should be more defensive
-		PreparedStatement rs = getInsertPlayerRegisterFieldU();
-		for (int i = 0; i < game.getPlayersNumber(); i++) {
-			Player player = game.getPlayer(i);
-			rs.setInt(1, game.getGameId());
-			rs.setInt(2, i);
-			for (int j = 3; j < 8; j++) {
-				CommandCard playerCard = player.getProgramField(j-3).getCard();
-				if (playerCard != null){
-					rs.setString(j, playerCard.getName());
-				} else rs.setString(j, "null");
-			}
-			rs.executeUpdate();
-		}
-		rs.close();
-	}
+
 
 
 
@@ -332,6 +316,24 @@ public class Repository implements IRepository {
 		rs.close();
 	}
 
+	private void createCardFieldsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement rs = getInsertPlayerRegisterFieldU();
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+			Player player = game.getPlayer(i);
+			rs.setInt(1, game.getGameId());
+			rs.setInt(2, i);
+			for (int j = 3; j < 8; j++) {
+				CommandCard playerCard = player.getProgramField(j-3).getCard();
+				if (playerCard != null){
+					rs.setString(j, playerCard.getName());
+				} else rs.setString(j, "null");
+			}
+			rs.executeUpdate();
+		}
+		rs.close();
+	}
+
 	private void loadCardFieldFromDB(Board game) throws SQLException {
 		PreparedStatement ps = getRegisterFieldStatementU();
 		ps.setInt(1, game.getGameId());
@@ -340,23 +342,22 @@ public class Repository implements IRepository {
 		while (rs.next()) {
 			int playerID = rs.getInt(PLAYER_PLAYERID);
 			//int gameID = rs.getInt(PLAYER_PLAYERID);
-
-
 			if (i++ == playerID) {
 
-				CommandCard commandCard = null;
 				for (int j = 1; j < 6; j++) {
 					String strJ = String.valueOf(j);
-					String card= rs.getString(CARD+strJ);
-					if (Command.valueOf(card) != null) {
-						commandCard = new CommandCard(Command.valueOf(card));
-						game.getPlayer(i).getProgramField(j).setCard(commandCard);
+					String card = rs.getString(CARD + strJ);
+					if (card != null) {
+						Command command = Command.getCardByDisplayName(card);
+						if (command != null) {
+							CommandCard commandCard = new CommandCard(command);
+							game.getPlayer(i-1).getProgramField((j-1) ).setCard(commandCard);
+						}
 					}
 				}
 			}
 		}
 		rs.close();
-
 	}
 
 	private void loadPlayersFromDB(Board game) throws SQLException {
