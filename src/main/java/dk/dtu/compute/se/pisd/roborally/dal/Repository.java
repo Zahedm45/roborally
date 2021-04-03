@@ -191,6 +191,7 @@ public class Repository implements IRepository {
 			/* TOODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
 			*/
+			//updateCardFieldsInDB(game);
 
 			connection.commit();
 			connection.setAutoCommit(true);
@@ -327,11 +328,71 @@ public class Repository implements IRepository {
 				CommandCard playerCard = player.getProgramField(j-3).getCard();
 				if (playerCard != null){
 					rs.setString(j, playerCard.getName());
-				} else rs.setString(j, "null");
+				} else rs.setString(j, null);
 			}
 			rs.executeUpdate();
 		}
 		rs.close();
+	}
+
+	private void updateCardFieldsInDB(Board game) throws SQLException {
+		PreparedStatement ps = getRegisterFieldStatementU();
+		ps.setInt(1, game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		int i = 0;
+		while (rs.next()) {
+
+			int playerID = rs.getInt(PLAYER_PLAYERID);
+			//int gameID = rs.getInt(PLAYER_PLAYERID);
+
+			ResultSet resultSet = ps.executeQuery();
+			while (resultSet.next()) {
+
+				for (int j = 0; j < 5; j++) {
+					String strJ = String.valueOf(j+1);
+					//String card = rs.getString(CARD + strJ);
+					//if (card != null) {
+					//Command command = Command.getCardByDisplayName(card);
+					//if (command != null) {
+					//CommandCard commandCard = new CommandCard(command);
+					CommandCard str = game.getPlayer(i).getProgramField((j)).getCard();
+					if (str != null) {
+						rs.updateString( CARD+strJ, str.getName());
+					}
+
+
+					//}
+					//}
+					rs.updateRow();
+				}
+
+			}
+
+			if (i++ == playerID) {
+
+				for (int j = 0; j < 5; j++) {
+					String strJ = String.valueOf(j+1);
+					//String card = rs.getString(CARD + strJ);
+					//if (card != null) {
+						//Command command = Command.getCardByDisplayName(card);
+						//if (command != null) {
+							//CommandCard commandCard = new CommandCard(command);
+							CommandCard str = game.getPlayer(i).getProgramField((j)).getCard();
+							if (str != null) {
+								rs.updateString( CARD+strJ, str.getName());
+							}
+
+
+						//}
+					//}
+					rs.updateRow();
+				}
+
+			}
+
+		}
+		rs.close();
+
 	}
 
 	private void loadCardFieldFromDB(Board game) throws SQLException {
