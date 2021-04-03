@@ -61,19 +61,7 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_HEADING = "heading";
 
-
-	private static final String CARD_ONE = "card1";
-
-	private static final String CARD_TWO = "card2";
-
-	private static final String CARD_THREE = "card3";
-
-	private static final String CARD_FOUR = "card4";
-
-	private static final String CARD_FIVE = "card5";
-
 	private static final String CARD = "card";
-
 
 	private Connector connector;
 	private SubRepository subRepository;
