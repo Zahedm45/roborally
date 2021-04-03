@@ -162,6 +162,13 @@ public class AppController implements Observer {
         return false;
     }
 
+//    public void loadBoard(){
+//        Board loadBoard = LoadBoard.loadBoard(LoadBoard.fileLoader());
+//        if (loadBoard != null) {
+//            this.gameController.board = loadBoard;
+//        }
+//    }
+
     public void exit() {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);

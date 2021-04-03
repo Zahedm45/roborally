@@ -157,7 +157,9 @@ public class LoadBoard {
         }
     }
 
-    public String fileLoader() {
+
+
+    public static String fileLoader() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -167,5 +169,15 @@ public class LoadBoard {
         }
         return givenFile.getAbsolutePath();
     }
+
+//    public static String selectBoardLayout() {
+//
+//        LoadBoard fl = new LoadBoard();
+//        String filename = fileLoader();
+//
+//        return filename;
+//
+//    }
+
 
 }
