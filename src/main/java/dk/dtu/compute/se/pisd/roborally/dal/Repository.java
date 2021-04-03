@@ -319,7 +319,7 @@ class Repository implements IRepository {
 
 	private void createCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
-		PreparedStatement rs = insertPlayerRegisterFieldU();
+		PreparedStatement rs = insertPlayerRegisterField();
 		for (int i = 0; i < game.getPlayersNumber(); i++) {
 			Player player = game.getPlayer(i);
 			rs.setInt(1, game.getGameId());
@@ -336,43 +336,21 @@ class Repository implements IRepository {
 	}
 
 	private void updateCardFieldsInDB(Board game) throws SQLException {
-		PreparedStatement ps = insertPlayerRegisterFieldU();
-		PreparedStatement ps2 = registerFieldStatement();
+		PreparedStatement ps = getSelectRegisterFieldStatementU();
 		ps.setInt(1, game.getGameId());
 		ResultSet rs = ps.executeQuery();
-		int i = 0;
+
 		while (rs.next()) {
-			ps2.setInt(1, game.getGameId());
-			ps2.setInt(2, i);
-			ResultSet rs2 = ps2.executeQuery();
 			int playerID = rs.getInt(PLAYER_PLAYERID);
-
-			//int gameID = rs.getInt(PLAYER_PLAYERID);
-
-			//ResultSet resultSet = ps.executeQuery();
-
-				//rs.(PLAYER_PLAYERID, i);
-			while (rs2.next()) {
-				for (int j = 0; j < 5; j++) {
-					String strJ = String.valueOf(j+1);
-					//String card = rs.getString(CARD + strJ);
-					//if (card != null) {
-					//Command command = Command.getCardByDisplayName(card);
-					//if (command != null) {
-					//CommandCard commandCard = new CommandCard(command);
-					CommandCard str = game.getPlayer(playerID).getProgramField((j)).getCard();
-					if (str != null) {
-						rs2.updateString( CARD+strJ, str.getName());
-					} //else rs2.updateString(CARD+strJ, null);
-
-				}
-				rs2.updateRow();
-
+			for (int j = 0; j < 5; j++) {
+				String strJ = String.valueOf(j + 1);
+				CommandCard str =
+						game.getPlayer(playerID).getProgramField((j)).getCard();
+				if (str != null) {
+					rs.updateString(CARD + strJ, str.getName());
+				} else rs.updateString(CARD + strJ, null);
 			}
-
-			i++;
-
-
+			rs.updateRow();
 		}
 		rs.close();
 
@@ -483,7 +461,7 @@ class Repository implements IRepository {
 					" VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insert_register_field = null;
 
-	private PreparedStatement insertPlayerRegisterFieldU() {
+	private PreparedStatement insertPlayerRegisterField() {
 		if (insert_register_field == null) {
 			Connection connection = connector.getConnection();
 			try {
@@ -513,15 +491,16 @@ class Repository implements IRepository {
 	}
 
 	private static final String SQL_SELECT_PLAYER_REGISTER =
-			"SELECT * FROM playerRegister WHERE playerID = ? AND gameID = ?";
+			"SELECT * FROM RegisterField WHERE gameID = ? ";
 
 	private PreparedStatement select_player_register_stmt = null;
 
-	private PreparedStatement registerFieldStatement() {
+	private PreparedStatement getSelectRegisterFieldStatementU() {
 		if (select_player_register_stmt == null) {
 			Connection connection = connector.getConnection();
 			try {
-				select_player_register_stmt = connection.prepareStatement(SQL_SELECT_PLAYER_REGISTER,
+				select_player_register_stmt =
+						connection.prepareStatement(SQL_SELECT_PLAYER_REGISTER,
 						ResultSet.TYPE_FORWARD_ONLY,
 						ResultSet.CONCUR_UPDATABLE);
 			} catch (SQLException e) {
