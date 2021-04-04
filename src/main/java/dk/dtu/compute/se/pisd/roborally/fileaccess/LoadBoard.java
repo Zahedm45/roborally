@@ -45,7 +45,7 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String boardname) {
+    public static Board loadBoard(String boardname, String... sourse) {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
@@ -53,6 +53,7 @@ public class LoadBoard {
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
+            System.out.println("LoadBoard");
             // TODO these constants should be defined somewhere
             return new Board(8,8);
         }
@@ -159,7 +160,7 @@ public class LoadBoard {
 
 
 
-    public static String fileLoader() {
+    public static String getFileSource() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -170,14 +171,62 @@ public class LoadBoard {
         return givenFile.getAbsolutePath();
     }
 
-//    public static String selectBoardLayout() {
-//
-//        LoadBoard fl = new LoadBoard();
-//        String filename = fileLoader();
-//
-//        return filename;
-//
-//    }
+
+
+    public static Board loadBoardFromPC(String source) {
+        if (source.equals("")) {
+            return null;
+        }
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(new File(source));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (inputStream == null) {
+            // TODO these constants should be defined somewhere
+            return loadBoard(null);
+        }
+
+        // In simple cases, we can create a Gson object with new Gson():
+        GsonBuilder simpleBuilder = new GsonBuilder().
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+        Gson gson = simpleBuilder.create();
+
+        Board result;
+        // FileReader fileReader = null;
+        JsonReader reader = null;
+        try {
+            // fileReader = new FileReader(filename);
+            reader = gson.newJsonReader(new InputStreamReader(inputStream));
+            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+
+            result = new Board(template.width, template.height);
+            for (SpaceTemplate spaceTemplate: template.spaces) {
+                Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+                if (space != null) {
+                    space.getActions().addAll(spaceTemplate.actions);
+                    space.getWalls().addAll(spaceTemplate.walls);
+                }
+            }
+            reader.close();
+            return result;
+        } catch (IOException e1) {
+            if (reader != null) {
+                try {
+                    reader.close();
+                    inputStream = null;
+                } catch (IOException e2) {}
+            }
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e2) {}
+            }
+        }
+        return null;
+    }
 
 
 }
