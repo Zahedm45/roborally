@@ -104,61 +104,6 @@ public class LoadBoard {
     }
 
 
-    // method nr. 2 from someone.
-    public static void saveCurrentBoardToPC(){
-         FileChooser fileChooser = new FileChooser();
-         fileChooser.setInitialFileName("roborallyBoard");
-         FileChooser.ExtensionFilter extensionFilter =
-                 new FileChooser.ExtensionFilter("JSON files (*.json)",
-                         "*.json");
-         fileChooser.getExtensionFilters().add(extensionFilter);
-         File file = fileChooser.showSaveDialog(null);
-
-         if (file == null) {
-             return;
-         }
-         Gson gson = new Gson();
-         String json = gson.toJson(template);
-
-        try {
-            PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
-            writer.write(json);
-            writer.flush();
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    // method 1
-//    public static void saveCurrentBoardToPC(Board board) {
-//        String filePath = getFileSource();
-//
-//        BoardTemplate template = new BoardTemplate();
-//        template.width = board.width;
-//        template.height = board.height;
-//
-//        for (int i=0; i<board.width; i++) {
-//            for (int j=0; j<board.height; j++) {
-//                Space space = board.getSpace(i,j);
-//                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
-//                    SpaceTemplate spaceTemplate = new SpaceTemplate();
-//                    spaceTemplate.x = space.x;
-//                    spaceTemplate.y = space.y;
-//                    spaceTemplate.actions.addAll(space.getActions());
-//                    spaceTemplate.walls.addAll(space.getWalls());
-//                    template.spaces.add(spaceTemplate);
-//                }
-//            }
-//        }
-//
-//
-//
-//    }
-
-
-
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
         template.width = board.width;
@@ -291,6 +236,90 @@ public class LoadBoard {
         return null;
     }
 
+
+    public static File getDirectory() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("roborallyBoard");
+        FileChooser.ExtensionFilter extensionFilter =
+                new FileChooser.ExtensionFilter("JSON files (*.json)",
+                        "*.json");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(null);
+        return file;
+    }
+
+
+   public static void saveCurrentBoardToPC(Board board) {
+
+       BoardTemplate template = new BoardTemplate();
+       template.width = board.width;
+       template.height = board.height;
+
+       for (int i=0; i< board.width; i++) {
+           for (int j=0; j< board.height; j++) {
+               Space space = board.getSpace(i,j);
+               if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                   SpaceTemplate spaceTemplate = new SpaceTemplate();
+                   spaceTemplate.x = space.x;
+                   spaceTemplate.y = space.y;
+                   spaceTemplate.actions.addAll(space.getActions());
+                   spaceTemplate.walls.addAll(space.getWalls());
+                   template.spaces.add(spaceTemplate);
+               }
+           }
+       }
+
+       OutputStream outputStream = null;
+
+       try {
+           outputStream = new FileOutputStream(getDirectory());
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       }
+       GsonBuilder simpleBuilder = new GsonBuilder().
+               registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+       Gson gson = simpleBuilder.create();
+
+       JsonWriter writer = null;
+
+       try {
+           writer = gson.newJsonWriter(new OutputStreamWriter(outputStream));
+           gson.toJson(template, BoardTemplate.class, writer);
+           writer.close();
+
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+
+   }
+
+
+
+    // method nr. 2 from someone.
+//    public static void saveCurrentBoardToPC(){
+//         FileChooser fileChooser = new FileChooser();
+//         fileChooser.setInitialFileName("roborallyBoard");
+//         FileChooser.ExtensionFilter extensionFilter =
+//                 new FileChooser.ExtensionFilter("JSON files (*.json)",
+//                         "*.json");
+//         fileChooser.getExtensionFilters().add(extensionFilter);
+//         File file = fileChooser.showSaveDialog(null);
+//
+//         if (file == null) {
+//             return;
+//         }
+//         Gson gson = new Gson();
+//         String json = gson.toJson(template);
+//
+//        try {
+//            PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
+//            writer.write(json);
+//            writer.flush();
+//            writer.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 
