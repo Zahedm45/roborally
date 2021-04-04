@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -151,6 +153,7 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
+        //AppController appController;
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -160,6 +163,7 @@ public class GameController {
                     Command command = card.command;
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
+                        saveOrUpdateGame();
                         return;
                     }
                     executeCommand(currentPlayer, command);
@@ -176,9 +180,7 @@ public class GameController {
 //                    break;
                             action.doAction(this, this.board.getPlayer(i).getSpace());
                         }
-
                     }
-
 
                     step++;
                     if (step < Player.NO_REGISTERS) {
@@ -189,6 +191,7 @@ public class GameController {
                         startProgrammingPhase();
                     }
                 }
+                saveOrUpdateGame();
             } else {
                 // this should not happen
                 assert false;
@@ -391,13 +394,18 @@ public class GameController {
         }
     }
 
-    /**
-     * A method called when no corresponding controller operation is implemented yet. This
-     * should eventually be removed.
-     */
-    public void notImplemented() {
-        // XXX just for now to indicate that the actual method is not yet implemented
-        assert false;
+
+
+    public void saveOrUpdateGame() {
+        // XXX needs to be implemented eventually
+        IRepository repository = RepositoryAccess.getRepository();
+        Integer currentGameID = this.board.getGameId();
+        // need to rewrite
+        if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
+            repository.createGameInDB(this.board);
+        } else {
+            repository.updateGameInDB(this.board);
+        }
     }
 
 }

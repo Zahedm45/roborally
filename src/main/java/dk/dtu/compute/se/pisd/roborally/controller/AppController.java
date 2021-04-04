@@ -121,17 +121,17 @@ public class AppController implements Observer {
 
 
 
-    public void saveGame() {
-        // XXX needs to be implemented eventually
-        IRepository repository = RepositoryAccess.getRepository();
-        Integer currentGameID = this.gameController.board.getGameId();
-        // need to rewrite
-        if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
-            repository.createGameInDB(this.gameController.board);
-        } else {
-            repository.updateGameInDB(this.gameController.board);
-        }
-    }
+//    public void saveGame() {
+//        // XXX needs to be implemented eventually
+//        IRepository repository = RepositoryAccess.getRepository();
+//        Integer currentGameID = this.gameController.board.getGameId();
+//        // need to rewrite
+//        if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
+//            repository.createGameInDB(this.gameController.board);
+//        } else {
+//            repository.updateGameInDB(this.gameController.board);
+//        }
+//    }
 
     public void loadGame() {
 
@@ -172,7 +172,8 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveGame();
+            //saveGame();
+            gameController.saveOrUpdateGame();
 
             gameController = null;
             roboRally.createBoardView(null);
@@ -197,6 +198,7 @@ public class AppController implements Observer {
         // If the user did not cancel, the RoboRally application will exit
         // after the option to save the game
         if (gameController == null || stopGame()) {
+            gameController.saveOrUpdateGame();
             Platform.exit();
         }
     }
