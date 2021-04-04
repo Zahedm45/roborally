@@ -25,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
@@ -44,6 +46,8 @@ public class LoadBoard {
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
+    private static BoardTemplate template;
+
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
@@ -69,7 +73,7 @@ public class LoadBoard {
         try {
             // fileReader = new FileReader(filename);
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
-            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+            template = gson.fromJson(reader, BoardTemplate.class);
             //System.out.println("it has being called");
 
             result = new Board(template.width, template.height);
@@ -97,6 +101,32 @@ public class LoadBoard {
         }
         return null;
     }
+
+    public static void saveCurrentBoardToPC(){
+         FileChooser fileChooser = new FileChooser();
+         fileChooser.setInitialFileName("roborallyBoard");
+         FileChooser.ExtensionFilter extensionFilter =
+                 new FileChooser.ExtensionFilter("JSON files (*.json)",
+                         "*.json");
+         fileChooser.getExtensionFilters().add(extensionFilter);
+         File file = fileChooser.showSaveDialog(null);
+
+         if (file == null) {
+             return;
+         }
+         Gson gson = new Gson();
+         String json = gson.toJson(template);
+
+        try {
+            PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
+            writer.write(json);
+            writer.flush();
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
@@ -228,6 +258,8 @@ public class LoadBoard {
         }
         return null;
     }
+
+
 
 
 }
