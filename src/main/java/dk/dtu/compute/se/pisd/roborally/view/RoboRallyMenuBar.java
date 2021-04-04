@@ -84,7 +84,7 @@ public class RoboRallyMenuBar extends MenuBar {
 //        downloadBoard.setOnAction(e -> this.appController.loadBoard());
 //        controlMenu.getItems().add(downloadBoard);
 
-        saveBoardPC = new MenuItem("Save Board (PC)");
+        saveBoardPC = new MenuItem("Save Board");
         saveBoardPC.setOnAction(e -> this.appController.saveBoardPC());
         controlMenu.getItems().add(saveBoardPC);
 
@@ -120,11 +120,13 @@ public class RoboRallyMenuBar extends MenuBar {
             stopGame.setVisible(true);
            // saveGame.setVisible(true);
             loadGame.setVisible(false);
+            saveBoardPC.setVisible(true);
         } else {
             newGame.setVisible(true);
             stopGame.setVisible(false);
             //saveGame.setVisible(false);
             loadGame.setVisible(true);
+            saveBoardPC.setVisible(false);
         }
     }
 
