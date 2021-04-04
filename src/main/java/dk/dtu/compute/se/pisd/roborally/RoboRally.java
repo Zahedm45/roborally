@@ -25,11 +25,17 @@ import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.awt.*;
+import java.net.URISyntaxException;
 
 /**
  * ...
@@ -67,15 +73,35 @@ public class RoboRally extends Application {
         vbox.setMinWidth(MIN_APP_WIDTH);
         Scene primaryScene = new Scene(vbox);
 
+
+
+
         stage.setScene(primaryScene);
         stage.setTitle("RoboRally");
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
                     appController.exit();} );
+
+
+
+        Image img = null;
+        try {
+            img = new Image(BoardView.class.getClassLoader().getResource("image/st.png").toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        ImageView imageView = new ImageView(img);
+        boardRoot.setCenter(imageView);
+
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+
+
+
+
+
     }
 
     public void createBoardView(GameController gameController) {
