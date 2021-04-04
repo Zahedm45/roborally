@@ -186,7 +186,8 @@ public class LoadBoard {
         }
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
-            return loadBoard(null);
+            //return loadBoard(null);
+            return null;
         }
 
         // In simple cases, we can create a Gson object with new Gson():
