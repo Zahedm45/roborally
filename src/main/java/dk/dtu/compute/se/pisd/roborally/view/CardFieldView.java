@@ -32,10 +32,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
+
+import java.net.URISyntaxException;
 
 /**
  * ...
@@ -99,6 +102,36 @@ public class CardFieldView extends GridPane implements ViewObserver {
         field.attach(this);
         update(field);
     }
+
+//    private ImageView addImage(String name) {
+//        Image img = null;
+//        try {
+//            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        ImageView imgView = new ImageView(img);
+//        imgView.setImage(img);
+//        imgView.setFitHeight(CARDFIELD_HEIGHT);
+//        imgView.setFitWidth(CARDFIELD_WIDTH);
+//        imgView.setVisible(true);
+//        this.getChildren().add(imgView);
+//
+//        return imgView;
+//    }
+//
+//    private ImageView addImage(String name, double rotation) {
+//        ImageView imageView = addImage(name);
+//        imageView.setRotate(rotation);
+//
+//        return imageView;
+//    }
+
+
+
+
+
+
 
     private String cardFieldRepresentation(CommandCardField cardField) {
         if (cardField.player != null) {
@@ -301,6 +334,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         }
 
     }
+
+
 
 }
 
