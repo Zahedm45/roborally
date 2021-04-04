@@ -55,14 +55,20 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static int CARDFIELD_WIDTH = 65;
     final public static int CARDFIELD_HEIGHT = 100;
 
-    final public static Border BORDER = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
+    final public static Border BORDER =
+            new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
 
-    final public static Background BG_DEFAULT = new Background(new BackgroundFill(Color.WHITE, null, null));
-    final public static Background BG_DRAG = new Background(new BackgroundFill(Color.GRAY, null, null));
-    final public static Background BG_DROP = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
+    final public static Background BG_DEFAULT =
+            new Background(new BackgroundFill(Color.WHITE, null, null));
+    final public static Background BG_DRAG =
+            new Background(new BackgroundFill(Color.GRAY, null, null));
+    final public static Background BG_DROP =
+            new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
 
-    final public static Background BG_ACTIVE = new Background(new BackgroundFill(Color.YELLOW, null, null));
-    final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
+    final public static Background BG_ACTIVE =
+            new Background(new BackgroundFill(Color.YELLOW, null, null));
+    final public static Background BG_DONE =
+            new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
 
     private CommandCardField field;
 

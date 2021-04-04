@@ -53,14 +53,11 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
-    private MenuItem downloadBoard;
+   // private MenuItem downloadBoard;
     private MenuItem saveBoardPC;
 
-    public List<Integer> gameToDownLoad = new ArrayList<>();
+   // public List<Integer> gameToDownLoad = new ArrayList<>();
 
-
-
-    //private MenuItem savedGame;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
@@ -85,9 +82,9 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.getItems().add(loadGame);
 
 
-        downloadBoard = new MenuItem("Load Board");
-        downloadBoard.setOnAction(e -> this.appController.loadBoard());
-        controlMenu.getItems().add(downloadBoard);
+//        downloadBoard = new MenuItem("Load Board");
+//        downloadBoard.setOnAction(e -> this.appController.loadBoard());
+//        controlMenu.getItems().add(downloadBoard);
 
         saveBoardPC = new MenuItem("Save Board (PC)");
         saveBoardPC.setOnAction(e -> this.appController.saveBoardPC());

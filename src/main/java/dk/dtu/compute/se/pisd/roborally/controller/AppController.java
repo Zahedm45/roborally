@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
+import com.mysql.cj.protocol.Message;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
@@ -45,8 +46,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * ...
@@ -62,13 +66,22 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
-   // private
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
+
     public void newGame() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Load a board");
+        alert.setContentText("Do you want to load A board from PC?");
+        Optional<ButtonType> result1 = alert.showAndWait();
+        if (result1.isPresent() && result1.get() == ButtonType.OK ) {
+            loadBoard();
+            return;
+        }
+
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -121,6 +134,8 @@ public class AppController implements Observer {
     }
 
     public void loadGame() {
+
+
         // XXX needs to be implememted eventually
         IRepository repository = RepositoryAccess.getRepository();
 
