@@ -21,6 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
@@ -28,15 +31,21 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.dal.*;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -216,9 +225,82 @@ public class AppController implements Observer {
     }
 
     public void saveBoardPC(){
-        LoadBoard.saveCurrentBoardToPC();
+
+        saveCurrentBoardToPC();
+
+
 
         //LoadBoard.saveBoard(this.gameController.board, "newRoborally");
+    }
+
+    public void saveCurrentBoardToPC() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("roborallyBoard");
+        FileChooser.ExtensionFilter extensionFilter =
+                new FileChooser.ExtensionFilter("JSON files (*.json)",
+                        "*.json");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(null);
+
+
+
+        BoardTemplate template = new BoardTemplate();
+        template.width = this.gameController.board.width;
+        template.height = this.gameController.board.height;
+
+        for (int i=0; i<this.gameController.board.width; i++) {
+            for (int j=0; j<this.gameController.board.height; j++) {
+                Space space = this.gameController.board.getSpace(i,j);
+                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                    SpaceTemplate spaceTemplate = new SpaceTemplate();
+                    spaceTemplate.x = space.x;
+                    spaceTemplate.y = space.y;
+                    spaceTemplate.actions.addAll(space.getActions());
+                    spaceTemplate.walls.addAll(space.getWalls());
+                    template.spaces.add(spaceTemplate);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        GsonBuilder simpleBuilder = new GsonBuilder().
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+        Gson gson = simpleBuilder.create();
+        //Board result;
+
+        JsonWriter writer = null;
+
+        try {
+            writer = gson.newJsonWriter(new OutputStreamWriter(outputStream));
+            gson.toJson(template, BoardTemplate.class, writer);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -33,6 +33,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.stage.FileChooser;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
@@ -102,6 +103,8 @@ public class LoadBoard {
         return null;
     }
 
+
+    // method nr. 2 from someone.
     public static void saveCurrentBoardToPC(){
          FileChooser fileChooser = new FileChooser();
          fileChooser.setInitialFileName("roborallyBoard");
@@ -126,6 +129,34 @@ public class LoadBoard {
             e.printStackTrace();
         }
     }
+
+
+    // method 1
+//    public static void saveCurrentBoardToPC(Board board) {
+//        String filePath = getFileSource();
+//
+//        BoardTemplate template = new BoardTemplate();
+//        template.width = board.width;
+//        template.height = board.height;
+//
+//        for (int i=0; i<board.width; i++) {
+//            for (int j=0; j<board.height; j++) {
+//                Space space = board.getSpace(i,j);
+//                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+//                    SpaceTemplate spaceTemplate = new SpaceTemplate();
+//                    spaceTemplate.x = space.x;
+//                    spaceTemplate.y = space.y;
+//                    spaceTemplate.actions.addAll(space.getActions());
+//                    spaceTemplate.walls.addAll(space.getWalls());
+//                    template.spaces.add(spaceTemplate);
+//                }
+//            }
+//        }
+//
+//
+//
+//    }
+
 
 
     public static void saveBoard(Board board, String name) {
@@ -200,6 +231,7 @@ public class LoadBoard {
         }
         return givenFile.getAbsolutePath();
     }
+
 
 
 
