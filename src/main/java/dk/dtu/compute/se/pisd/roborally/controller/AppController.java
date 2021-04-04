@@ -225,7 +225,10 @@ public class AppController implements Observer {
     }
 
     public void saveBoardPC(){
-        LoadBoard.saveCurrentBoardToPC(this.gameController.board);
+        if (this.gameController != null) {
+            LoadBoard.saveCurrentBoardToPC(this.gameController.board);
+        }
+
     }
 
 
