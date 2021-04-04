@@ -21,6 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
@@ -28,19 +31,21 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.dal.*;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
-import dk.dtu.compute.se.pisd.roborally.view.BoardView;
-import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Connection;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -102,7 +107,6 @@ public class AppController implements Observer {
 
 
 
-    Integer currentGameID = null;
 
     public void saveGame() {
         // XXX needs to be implemented eventually
@@ -162,6 +166,7 @@ public class AppController implements Observer {
         return false;
     }
 
+
     public void exit() {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -190,5 +195,38 @@ public class AppController implements Observer {
     public void update(Subject subject) {
         // XXX do nothing for now
     }
+
+
+    public void loadBoard(){
+
+        Board loadBoard = LoadBoard.loadBoardFromPC(LoadBoard.getFileSource());
+        if (loadBoard != null) {
+            ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
+            dialog.setTitle("Player number");
+            dialog.setHeaderText("Select number of players");
+
+            Optional<Integer> result = dialog.showAndWait();
+
+            if (result.isPresent()) {
+                gameController = new GameController(loadBoard);
+
+                int no = result.get();
+                for (int i = 0; i < no; i++) {
+                    Player player = new Player(loadBoard, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                    loadBoard.addPlayer(player);
+                    player.setSpace(loadBoard.getSpace(i % loadBoard.width, i));
+                }
+
+                gameController.startProgrammingPhase();
+                roboRally.createBoardView(gameController);
+
+            }
+        }
+    }
+
+    public void saveBoardPC(){
+        LoadBoard.saveCurrentBoardToPC(this.gameController.board);
+    }
+
 
 }

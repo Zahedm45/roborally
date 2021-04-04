@@ -25,12 +25,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.stage.FileChooser;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
@@ -44,6 +47,8 @@ public class LoadBoard {
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
+    private static BoardTemplate template;
+
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
@@ -53,6 +58,7 @@ public class LoadBoard {
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
+            System.out.println("LoadBoard");
             // TODO these constants should be defined somewhere
             return new Board(8,8);
         }
@@ -68,7 +74,7 @@ public class LoadBoard {
         try {
             // fileReader = new FileReader(filename);
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
-            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+            template = gson.fromJson(reader, BoardTemplate.class);
             //System.out.println("it has being called");
 
             result = new Board(template.width, template.height);
@@ -96,6 +102,7 @@ public class LoadBoard {
         }
         return null;
     }
+
 
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
@@ -157,7 +164,9 @@ public class LoadBoard {
         }
     }
 
-    public String fileLoader() {
+
+
+    public static String getFileSource() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -167,5 +176,151 @@ public class LoadBoard {
         }
         return givenFile.getAbsolutePath();
     }
+
+
+
+
+    public static Board loadBoardFromPC(String source) {
+        if (source.equals("")) {
+            return null;
+        }
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(new File(source));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (inputStream == null) {
+            // TODO these constants should be defined somewhere
+            //return loadBoard(null);
+            return null;
+        }
+
+        // In simple cases, we can create a Gson object with new Gson():
+        GsonBuilder simpleBuilder = new GsonBuilder().
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+        Gson gson = simpleBuilder.create();
+
+        Board result;
+        // FileReader fileReader = null;
+        JsonReader reader = null;
+        try {
+            // fileReader = new FileReader(filename);
+            reader = gson.newJsonReader(new InputStreamReader(inputStream));
+            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+
+            result = new Board(template.width, template.height);
+            for (SpaceTemplate spaceTemplate: template.spaces) {
+                Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+                if (space != null) {
+                    space.getActions().addAll(spaceTemplate.actions);
+                    space.getWalls().addAll(spaceTemplate.walls);
+                }
+            }
+            reader.close();
+            return result;
+        } catch (IOException e1) {
+            if (reader != null) {
+                try {
+                    reader.close();
+                    inputStream = null;
+                } catch (IOException e2) {}
+            }
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e2) {}
+            }
+        }
+        return null;
+    }
+
+
+    public static File getDirectory() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("roborallyBoard");
+        FileChooser.ExtensionFilter extensionFilter =
+                new FileChooser.ExtensionFilter("JSON files (*.json)",
+                        "*.json");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showSaveDialog(null);
+        return file;
+    }
+
+
+   public static void saveCurrentBoardToPC(Board board) {
+
+       BoardTemplate template = new BoardTemplate();
+       template.width = board.width;
+       template.height = board.height;
+
+       for (int i=0; i< board.width; i++) {
+           for (int j=0; j< board.height; j++) {
+               Space space = board.getSpace(i,j);
+               if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                   SpaceTemplate spaceTemplate = new SpaceTemplate();
+                   spaceTemplate.x = space.x;
+                   spaceTemplate.y = space.y;
+                   spaceTemplate.actions.addAll(space.getActions());
+                   spaceTemplate.walls.addAll(space.getWalls());
+                   template.spaces.add(spaceTemplate);
+               }
+           }
+       }
+
+       OutputStream outputStream = null;
+
+       try {
+           outputStream = new FileOutputStream(getDirectory());
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       }
+       GsonBuilder simpleBuilder = new GsonBuilder().
+               registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+       Gson gson = simpleBuilder.create();
+
+       JsonWriter writer = null;
+
+       try {
+           writer = gson.newJsonWriter(new OutputStreamWriter(outputStream));
+           gson.toJson(template, BoardTemplate.class, writer);
+           writer.close();
+
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+
+   }
+
+
+
+    // method nr. 2 from someone.
+//    public static void saveCurrentBoardToPC(){
+//         FileChooser fileChooser = new FileChooser();
+//         fileChooser.setInitialFileName("roborallyBoard");
+//         FileChooser.ExtensionFilter extensionFilter =
+//                 new FileChooser.ExtensionFilter("JSON files (*.json)",
+//                         "*.json");
+//         fileChooser.getExtensionFilters().add(extensionFilter);
+//         File file = fileChooser.showSaveDialog(null);
+//
+//         if (file == null) {
+//             return;
+//         }
+//         Gson gson = new Gson();
+//         String json = gson.toJson(template);
+//
+//        try {
+//            PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
+//            writer.write(json);
+//            writer.flush();
+//            writer.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
 
 }
