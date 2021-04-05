@@ -166,6 +166,8 @@ class Repository implements IRepository {
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
+				// want to have last modified game first, that's why next one code added.
+				//rs.updateString(PLAYER_NAME, "Date: " +  new Date()); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -183,6 +185,10 @@ class Repository implements IRepository {
 
 			connection.commit();
 			connection.setAutoCommit(true);
+
+
+
+
 			return true;
 		} catch (SQLException e) {
 			// TODO error handling
@@ -281,7 +287,9 @@ class Repository implements IRepository {
 			e.printStackTrace();
 		}
 		return result;
+
 	}
+
 
 	private void createPlayersInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
