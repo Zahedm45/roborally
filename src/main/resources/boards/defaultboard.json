@@ -25,7 +25,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "EAST"
           }
         }
       ],
@@ -135,7 +135,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "NORTH"
           }
         }
       ],
@@ -144,7 +144,7 @@
     },
     {
       "walls": [
-        "SOUTH"
+        "NORTH"
       ],
       "actions": [
         {
@@ -180,7 +180,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "NORTH"
           }
         }
       ],

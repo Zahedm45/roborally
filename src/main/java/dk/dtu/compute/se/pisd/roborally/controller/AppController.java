@@ -78,7 +78,7 @@ public class AppController implements Observer {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Load a board");
-        alert.setContentText("Do you want to load A board from PC?");
+        alert.setContentText("Do you want to load a board from PC?");
         Optional<ButtonType> result1 = alert.showAndWait();
         if (result1.isPresent() && result1.get() == ButtonType.OK ) {
             loadBoard();
@@ -119,6 +119,7 @@ public class AppController implements Observer {
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
+
         }
     }
 

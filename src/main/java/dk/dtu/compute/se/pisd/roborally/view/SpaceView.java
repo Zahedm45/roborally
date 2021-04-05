@@ -25,13 +25,9 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -40,7 +36,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URISyntaxException;
@@ -77,6 +72,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: #aba7a7;");
+
         } else {
             this.setStyle("-fx-background-color: #212020;");
         }
@@ -89,7 +85,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        updateBelt();
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -112,14 +107,16 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             this.getChildren().clear();
 
-            if (!this.space.getWalls().isEmpty()) {
-                updateWalls();
-            }
             for (FieldAction action : this.space.getActions()) {
                 if (action instanceof CheckPoint) {
                     addImage("image/checkpoint" + ((CheckPoint) action).getNumber() + ".png", -90);
                 }
             }
+            updateBelt();
+            if (!this.space.getWalls().isEmpty()) {
+                updateWalls();
+            }
+
             updatePlayer();
         }
     }
@@ -185,14 +182,23 @@ public class SpaceView extends StackPane implements ViewObserver {
         ConveyorBelt belt = space.getConveyorBelt();
         if (belt != null) {
 
-            Polygon fig = new Polygon(0.0, 0.0,
-                    60.0, 0.0,
-                    30.0, 60.0);
+            int rotation =  belt.getHeading().ordinal();
 
-            fig.setFill(Color.LIGHTGRAY);
+            switch (rotation) {
+                case 0 -> addImage("image/triangle/t3.png", 180);
+                case 1 -> addImage("image/triangle/t3.png", 270);
+                case 2 -> addImage("image/triangle/t3.png", 0);
+                case 3 -> addImage("image/triangle/t3.png", 90);
+            }
 
-            fig.setRotate((90*belt.getHeading().ordinal())%360);
-            this.getChildren().add(fig);
+//            Polygon fig = new Polygon(0.0, 0.0,
+//                    60.0, 0.0,
+//                    30.0, 60.0);
+//
+//            fig.setFill(Color.LIGHTGRAY);
+//
+//            fig.setRotate((90*belt.getHeading().ordinal())%360);
+//            this.getChildren().add(fig);
         }
     }
 
