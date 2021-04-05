@@ -63,6 +63,8 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
 
+    final private List<String> DIFFERENT_BOARD_OPTION = Arrays.asList("standard", "10x10");
+
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -73,6 +75,7 @@ public class AppController implements Observer {
 
 
     public void newGame() {
+
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Load a board");
         alert.setContentText("Do you want to load A board from PC?");
@@ -86,6 +89,7 @@ public class AppController implements Observer {
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
+
 
         if (result.isPresent()) {
             if (gameController != null) {
