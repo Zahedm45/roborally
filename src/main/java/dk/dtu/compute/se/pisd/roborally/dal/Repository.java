@@ -164,10 +164,12 @@ class Repository implements IRepository {
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, game.getGameId());
 
+
 			ResultSet rs = ps.executeQuery();
+
+
 			if (rs.next()) {
-				// want to have last modified game first, that's why next one code added.
-				//rs.updateString(PLAYER_NAME, "Date: " +  new Date()); // instead of name
+
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -175,7 +177,24 @@ class Repository implements IRepository {
 			} else {
 				// TODO error handling
 			}
-			rs.close();
+//
+//			int id = rs.getInt(GAME_GAMEID);
+//			String name = rs.getString(GAME_NAME);
+//
+//			for (int i = 0; i < result.size(); i++) {
+//				String str = String.valueOf(result.get(i));
+//				if (str.equals(id +": " +name)) {
+//					System.out.println(result.size());
+//					result.remove(i);
+//					System.out.println(result.size());
+//					result.add(new GameInDB(id, name));
+//					System.out.println(result.size());
+//					break;
+//				}
+//
+//			}
+
+
 
 			updatePlayersInDB(game);
 			/* TOODO this method needs to be implemented first
@@ -183,8 +202,18 @@ class Repository implements IRepository {
 			*/
 			updateCardFieldsInDB(game);
 
+
+
+
+			System.out.println(rs.getInt(GAME_GAMEID));
+			rs.close();
 			connection.commit();
 			connection.setAutoCommit(true);
+
+
+
+
+
 
 
 
@@ -266,13 +295,16 @@ class Repository implements IRepository {
 		return null;
 	}
 
+
+	private List<GameInDB> result;
 	@Override
 	public List<GameInDB> getGames() {
+		 result = new ArrayList<>();
 		// TODO when there many games in the DB, fetching all available games
 		//      from the DB is a bit extreme; eventually there should a
 		//      methods that can filter the returned games in order to
 		//      reduce the number of the returned games.
-		List<GameInDB> result = new ArrayList<>();
+
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
 			ResultSet rs = ps.executeQuery();
