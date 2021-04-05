@@ -196,7 +196,6 @@ public class AppController implements Observer {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {
-                System.out.println("he");
                 return; // return without exiting the application
             }
         }
