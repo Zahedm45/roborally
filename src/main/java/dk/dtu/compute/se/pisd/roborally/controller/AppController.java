@@ -48,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Button;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -149,7 +150,7 @@ public class AppController implements Observer {
         dialog.getItems().addAll(repository.getGames());
         Collections.reverse(dialog.getItems());
         dialog.showAndWait();
-        if (dialog.selectedItemProperty().getValue() != null) {
+        if (dialog.selectedItemProperty().getValue() != null && dialog.equals(ButtonType.OK)) {
             Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
             if (playerChosenGID != null) {
