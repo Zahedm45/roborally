@@ -55,7 +55,7 @@ public class BoardView extends VBox implements ViewObserver {
 
     private SpaceEventHandler spaceEventHandler;
     final public static Background CARD_FIELD_BACKGROUND =
-            new Background(new BackgroundFill(Color.DARKGRAY, null, null));
+            new Background(new BackgroundFill(Color.BLACK, null, null));
             // BLANCHEDALMOND
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;

@@ -56,10 +56,10 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static int CARDFIELD_HEIGHT = 100;
 
     final public static Border BORDER =
-            new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
+            new Border(new BorderStroke(Color.GOLDENROD, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
 
     final public static Background BG_DEFAULT =
-            new Background(new BackgroundFill(Color.WHITE, null, null));
+            new Background(new BackgroundFill(Color.DARKGRAY, null, null));
     final public static Background BG_DRAG =
             new Background(new BackgroundFill(Color.GRAY, null, null));
     final public static Background BG_DROP =
@@ -69,6 +69,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
             new Background(new BackgroundFill(Color.YELLOW, null, null));
     final public static Background BG_DONE =
             new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
+
+//    final public static Background MINE =
+//            new Background(new BackgroundFill(Color.DARKGRAY,  null, null));
 
     private CommandCardField field;
 
@@ -80,15 +83,12 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         this.gameController = gameController;
         this.field = field;
-        //his.addImage("image/move3.png");
 
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(5, 5, 5, 5));
 
         this.setBorder(BORDER);
         this.setBackground(BG_DEFAULT);
-        //this.addImage("image/move3.png");
-
 
         this.setPrefWidth(CARDFIELD_WIDTH);
         this.setMinWidth(CARDFIELD_WIDTH);
