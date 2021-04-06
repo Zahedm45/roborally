@@ -166,10 +166,8 @@ class Repository implements IRepository {
 
 
 			ResultSet rs = ps.executeQuery();
-
-
 			if (rs.next()) {
-
+				rs.updateString(GAME_NAME, "Date: " +  new Date()); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -177,45 +175,16 @@ class Repository implements IRepository {
 			} else {
 				// TODO error handling
 			}
-//
-//			int id = rs.getInt(GAME_GAMEID);
-//			String name = rs.getString(GAME_NAME);
-//
-//			for (int i = 0; i < result.size(); i++) {
-//				String str = String.valueOf(result.get(i));
-//				if (str.equals(id +": " +name)) {
-//					System.out.println(result.size());
-//					result.remove(i);
-//					System.out.println(result.size());
-//					result.add(new GameInDB(id, name));
-//					System.out.println(result.size());
-//					break;
-//				}
-//
-//			}
 
-
-
+			rs.close();
 			updatePlayersInDB(game);
 			/* TOODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
 			*/
 			updateCardFieldsInDB(game);
 
-
-
-
-			System.out.println(rs.getInt(GAME_GAMEID));
-			rs.close();
 			connection.commit();
 			connection.setAutoCommit(true);
-
-
-
-
-
-
-
 
 
 			return true;
