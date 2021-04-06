@@ -34,6 +34,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -92,6 +93,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
+            statusLabel.setTextFill(Paint.valueOf("white"));
         }
     }
 
