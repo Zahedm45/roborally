@@ -77,14 +77,18 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private GameController gameController;
 
     public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
+
         this.gameController = gameController;
         this.field = field;
+        //his.addImage("image/move3.png");
 
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(5, 5, 5, 5));
 
         this.setBorder(BORDER);
         this.setBackground(BG_DEFAULT);
+        //this.addImage("image/move3.png");
+
 
         this.setPrefWidth(CARDFIELD_WIDTH);
         this.setMinWidth(CARDFIELD_WIDTH);
@@ -93,10 +97,13 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setMinHeight(CARDFIELD_HEIGHT);
         this.setMaxHeight(CARDFIELD_HEIGHT);
 
+
         label = new Label("This is a slightly longer text");
         label.setWrapText(true);
         label.setMouseTransparent(true);
         this.add(label, 0, 0);
+
+
 
         this.setOnDragDetected(new OnDragDetectedHandler());
         this.setOnDragOver(new OnDragOverHandler());
@@ -105,33 +112,34 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setOnDragDropped(new OnDragDroppedHandler());
         this.setOnDragDone(new OnDragDoneHandler());
 
+
         field.attach(this);
         update(field);
     }
 
-//    private ImageView addImage(String name) {
-//        Image img = null;
-//        try {
-//            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-//        ImageView imgView = new ImageView(img);
-//        imgView.setImage(img);
-//        imgView.setFitHeight(CARDFIELD_HEIGHT);
-//        imgView.setFitWidth(CARDFIELD_WIDTH);
-//        imgView.setVisible(true);
-//        this.getChildren().add(imgView);
-//
-//        return imgView;
-//    }
-//
-//    private ImageView addImage(String name, double rotation) {
-//        ImageView imageView = addImage(name);
-//        imageView.setRotate(rotation);
-//
-//        return imageView;
-//    }
+    private ImageView addImage(String name) {
+        Image img = null;
+        try {
+            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        ImageView imgView = new ImageView(img);
+        imgView.setImage(img);
+        imgView.setFitHeight(CARDFIELD_HEIGHT);
+        imgView.setFitWidth(CARDFIELD_WIDTH);
+        imgView.setVisible(true);
+        this.getChildren().add(imgView);
+
+        return imgView;
+    }
+
+    private ImageView addImage(String name, double rotation) {
+        ImageView imageView = addImage(name);
+        imageView.setRotate(rotation);
+
+        return imageView;
+    }
 
 
 
