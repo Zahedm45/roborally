@@ -244,12 +244,15 @@ public class LoadBoard {
                 new FileChooser.ExtensionFilter("JSON files (*.json)",
                         "*.json");
         fileChooser.getExtensionFilters().add(extensionFilter);
-        File file = fileChooser.showSaveDialog(null);
-        return file;
+        return fileChooser.showSaveDialog(null);
     }
 
 
    public static void saveCurrentBoardToPC(Board board) {
+
+        if (getDirectory() == null) {
+            return;
+        }
 
        BoardTemplate template = new BoardTemplate();
        template.width = board.width;
