@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -73,6 +74,7 @@ public class PlayerView extends Tab implements ViewObserver {
         this.player = player;
 
         programLabel = new Label("Program");
+        programLabel.setTextFill(Color.WHITE);
 
         programPane = new GridPane();
         programPane.setVgap(2.0);
@@ -109,6 +111,7 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel.setSpacing(3.0);
 
         cardsLabel = new Label("Command Cards");
+        cardsLabel.setTextFill(Color.WHITE);
         cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
         cardsPane.setHgap(2.0);
