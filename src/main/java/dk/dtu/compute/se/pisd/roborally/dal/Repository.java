@@ -168,7 +168,7 @@ class Repository implements IRepository {
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-			//	rs.updateString(GAME_NAME, String.valueOf(new Date())); // instead of name
+				rs.updateString(GAME_NAME,"Data: " + String.valueOf(new Date())); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -274,6 +274,7 @@ class Repository implements IRepository {
 		//      methods that can filter the returned games in order to
 		//      reduce the number of the returned games.
 		List<GameInDB> result = new ArrayList<>();
+
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
 			ResultSet rs = ps.executeQuery();
@@ -283,6 +284,7 @@ class Repository implements IRepository {
 				result.add(new GameInDB(id,name));
 			}
 			rs.close();
+			result.sort(Comparator.comparing(GameInDB:: getName).reversed());
 
 		} catch (SQLException e) {
 			// TODO proper error handling
@@ -291,59 +293,6 @@ class Repository implements IRepository {
 		return result;
 
 	}
-
-//	public List<Date> getGamesDate() {
-//		List<Date> date = new ArrayList<>();
-//		try {
-//			PreparedStatement ps = getSelectGameIdsStatement();
-//			ResultSet rs = ps.executeQuery();
-//			while (rs.next()) {
-//				//int id = rs.getInt(GAME_GAMEID);
-//				String name = rs.getString(GAME_NAME);
-//				Date dateFormat=new SimpleDateFormat("dd/MM/yyyy").parse(name);
-//				date.add(dateFormat);
-//				//result.add(new GameInDB(id,name));
-//			}
-//			rs.close();
-//
-//			for (Date gd : date) {
-//				System.out.println(gd);
-//
-//			}
-//			Collections.sort(date);
-//
-//			System.out.println("dlælsdlsladdldlk");
-//
-//			for (Date gd : date) {
-//				System.out.println(gd);
-//
-//			}
-//
-//
-//
-////			Collections.sort(date, new Comparator<Date>() {
-////				@Override
-////				public int compare(Date o1, Date o2) {
-////					if (o1.getTime() < o2.getTime())
-////					return -1;
-////					if (o1.getTime() == o2.getTime()) {
-////
-////					}
-////				}
-////
-////
-////			});
-//
-//
-//		} catch (SQLException | ParseException e) {
-//			// TODO proper error handling
-//			e.printStackTrace();
-//		}
-//		return date;
-//
-//	}
-
-
 
 
 	private void createPlayersInDB(Board game) throws SQLException {
@@ -396,8 +345,6 @@ class Repository implements IRepository {
 				}
 				commandField.executeUpdate();
 			}
-
-
 
 		}
 		rs.close();

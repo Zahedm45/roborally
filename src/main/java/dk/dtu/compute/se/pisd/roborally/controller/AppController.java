@@ -139,7 +139,7 @@ public class AppController implements Observer {
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
         dialog.getItems().addAll(repository.getGames());
-        Collections.reverse(dialog.getItems());
+        //Collections.reverse(dialog.getItems());
         dialog.showAndWait();
         if (dialog.selectedItemProperty().getValue() != null) {
             Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
@@ -188,7 +188,6 @@ public class AppController implements Observer {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {
-                System.out.println("he");
                 return; // return without exiting the application
             }
         }

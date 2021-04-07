@@ -117,29 +117,29 @@ public class CardFieldView extends GridPane implements ViewObserver {
         update(field);
     }
 
-    private ImageView addImage(String name) {
-        Image img = null;
-        try {
-            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        ImageView imgView = new ImageView(img);
-        imgView.setImage(img);
-        imgView.setFitHeight(CARDFIELD_HEIGHT);
-        imgView.setFitWidth(CARDFIELD_WIDTH);
-        imgView.setVisible(true);
-        this.getChildren().add(imgView);
-
-        return imgView;
-    }
-
-    private ImageView addImage(String name, double rotation) {
-        ImageView imageView = addImage(name);
-        imageView.setRotate(rotation);
-
-        return imageView;
-    }
+//    private ImageView addImage(String name) {
+//        Image img = null;
+//        try {
+//            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        ImageView imgView = new ImageView(img);
+//        imgView.setImage(img);
+//        imgView.setFitHeight(CARDFIELD_HEIGHT);
+//        imgView.setFitWidth(CARDFIELD_WIDTH);
+//        imgView.setVisible(true);
+//        this.getChildren().add(imgView);
+//
+//        return imgView;
+//    }
+//
+//    private ImageView addImage(String name, double rotation) {
+//        ImageView imageView = addImage(name);
+//        imageView.setRotate(rotation);
+//
+//        return imageView;
+//    }
 
 
 
