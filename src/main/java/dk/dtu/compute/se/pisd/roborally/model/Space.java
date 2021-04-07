@@ -41,7 +41,6 @@ public class Space extends Subject {
 
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
-    //private List<CheckPoint> checkPoints = new ArrayList<>();
 
     public final Board board;
 
@@ -82,6 +81,20 @@ public class Space extends Subject {
     public List<FieldAction> getActions() {
         return actions;
     }
+    CheckPoint checkPoint = null;
+
+    public void setActions(List<FieldAction> actions) {
+        this.actions = actions;
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof CheckPoint && checkPoint == null) {
+                checkPoint = (CheckPoint) action;
+                this.board.setCheckPointNumbers( checkPoint.getNumber() );
+               // System.out.println(this.board.getCheckPointNumbers().size());
+            }
+        }
+
+    }
 
     public ConveyorBelt getConveyorBelt() {
         ConveyorBelt belt = null;
@@ -93,15 +106,19 @@ public class Space extends Subject {
         return belt;
     }
 
-//    public CheckPoint getCheckPoints() {
-//        CheckPoint checkPoint = null;
+    public CheckPoint getCheckPoint() {
+        //CheckPoint checkPoint = null;
 //        for (FieldAction action : this.actions) {
 //            if (action instanceof CheckPoint && checkPoint == null) {
 //                checkPoint = (CheckPoint) action;
+//                this.board.setCheckPointNumbers( checkPoint.getNumber() );
 //            }
 //        }
-//        return checkPoint;
-//    }
+        return checkPoint;
+    }
+
+
+
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space

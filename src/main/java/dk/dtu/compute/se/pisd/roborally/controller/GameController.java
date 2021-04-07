@@ -21,9 +21,11 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -176,6 +178,7 @@ public class GameController {
 
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
+
 //                if (won)
 //                    break;
                             action.doAction(this, this.board.getPlayer(i).getSpace());
@@ -407,6 +410,21 @@ public class GameController {
             repository.updateGameInDB(this.board);
         }
     }
+
+
+
+    public void setWinner(Player player) {
+        Alert winMgs = new Alert(Alert.AlertType.INFORMATION, "Player " + player.getName() + " won ");
+        winMgs.showAndWait();
+        //RoboRally.stop();
+
+        this.board = null;
+        RoboRally roboRally = new RoboRally();
+        roboRally.createBoardView(null);
+//        this.board.
+
+    }
+
 
 }
 
