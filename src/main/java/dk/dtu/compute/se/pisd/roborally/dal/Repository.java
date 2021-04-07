@@ -25,9 +25,10 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * ...
@@ -85,7 +86,7 @@ class Repository implements IRepository {
 				// TODO: the name should eventually set by the user
 				//       for the game and should be then used
 				//       game.getName();
-				ps.setString(1, "Date: " +  new Date()); // instead of name
+				ps.setString(1,"Data: " + new Date()); // instead of name
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
@@ -164,10 +165,10 @@ class Repository implements IRepository {
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, game.getGameId());
 
+
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				// want to have last modified game first, that's why next one code added.
-				//rs.updateString(PLAYER_NAME, "Date: " +  new Date()); // instead of name
+				rs.updateString(GAME_NAME,"Data: " + String.valueOf(new Date())); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -175,8 +176,8 @@ class Repository implements IRepository {
 			} else {
 				// TODO error handling
 			}
-			rs.close();
 
+			rs.close();
 			updatePlayersInDB(game);
 			/* TOODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
@@ -185,8 +186,6 @@ class Repository implements IRepository {
 
 			connection.commit();
 			connection.setAutoCommit(true);
-
-
 
 
 			return true;
@@ -266,6 +265,8 @@ class Repository implements IRepository {
 		return null;
 	}
 
+
+
 	@Override
 	public List<GameInDB> getGames() {
 		// TODO when there many games in the DB, fetching all available games
@@ -273,6 +274,7 @@ class Repository implements IRepository {
 		//      methods that can filter the returned games in order to
 		//      reduce the number of the returned games.
 		List<GameInDB> result = new ArrayList<>();
+
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
 			ResultSet rs = ps.executeQuery();
@@ -282,6 +284,8 @@ class Repository implements IRepository {
 				result.add(new GameInDB(id,name));
 			}
 			rs.close();
+			result.sort(Comparator.comparing(GameInDB:: getName).reversed());
+
 		} catch (SQLException e) {
 			// TODO proper error handling
 			e.printStackTrace();
@@ -341,8 +345,6 @@ class Repository implements IRepository {
 				}
 				commandField.executeUpdate();
 			}
-
-
 
 		}
 		rs.close();

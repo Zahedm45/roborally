@@ -25,13 +25,16 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -52,14 +55,17 @@ public class BoardView extends VBox implements ViewObserver {
     private Label statusLabel;
 
     private SpaceEventHandler spaceEventHandler;
-
+    final public static Background CARD_FIELD_BACKGROUND =
+            new Background(new BackgroundFill(Color.BLACK, null, null));
+            // BLANCHEDALMOND
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
+        this.setBackground(CARD_FIELD_BACKGROUND);
+
 
         mainBoardPane = new GridPane();
         playersView = new PlayersView(gameController);
         statusLabel = new Label("<no status>");
-
         this.getChildren().add(mainBoardPane);
         this.getChildren().add(playersView);
         this.getChildren().add(statusLabel);
@@ -87,6 +93,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
+            statusLabel.setTextFill(Paint.valueOf("white"));
         }
     }
 

@@ -56,10 +56,10 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static int CARDFIELD_HEIGHT = 100;
 
     final public static Border BORDER =
-            new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
+            new Border(new BorderStroke(Color.GOLDENROD, BorderStrokeStyle.SOLID, null, new BorderWidths(2)));
 
     final public static Background BG_DEFAULT =
-            new Background(new BackgroundFill(Color.WHITE, null, null));
+            new Background(new BackgroundFill(Color.DARKGRAY, null, null));
     final public static Background BG_DRAG =
             new Background(new BackgroundFill(Color.GRAY, null, null));
     final public static Background BG_DROP =
@@ -70,6 +70,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static Background BG_DONE =
             new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
 
+//    final public static Background MINE =
+//            new Background(new BackgroundFill(Color.DARKGRAY,  null, null));
+
     private CommandCardField field;
 
     private Label label;
@@ -77,6 +80,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private GameController gameController;
 
     public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
+
         this.gameController = gameController;
         this.field = field;
 
@@ -93,10 +97,13 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setMinHeight(CARDFIELD_HEIGHT);
         this.setMaxHeight(CARDFIELD_HEIGHT);
 
+
         label = new Label("This is a slightly longer text");
         label.setWrapText(true);
         label.setMouseTransparent(true);
         this.add(label, 0, 0);
+
+
 
         this.setOnDragDetected(new OnDragDetectedHandler());
         this.setOnDragOver(new OnDragOverHandler());
@@ -104,6 +111,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setOnDragExited(new OnDragExitedHandler());
         this.setOnDragDropped(new OnDragDroppedHandler());
         this.setOnDragDone(new OnDragDoneHandler());
+
 
         field.attach(this);
         update(field);

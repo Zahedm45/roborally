@@ -25,7 +25,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.mysql.cj.x.protobuf.Mysqlx;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
@@ -33,12 +32,9 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.io.*;
 
 /**
@@ -248,20 +244,15 @@ public class LoadBoard {
                 new FileChooser.ExtensionFilter("JSON files (*.json)",
                         "*.json");
         fileChooser.getExtensionFilters().add(extensionFilter);
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null){
-            if (file.equals(ButtonType.OK)) {
-                return file;
-            }
-        }
-        return null;
+        return fileChooser.showSaveDialog(null);
     }
 
 
    public static void saveCurrentBoardToPC(Board board) {
-       if (getDirectory() == null){
-           return;
-       }
+
+        if (getDirectory() == null) {
+            return;
+        }
 
        BoardTemplate template = new BoardTemplate();
        template.width = board.width;
