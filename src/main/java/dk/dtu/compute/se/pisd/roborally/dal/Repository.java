@@ -90,10 +90,10 @@ class Repository implements IRepository {
 				//       for the game and should be then used
 				//       game.getName();
 
-//				LocalDateTime localDateTime = LocalDateTime.now();
-//				localDateTime.format(DateTimeFormatter.ofPattern("yyyy MM dd hh:MM:ss"));
+				LocalDateTime localDateTime = LocalDateTime.now();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-				ps.setString(1, String.valueOf(new Date())); // instead of name
+				ps.setString(1, localDateTime.format(format)); // instead of name
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
@@ -172,12 +172,12 @@ class Repository implements IRepository {
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, game.getGameId());
 
-//			LocalDateTime localDateTime = LocalDateTime.now();
-//			localDateTime.format(DateTimeFormatter.ofPattern("yyyy MM dd hh:MM:ss"));
+			LocalDateTime localDateTime = LocalDateTime.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				rs.updateString(GAME_NAME, String.valueOf(new Date())); // instead of name
+				rs.updateString(GAME_NAME, localDateTime.format(format)); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -283,41 +283,59 @@ class Repository implements IRepository {
 		//      methods that can filter the returned games in order to
 		//      reduce the number of the returned games.
 		List<GameInDB> result = new ArrayList<>();
-		List<String> dateList = new ArrayList<>();
-
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(GAME_GAMEID);
 				String name = rs.getString(GAME_NAME);
-				//result.add(new GameInDB(id,name));
-				//dateList.add(new SimpleDateFormat("EE MM"));
-				dateList.add(name);
+				result.add(new GameInDB(id,name));
 			}
 			rs.close();
-
-			//result.sort(Comparator.comparing(GameInDB:: getName));
-
-//			List<GameInDB> sortedGameId = (List<GameInDB>) result.stream()
-//					.sorted(Comparator.comparing(GameInDB:: getName).reversed())
-//					.collect(Collectors.toList());
-
-			//Collections.sort(dateList);
-
-
-			for (String d : dateList) {
-				System.out.println(d);
-
-			}
 
 		} catch (SQLException e) {
 			// TODO proper error handling
 			e.printStackTrace();
 		}
+		result.sort(Comparator.comparing(GameInDB:: getName).reversed());
 		return result;
 
 	}
+
+
+//	public List<String> getGamesOrderedByDate() {
+//		// TODO when there many games in the DB, fetching all available games
+//		//      from the DB is a bit extreme; eventually there should a
+//		//      methods that can filter the returned games in order to
+//		//      reduce the number of the returned games.
+//		List<LocalDateTime> dateList = new ArrayList<>();
+//
+//		//LocalDateTime localDateTime = LocalDateTime.now();
+//		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//		try {
+//			PreparedStatement ps = getSelectGameIdsStatement();
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				//int id = rs.getInt(GAME_GAMEID);
+//				String name = rs.getString(GAME_NAME);
+//				dateList.add(LocalDateTime.parse(name, format));
+//			}
+//			rs.close();
+//
+//		} catch (SQLException e) {
+//			// TODO proper error handling
+//			e.printStackTrace();
+//		}
+//
+//		Collections.sort(dateList);
+//
+//		for (LocalDateTime d : dateList) {
+//			System.out.println(d);
+//
+//		}
+//		return null;
+//
+//	}
 
 
 	private void createPlayersInDB(Board game) throws SQLException {
@@ -392,7 +410,6 @@ class Repository implements IRepository {
 			}
 			rs.updateRow();
 		}
-		rs.close();
 
 
 		PreparedStatement ps2 = subRepository.getSelectCommandCardFieldStatementU();
@@ -411,6 +428,7 @@ class Repository implements IRepository {
 			}
 			rs2.updateRow();
 		}
+		rs.close();
 		rs2.close();
 
 	}
@@ -437,7 +455,7 @@ class Repository implements IRepository {
 				}
 			}
 		}
-		rs.close();
+
 		PreparedStatement ps2 = subRepository.getCommandCardFieldStatement();
 		ps2.setInt(1, game.getGameId());
 		ResultSet rs2 = ps2.executeQuery();
@@ -461,7 +479,7 @@ class Repository implements IRepository {
 				}
 			}
 		}
-
+		rs.close();
 		rs2.close();
 	}
 
