@@ -21,6 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.dal;
 
+import java.time.Instant;
+import java.util.Date;
+
 /**
  * ...
  *
@@ -31,6 +34,7 @@ public class GameInDB {
 
     private final int id;
     public final String name;
+
 
     public GameInDB(int id, String name) {
         this.id = id;
@@ -50,4 +54,5 @@ public class GameInDB {
         return name;
 
     }
+
 }

@@ -25,10 +25,12 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
+
 
 /**
  * ...
@@ -75,6 +77,7 @@ class Repository implements IRepository {
 
 
 
+
 	@Override
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
@@ -86,7 +89,11 @@ class Repository implements IRepository {
 				// TODO: the name should eventually set by the user
 				//       for the game and should be then used
 				//       game.getName();
-				ps.setString(1,"Data: " + new Date()); // instead of name
+
+//				LocalDateTime localDateTime = LocalDateTime.now();
+//				localDateTime.format(DateTimeFormatter.ofPattern("yyyy MM dd hh:MM:ss"));
+
+				ps.setString(1, String.valueOf(new Date())); // instead of name
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
@@ -165,10 +172,12 @@ class Repository implements IRepository {
 			PreparedStatement ps = getSelectGameStatementU();
 			ps.setInt(1, game.getGameId());
 
+//			LocalDateTime localDateTime = LocalDateTime.now();
+//			localDateTime.format(DateTimeFormatter.ofPattern("yyyy MM dd hh:MM:ss"));
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				rs.updateString(GAME_NAME,"Data: " + String.valueOf(new Date())); // instead of name
+				rs.updateString(GAME_NAME, String.valueOf(new Date())); // instead of name
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
@@ -274,6 +283,7 @@ class Repository implements IRepository {
 		//      methods that can filter the returned games in order to
 		//      reduce the number of the returned games.
 		List<GameInDB> result = new ArrayList<>();
+		List<String> dateList = new ArrayList<>();
 
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
@@ -281,10 +291,25 @@ class Repository implements IRepository {
 			while (rs.next()) {
 				int id = rs.getInt(GAME_GAMEID);
 				String name = rs.getString(GAME_NAME);
-				result.add(new GameInDB(id,name));
+				//result.add(new GameInDB(id,name));
+				//dateList.add(new SimpleDateFormat("EE MM"));
+				dateList.add(name);
 			}
 			rs.close();
-			result.sort(Comparator.comparing(GameInDB:: getName).reversed());
+
+			//result.sort(Comparator.comparing(GameInDB:: getName));
+
+//			List<GameInDB> sortedGameId = (List<GameInDB>) result.stream()
+//					.sorted(Comparator.comparing(GameInDB:: getName).reversed())
+//					.collect(Collectors.toList());
+
+			//Collections.sort(dateList);
+
+
+			for (String d : dateList) {
+				System.out.println(d);
+
+			}
 
 		} catch (SQLException e) {
 			// TODO proper error handling
