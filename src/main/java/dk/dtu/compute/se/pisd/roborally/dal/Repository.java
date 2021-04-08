@@ -91,7 +91,7 @@ class Repository implements IRepository {
 				//       game.getName();
 
 				LocalDateTime localDateTime = LocalDateTime.now();
-				DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+				DateTimeFormatter format = DateTimeFormatter.ofPattern(" dd-MM-yyyy HH:mm:ss");
 
 				ps.setString(1, localDateTime.format(format)); // instead of name
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
@@ -173,7 +173,7 @@ class Repository implements IRepository {
 			ps.setInt(1, game.getGameId());
 
 			LocalDateTime localDateTime = LocalDateTime.now();
-			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			DateTimeFormatter format = DateTimeFormatter.ofPattern(" dd-MM-yyyy HH:mm:ss");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {

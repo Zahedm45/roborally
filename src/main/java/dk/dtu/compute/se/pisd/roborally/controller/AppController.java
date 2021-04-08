@@ -139,9 +139,11 @@ public class AppController implements Observer {
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
         dialog.getItems().addAll(repository.getGames());
-        //Collections.reverse(dialog.getItems());
+        //dialog.setSelectedItem(repository.getGames().get(0));
         dialog.showAndWait();
-        if (dialog.selectedItemProperty().getValue() != null) {
+
+        if (dialog.getResult() != null) {
+
             Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
             if (playerChosenGID != null) {
