@@ -37,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     public Board board;
+    public boolean winnerFound = false;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -155,6 +156,8 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
+        if (winnerFound) {
+            return;}
         //AppController appController;
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -178,10 +181,10 @@ public class GameController {
 
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
-
-//                if (won)
-//                    break;
                             action.doAction(this, this.board.getPlayer(i).getSpace());
+                            if (winnerFound) {
+
+                                break; }
                         }
                     }
 
@@ -413,18 +416,14 @@ public class GameController {
 
 
 
-    public void setWinner(Player player) {
-        Alert winMgs = new Alert(Alert.AlertType.INFORMATION, "Player " + player.getName() + " won ");
-        winMgs.showAndWait();
-        //RoboRally.stop();
+    protected void setWinner(Player player) {
 
-        this.board = null;
-        RoboRally roboRally = new RoboRally();
-        roboRally.createBoardView(null);
-//        this.board.
+        winnerFound = true;
+        Alert winMgs = new Alert(Alert.AlertType.INFORMATION, player.getName() + " won ");
+        winMgs.showAndWait();
+//        roboRally.createBoardView(this);
 
     }
-
 
 }
 
