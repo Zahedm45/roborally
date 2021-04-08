@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -38,9 +40,12 @@ public class GameController {
 
     public Board board;
     public boolean winnerFound = false;
+    RoboRally roboRally;
+    private AppController appController;
 
     public GameController(@NotNull Board board) {
         this.board = board;
+        this.appController = new AppController(new RoboRally());
     }
 
     /**
@@ -156,8 +161,7 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
-        if (winnerFound) {
-            return;}
+        //if (winnerFound) { return;}
         //AppController appController;
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -183,8 +187,9 @@ public class GameController {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
                             action.doAction(this, this.board.getPlayer(i).getSpace());
                             if (winnerFound) {
-
-                                break; }
+                                //board.setPhase(Phase.INITIALISATION);
+                                break;
+                            }
                         }
                     }
 
@@ -417,12 +422,14 @@ public class GameController {
 
 
     protected void setWinner(Player player) {
-
         winnerFound = true;
-        Alert winMgs = new Alert(Alert.AlertType.INFORMATION, player.getName() + " won ");
-        winMgs.showAndWait();
-//        roboRally.createBoardView(this);
-
+                Alert winMgs = new Alert(Alert.AlertType.INFORMATION, player.getName()+ " won ");
+                winMgs.showAndWait();
+//        System.out.println(winMgs.getButtonTypes());
+//      //  if ( winMgs.getButtonTypes().equals(ButtonType.)) {
+//            System.out.println("ddd");
+//            appController.stopGame();
+//     //   }
     }
 
 }
