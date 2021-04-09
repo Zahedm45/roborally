@@ -72,9 +72,15 @@ public class AppController implements Observer {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Load a board");
         alert.setContentText("Do you want to load a board from PC?");
+        alert.getDialogPane().getButtonTypes().remove(0);
+        alert.getDialogPane().getButtonTypes().remove(0);
+
+        alert.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        alert.getDialogPane().getButtonTypes().add(ButtonType.NO);
+
         setAlertPosition(alert);
         Optional<ButtonType> result1 = alert.showAndWait();
-        if (result1.isPresent() && result1.get() == ButtonType.OK ) {
+        if (result1.isPresent() && result1.get() == ButtonType.YES ) {
             loadBoard();
             return;
         }
