@@ -187,7 +187,7 @@ public class GameController {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
                             action.doAction(this, this.board.getPlayer(i).getSpace());
                             if (winnerFound) {
-                                //board.setPhase(Phase.INITIALISATION);
+                                board.setPhase(Phase.INITIALISATION);
                                 break;
                             }
                         }
