@@ -25,9 +25,6 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -423,12 +420,7 @@ public class GameController {
 
     protected void setWinner(Player player) {
         winnerFound = true;
-        Alert winMgs = new Alert(Alert.AlertType.CONFIRMATION, player.getName()+ " won ");
-        winMgs.showAndWait();
-
-        if ( winMgs.getButtonTypes().equals(ButtonType.)) {
-            appController.stopGame();
-     //   }
+        appController.OnceGameOver(player);
     }
 
 }
