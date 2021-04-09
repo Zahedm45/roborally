@@ -37,7 +37,7 @@ public class GameController {
 
     public Board board;
     public boolean winnerFound = false;
-    RoboRally roboRally;
+    IRepository repository;
     private AppController appController;
 
     public GameController(@NotNull Board board, AppController appController) {
@@ -406,7 +406,7 @@ public class GameController {
 
     public void saveOrUpdateGame() {
         // XXX needs to be implemented eventually
-        IRepository repository = RepositoryAccess.getRepository();
+        repository = RepositoryAccess.getRepository();
         Integer currentGameID = this.board.getGameId();
         // need to rewrite
         if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
@@ -416,11 +416,15 @@ public class GameController {
         }
     }
 
+    public void deleteGameInDB() {
+        repository.deleteGameInDB(this.board);
+    }
+
 
 
     protected void setWinner(Player player) {
         winnerFound = true;
-        appController.OnceGameOver(player);
+        appController.setGameOver(player);
     }
 
 }

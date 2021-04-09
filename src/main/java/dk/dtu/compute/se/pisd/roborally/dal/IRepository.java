@@ -42,4 +42,5 @@ public interface IRepository {
 	
 	List<GameInDB> getGames();
 
+	void deleteGameInDB(Board game);
 }

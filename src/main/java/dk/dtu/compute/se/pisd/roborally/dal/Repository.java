@@ -536,6 +536,49 @@ class Repository implements IRepository {
 	}
 
 
+	@Override
+	public void deleteGameInDB(Board game) {
+		PreparedStatement ps = subRepository.getDeleteCommandCardFieldU();
+
+
+
+
+
+		try {
+			System.out.println(game.getGameId());
+			ps.setInt(1, game.getGameId());
+			ps.executeUpdate();
+
+			PreparedStatement ps1 = subRepository.getDeleteRegisterFieldU();
+			ps1.setInt(1, game.getGameId());
+			ps1.executeUpdate();
+
+
+			PreparedStatement ps3 = subRepository.getDeleteGameU();
+			ps3.setInt(1, game.getGameId());
+			ps3.executeUpdate();
+
+			PreparedStatement ps2 = subRepository.getDeletePlayerU();
+			ps2.setInt(1, game.getGameId());
+			ps2.executeUpdate();
+
+
+
+
+
+//			ps1.executeUpdate();
+//			ps2.executeUpdate();
+//			ps3.executeUpdate();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
 
 	private static final String SQL_INSERT_GAME =
 			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
@@ -696,6 +739,8 @@ class Repository implements IRepository {
 		}
 		return select_games_stmt;
 	}
+
+
 
 
 
