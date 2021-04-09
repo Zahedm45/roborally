@@ -113,6 +113,7 @@ public class AppController implements Observer {
 
             roboRally.createBoardView(gameController);
 
+
         }
     }
 
@@ -211,6 +212,16 @@ public class AppController implements Observer {
 
     @Override
     public void update(Subject subject) {
+        System.out.println("out");
+        System.out.println(gameController.winnerFound);
+
+        if (gameController.winnerFound) {
+            System.out.println("dld");
+            stopGame();
+//                Alert winMgs = new Alert(Alert.AlertType.INFORMATION, " won ");
+//                winMgs.showAndWait();
+
+        }
         // XXX do nothing for now
     }
 

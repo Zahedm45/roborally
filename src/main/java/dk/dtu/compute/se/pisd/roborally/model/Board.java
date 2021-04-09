@@ -57,6 +57,10 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private List<Integer> checkPointNumbers = new ArrayList<Integer>();
+
+    private boolean isThereWinner;
+
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -212,5 +216,17 @@ public class Board extends Subject {
     }
 
 
+    public List<Integer> getCheckPointNumbers() {
+        return checkPointNumbers;
+    }
+
+    public void setCheckPointNumbers(int checkPointNumber) {
+        this.checkPointNumbers.add(checkPointNumber);
+
+    }
+
+//
+//
+//    }
 
 }
