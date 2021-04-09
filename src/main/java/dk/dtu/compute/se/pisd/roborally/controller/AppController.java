@@ -72,15 +72,20 @@ public class AppController implements Observer {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Load a board");
         alert.setContentText("Do you want to load a board from PC?");
+        setAlertPosition(alert);
         Optional<ButtonType> result1 = alert.showAndWait();
         if (result1.isPresent() && result1.get() == ButtonType.OK ) {
             loadBoard();
+            return;
+        }
+        if (!result1.isPresent()) {
             return;
         }
 
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
+        setDialogPosition(dialog);
         Optional<Integer> result = dialog.showAndWait();
 
 
@@ -96,14 +101,7 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
              Board board = LoadBoard.loadBoard(null);
-             gameController = new GameController(board);
-
-            int no = result.get();
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
+            initializePlayers(result, board);
 
             LoadBoard.loadBoard(null);
             // XXX: V2
@@ -113,10 +111,20 @@ public class AppController implements Observer {
 
             roboRally.createBoardView(gameController);
 
+
         }
     }
 
+    private void initializePlayers(Optional<Integer> result, Board board) {
+        gameController = new GameController(board, this);
 
+        int no = result.get();
+        for (int i = 0; i < no; i++) {
+            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i));
+        }
+    }
 
 
 //    public void saveGame() {
@@ -138,20 +146,20 @@ public class AppController implements Observer {
 
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Choose a game:");
+        setDialogPosition(dialog);
         dialog.getItems().addAll(repository.getGames());
         if (!repository.getGames().isEmpty()) {
             dialog.setSelectedItem(repository.getGames().get(0));
         }
 
         dialog.showAndWait();
-
         if (dialog.getResult() != null) {
 
             Integer playerChosenGID = ((GameInDB) dialog.getSelectedItem()).getId();
 
             if (playerChosenGID != null) {
                 this.gameController =
-                        new GameController(repository.loadGameFromDB(playerChosenGID));
+                        new GameController(repository.loadGameFromDB(playerChosenGID), this);
                 this.roboRally.createBoardView(this.gameController);
 //            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
 //                this.gameController.board.setPhase();
@@ -172,11 +180,10 @@ public class AppController implements Observer {
      */
     public boolean stopGame() {
         if (gameController != null) {
-
-            // here we save the game (without asking the user).
-            //saveGame();
-            gameController.saveOrUpdateGame();
-
+            // if there is a winner then there is no need for save the game.
+            if (!gameController.winnerFound) {
+                gameController.saveOrUpdateGame();
+            }
             gameController = null;
             roboRally.createBoardView(null);
             return true;
@@ -190,6 +197,7 @@ public class AppController implements Observer {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");
             alert.setContentText("Are you sure you want to exit RoboRally?");
+            setAlertPosition(alert);
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {
@@ -222,18 +230,12 @@ public class AppController implements Observer {
             ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
             dialog.setTitle("Player number");
             dialog.setHeaderText("Select number of players");
+            setDialogPosition(dialog);
 
             Optional<Integer> result = dialog.showAndWait();
 
             if (result.isPresent()) {
-                gameController = new GameController(loadBoard);
-
-                int no = result.get();
-                for (int i = 0; i < no; i++) {
-                    Player player = new Player(loadBoard, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                    loadBoard.addPlayer(player);
-                    player.setSpace(loadBoard.getSpace(i % loadBoard.width, i));
-                }
+                initializePlayers(result, loadBoard);
 
                 gameController.startProgrammingPhase();
                 roboRally.createBoardView(gameController);
@@ -248,6 +250,42 @@ public class AppController implements Observer {
         }
 
     }
+
+    protected void OnceGameOver(Player player ) {
+        Alert confirmation = new Alert(AlertType.CONFIRMATION);
+        confirmation.setTitle( " Game is over!!! ");
+        ButtonType playAgain = new ButtonType("Play again", ButtonBar.ButtonData.OTHER);
+        ButtonType exitGame = new ButtonType("Exit", ButtonBar.ButtonData.OTHER);
+        ButtonType goToLobby = new ButtonType("Game lobby", ButtonBar.ButtonData.OTHER);
+
+        confirmation.setContentText(player.getName() +" has won the game!");
+        confirmation.getDialogPane().getButtonTypes().remove(0);
+        confirmation.getDialogPane().getButtonTypes().remove(0);
+        confirmation.getDialogPane().getButtonTypes().addAll(playAgain, exitGame, goToLobby);
+        setAlertPosition(confirmation);
+        Optional<ButtonType> pressedButton = confirmation.showAndWait();
+
+        if (pressedButton.isPresent() && pressedButton.get() == playAgain) {
+            this.newGame();
+        } else if (pressedButton.isPresent() && pressedButton.get() == exitGame) {
+            gameController = null;
+            this.exit();
+        } else if (pressedButton.isPresent() && pressedButton.get() == goToLobby) {
+            this.stopGame();
+        }
+
+    }
+
+    public void setDialogPosition(Dialog dialog){
+        dialog.setX(roboRally.getStage().getX() + 150);
+        dialog.setY(roboRally.getStage().getY() + 150);
+    }
+
+    public void setAlertPosition(Alert alert){
+        alert.setX(roboRally.getStage().getX() + 150);
+        alert.setY(roboRally.getStage().getY() + 150);
+    }
+
 
 
 }
