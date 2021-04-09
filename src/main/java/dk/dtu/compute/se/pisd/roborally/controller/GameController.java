@@ -423,17 +423,10 @@ public class GameController {
 
     protected void setWinner(Player player) {
         winnerFound = true;
-                Alert winMgs = new Alert(Alert.AlertType.CONFIRMATION, player.getName()+ " won ");
-                winMgs.showAndWait();
+        Alert winMgs = new Alert(Alert.AlertType.CONFIRMATION, player.getName()+ " won ");
+        winMgs.showAndWait();
 
-
-
-
-
-
-        System.out.println(winMgs.getButtonTypes());
       //  if ( winMgs.getButtonTypes().equals(ButtonType.)) {
-            System.out.println("ddd");
             appController.stopGame();
      //   }
     }
