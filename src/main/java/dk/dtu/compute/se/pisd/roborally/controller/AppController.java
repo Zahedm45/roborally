@@ -96,7 +96,7 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
              Board board = LoadBoard.loadBoard(null);
-             gameController = new GameController(board);
+             gameController = new GameController(board, this);
 
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -152,7 +152,7 @@ public class AppController implements Observer {
 
             if (playerChosenGID != null) {
                 this.gameController =
-                        new GameController(repository.loadGameFromDB(playerChosenGID));
+                        new GameController(repository.loadGameFromDB(playerChosenGID), this);
                 this.roboRally.createBoardView(this.gameController);
 //            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
 //                this.gameController.board.setPhase();
@@ -237,7 +237,7 @@ public class AppController implements Observer {
             Optional<Integer> result = dialog.showAndWait();
 
             if (result.isPresent()) {
-                gameController = new GameController(loadBoard);
+                gameController = new GameController(loadBoard, this);
 
                 int no = result.get();
                 for (int i = 0; i < no; i++) {

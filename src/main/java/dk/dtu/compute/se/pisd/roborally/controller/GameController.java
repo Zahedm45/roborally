@@ -43,9 +43,9 @@ public class GameController {
     RoboRally roboRally;
     private AppController appController;
 
-    public GameController(@NotNull Board board) {
+    public GameController(@NotNull Board board, AppController appController) {
         this.board = board;
-        this.appController = new AppController(new RoboRally());
+        this.appController = appController;
     }
 
     /**
@@ -423,13 +423,19 @@ public class GameController {
 
     protected void setWinner(Player player) {
         winnerFound = true;
-                Alert winMgs = new Alert(Alert.AlertType.INFORMATION, player.getName()+ " won ");
+                Alert winMgs = new Alert(Alert.AlertType.CONFIRMATION, player.getName()+ " won ");
                 winMgs.showAndWait();
-//        System.out.println(winMgs.getButtonTypes());
-//      //  if ( winMgs.getButtonTypes().equals(ButtonType.)) {
-//            System.out.println("ddd");
-//            appController.stopGame();
-//     //   }
+
+
+
+
+
+
+        System.out.println(winMgs.getButtonTypes());
+      //  if ( winMgs.getButtonTypes().equals(ButtonType.)) {
+            System.out.println("ddd");
+            appController.stopGame();
+     //   }
     }
 
 }
