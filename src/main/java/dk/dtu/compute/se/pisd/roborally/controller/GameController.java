@@ -426,7 +426,7 @@ public class GameController {
         Alert winMgs = new Alert(Alert.AlertType.CONFIRMATION, player.getName()+ " won ");
         winMgs.showAndWait();
 
-      //  if ( winMgs.getButtonTypes().equals(ButtonType.)) {
+        if ( winMgs.getButtonTypes().equals(ButtonType.)) {
             appController.stopGame();
      //   }
     }

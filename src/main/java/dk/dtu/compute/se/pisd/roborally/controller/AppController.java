@@ -176,7 +176,9 @@ public class AppController implements Observer {
 
             // here we save the game (without asking the user).
             //saveGame();
-            gameController.saveOrUpdateGame();
+            if (!gameController.winnerFound) {
+                gameController.saveOrUpdateGame();
+            }
 
             gameController = null;
             roboRally.createBoardView(null);
@@ -249,6 +251,14 @@ public class AppController implements Observer {
         }
 
     }
+
+//    protected void gameOver() {
+//        if (gameController != null) {
+//            gameController = null;
+//            roboRally.createBoardView(null);
+//        }
+//
+//    }
 
 
 }
