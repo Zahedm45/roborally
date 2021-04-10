@@ -66,7 +66,12 @@ class Repository implements IRepository {
 
 	private static final String CARD = "card";
 
-	private List<Integer> finishedGames = new ArrayList<>();
+	private static final String GAME_STATUS = "gameStatus";
+	private static final String GAME_RUNNING = "running";
+	private static final String GAME_OVER = "done";
+
+
+	//private List<Integer> finishedGames = new ArrayList<>();
 
 	private Connector connector;
 	private SubRepository subRepository;
@@ -99,6 +104,7 @@ class Repository implements IRepository {
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
+				ps.setString(5, GAME_RUNNING);
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
@@ -183,6 +189,12 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
+				if (game.winnerFound()) {
+					rs.updateString(GAME_STATUS, GAME_OVER);
+				} else {
+					rs.updateString(GAME_STATUS, GAME_RUNNING);
+				}
+
 				rs.updateRow();
 			} else {
 				// TODO error handling
@@ -287,12 +299,10 @@ class Repository implements IRepository {
 		List<GameInDB> result = new ArrayList<>();
 		try {
 			PreparedStatement ps = getSelectGameIdsStatement();
+			ps.setString(1, GAME_RUNNING);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(GAME_GAMEID);
-				if (finishedGames.contains(id)) {
-					continue;
-				}
 				String name = rs.getString(GAME_NAME);
 				result.add(new GameInDB(id,name));
 			}
@@ -306,12 +316,12 @@ class Repository implements IRepository {
 
 	}
 
-	@Override
-	public void setGameOverInDB(Integer gameID) {
-		if (!finishedGames.contains(gameID)) {
-			finishedGames.add(gameID);
-		}
-	}
+//	@Override
+//	public void setGameOverInDB(Integer gameID) {
+//		if (!finishedGames.contains(gameID)) {
+//			finishedGames.add(gameID);
+//		}
+//	}
 
 
 	//	public List<String> getGamesOrderedByDate() {
@@ -592,7 +602,7 @@ class Repository implements IRepository {
 
 
 	private static final String SQL_INSERT_GAME =
-			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
+			"INSERT INTO Game(name, currentPlayer, phase, step, gameStatus) VALUES (?, ?, ?, ?, ?)";
 
 	private PreparedStatement insert_game_stmt = null;
 
@@ -733,7 +743,7 @@ class Repository implements IRepository {
 	}
 
 	private static final String SQL_SELECT_GAMES =
-			"SELECT gameID, name FROM Game";
+			"SELECT gameID, name, gameStatus FROM Game WHERE gameStatus = ?";
 
 	private PreparedStatement select_games_stmt = null;
 

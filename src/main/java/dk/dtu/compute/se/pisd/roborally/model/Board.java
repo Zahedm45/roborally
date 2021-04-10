@@ -56,10 +56,9 @@ public class Board extends Subject {
     private int step = 0;
 
     private boolean stepMode;
+    private boolean winnerFound = false;
 
     private List<Integer> checkPointNumbers = new ArrayList<Integer>();
-
-    private boolean isThereWinner;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -225,7 +224,16 @@ public class Board extends Subject {
 
     }
 
-//
+     public boolean winnerFound() {
+        return winnerFound;
+    }
+
+    public void setWinnerFound(boolean winnerFound) {
+        this.winnerFound = winnerFound;
+    }
+
+
+    //
 //
 //    }
 

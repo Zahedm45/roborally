@@ -43,5 +43,5 @@ public interface IRepository {
 	List<GameInDB> getGames();
 
 	void deleteGameInDB(Board game);
-	void setGameOverInDB(Integer gameID);
+	//void setGameOverInDB(Integer gameID);
 }

@@ -38,7 +38,7 @@ import java.util.List;
 public class GameController {
 
     public Board board;
-    public boolean winnerFound = false;
+
     IRepository repository;
     private AppController appController;
 
@@ -188,7 +188,7 @@ public class GameController {
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
                             action.doAction(this, this.board.getPlayer(i).getSpace());
-                            if (winnerFound) {
+                            if (board.winnerFound()) {
                                 board.setPhase(Phase.INITIALISATION);
                                 break;
                             }
@@ -421,21 +421,16 @@ public class GameController {
         }
     }
 
-    public void deleteGameInDB() {
-        repository.deleteGameInDB(this.board);
-    }
-
 
 
     protected void setWinner(Player player) {
-        winnerFound = true;
+        board.setWinnerFound(true);
         appController.setGameOver(player);
-        repository.setGameOverInDB(this.board.getGameId());
+        //repository.setGameOverInDB(this.board.getGameId());
     }
 
 
 }
-
 
 
 

@@ -187,7 +187,7 @@ public class AppController implements Observer {
     public boolean stopGame() {
         if (gameController != null) {
             // if there is a winner then there is no need for save the game.
-            if (!gameController.winnerFound) {
+            if (!gameController.board.winnerFound()) {
                 gameController.saveOrUpdateGame();
             }
             gameController = null;
