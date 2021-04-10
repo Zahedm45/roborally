@@ -21,11 +21,13 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -36,9 +38,12 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     public Board board;
-    public boolean winnerFound = false;
-    RoboRally roboRally;
+
+    IRepository repository;
     private AppController appController;
+
+    private List<Integer> finishedGames = new ArrayList<>();
+
 
     public GameController(@NotNull Board board, AppController appController) {
         this.board = board;
@@ -183,7 +188,7 @@ public class GameController {
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
                             action.doAction(this, this.board.getPlayer(i).getSpace());
-                            if (winnerFound) {
+                            if (board.winnerFound()) {
                                 board.setPhase(Phase.INITIALISATION);
                                 break;
                             }
@@ -406,7 +411,7 @@ public class GameController {
 
     public void saveOrUpdateGame() {
         // XXX needs to be implemented eventually
-        IRepository repository = RepositoryAccess.getRepository();
+        repository = RepositoryAccess.getRepository();
         Integer currentGameID = this.board.getGameId();
         // need to rewrite
         if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
@@ -419,12 +424,12 @@ public class GameController {
 
 
     protected void setWinner(Player player) {
-        winnerFound = true;
-        appController.OnceGameOver(player);
+        board.setWinnerFound(true);
+        appController.setGameOverDialog(player);
     }
 
-}
 
+}
 
 
 

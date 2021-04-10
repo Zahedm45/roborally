@@ -187,7 +187,7 @@ public class AppController implements Observer {
     public boolean stopGame() {
         if (gameController != null) {
             // if there is a winner then there is no need for save the game.
-            if (!gameController.winnerFound) {
+            if (!gameController.board.winnerFound()) {
                 gameController.saveOrUpdateGame();
             }
             gameController = null;
@@ -257,7 +257,7 @@ public class AppController implements Observer {
 
     }
 
-    protected void OnceGameOver(Player player ) {
+    protected void setGameOverDialog(Player player ) {
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
         confirmation.setTitle( " Game is over!!! ");
         ButtonType playAgain = new ButtonType("Play again", ButtonBar.ButtonData.OTHER);
@@ -270,6 +270,7 @@ public class AppController implements Observer {
         confirmation.getDialogPane().getButtonTypes().addAll(playAgain, exitGame, goToLobby);
         setAlertPosition(confirmation);
         Optional<ButtonType> pressedButton = confirmation.showAndWait();
+
 
         if (pressedButton.isPresent() && pressedButton.get() == playAgain) {
             this.newGame();

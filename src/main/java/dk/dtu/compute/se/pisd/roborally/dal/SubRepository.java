@@ -77,4 +77,97 @@ import java.sql.SQLException;
     }
 
 
-}
+
+
+
+     private static final String SQL_DELETE_GAMES_ASC = "DELETE FROM Game  WHERE gameId = ?";
+
+     private PreparedStatement delete_games_stm = null;
+
+     protected PreparedStatement getDeleteGameU() {
+         if (delete_games_stm == null) {
+             Connection connection = connector.getConnection();
+             try {
+                 delete_games_stm = connection.prepareStatement(
+                         SQL_DELETE_GAMES_ASC,
+                         ResultSet.TYPE_FORWARD_ONLY,
+                         ResultSet.CONCUR_UPDATABLE
+                 );
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+         }
+         return delete_games_stm;
+     }
+
+
+     private static final String SQL_DELETE_PLAYER_ASC =
+             "DELETE FROM Player  WHERE gameId = ?";
+
+     private PreparedStatement delete_player_stm = null;
+
+     protected PreparedStatement getDeletePlayerU() {
+         if (delete_player_stm == null) {
+             Connection connection = connector.getConnection();
+             try {
+                 delete_player_stm = connection.prepareStatement(
+                         SQL_DELETE_PLAYER_ASC,
+                         ResultSet.TYPE_FORWARD_ONLY,
+                         ResultSet.CONCUR_UPDATABLE
+                 );
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+         }
+         return delete_player_stm;
+     }
+
+
+
+     private static final String SQL_DELETE_REGISTER_FIELD_ASC =
+             "DELETE FROM RegisterField WHERE gameId = ?";
+
+     private PreparedStatement delete_register_field_stm = null;
+
+     protected PreparedStatement getDeleteRegisterFieldU() {
+         if (delete_register_field_stm == null) {
+             Connection connection = connector.getConnection();
+             try {
+                 delete_register_field_stm = connection.prepareStatement(
+                         SQL_DELETE_REGISTER_FIELD_ASC,
+                         ResultSet.TYPE_FORWARD_ONLY,
+                         ResultSet.CONCUR_UPDATABLE
+                 );
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+         }
+         return delete_register_field_stm;
+     }
+
+
+
+     private static final String SQL_DELETE_COMMAND_CARD_FIELD_ASC =
+             "DELETE FROM CommandCardField WHERE gameId = ?";
+
+     private PreparedStatement delete_command_card_field_stm = null;
+
+     protected PreparedStatement getDeleteCommandCardFieldU() {
+         if (delete_command_card_field_stm == null) {
+             Connection connection = connector.getConnection();
+             try {
+                 delete_command_card_field_stm = connection.prepareStatement(
+                         SQL_DELETE_COMMAND_CARD_FIELD_ASC,
+                         ResultSet.TYPE_FORWARD_ONLY,
+                         ResultSet.CONCUR_UPDATABLE
+                 );
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+         }
+         return delete_command_card_field_stm;
+     }
+
+
+
+ }
