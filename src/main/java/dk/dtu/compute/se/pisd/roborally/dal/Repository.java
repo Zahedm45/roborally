@@ -383,35 +383,34 @@ class Repository implements IRepository {
 
 	private void createCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
-		PreparedStatement rs = insertPlayerRegisterField();
+		PreparedStatement ps = insertPlayerRegisterField();
 		for (int i = 0; i < game.getPlayersNumber(); i++) {
 			Player player = game.getPlayer(i);
-			rs.setInt(1, game.getGameId());
-			rs.setInt(2, i);
+			ps.setInt(1, game.getGameId());
+			ps.setInt(2, i);
 			for (int j = 3; j < 8; j++) {
 				CommandCard playerCard = player.getProgramField(j-3).getCard();
 				if (playerCard != null){
-					rs.setString(j, playerCard.getName());
-				} else rs.setString(j, null);
+					ps.setString(j, playerCard.getName());
+				} else ps.setString(j, null);
 			}
-			rs.executeUpdate();
+			ps.executeUpdate();
 
-			PreparedStatement commandField = subRepository.getInsertPlayerCommandField();
-			if (commandField != null) {
-				commandField.setInt(1, game.getGameId());
-				commandField.setInt(2, i);
+			PreparedStatement ps2 = subRepository.getInsertPlayerCommandField();
+			if (ps2 != null) {
+				ps2.setInt(1, game.getGameId());
+				ps2.setInt(2, i);
 				for (int k = 3; k < 11; k++) {
 					CommandCard cardField = player.getCardField(k-3).getCard();
 					if (cardField != null) {
-						commandField.setString(k, cardField.getName());
-					} else commandField.setString(k, null);
+						ps2.setString(k, cardField.getName());
+					} else ps2.setString(k, null);
 
 				}
-				commandField.executeUpdate();
+				ps2.executeUpdate();
 			}
 
 		}
-		rs.close();
 	}
 
 	private void updateCardFieldsInDB(Board game) throws SQLException {
@@ -557,46 +556,37 @@ class Repository implements IRepository {
 	}
 
 
-	@Override
-	public void deleteGameInDB(Board game) {
-		PreparedStatement ps = subRepository.getDeleteCommandCardFieldU();
-
-
-
-
-
-		try {
-			System.out.println(game.getGameId());
-			ps.setInt(1, game.getGameId());
-			ps.executeUpdate();
-
-			PreparedStatement ps1 = subRepository.getDeleteRegisterFieldU();
-			ps1.setInt(1, game.getGameId());
-			ps1.executeUpdate();
-
-
-			PreparedStatement ps3 = subRepository.getDeleteGameU();
-			ps3.setInt(1, game.getGameId());
-			ps3.executeUpdate();
-
-			PreparedStatement ps2 = subRepository.getDeletePlayerU();
-			ps2.setInt(1, game.getGameId());
-			ps2.executeUpdate();
-
-
-
-
-
+//	@Override
+//	public void deleteGameInDB(Board game) {
+//		PreparedStatement ps = subRepository.getDeleteCommandCardFieldU();
+//		try {
+//			System.out.println(game.getGameId());
+//			ps.setInt(1, game.getGameId());
+//			ps.executeUpdate();
+//
+//			PreparedStatement ps1 = subRepository.getDeleteRegisterFieldU();
+//			ps1.setInt(1, game.getGameId());
 //			ps1.executeUpdate();
-//			ps2.executeUpdate();
+//
+//
+//			PreparedStatement ps3 = subRepository.getDeleteGameU();
+//			ps3.setInt(1, game.getGameId());
 //			ps3.executeUpdate();
+//
+//			PreparedStatement ps2 = subRepository.getDeletePlayerU();
+//			ps2.setInt(1, game.getGameId());
+//			ps2.executeUpdate();
 
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
+////			ps1.executeUpdate();
+////			ps2.executeUpdate();
+////			ps3.executeUpdate();
+//
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 
 

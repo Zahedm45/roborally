@@ -425,8 +425,7 @@ public class GameController {
 
     protected void setWinner(Player player) {
         board.setWinnerFound(true);
-        appController.setGameOver(player);
-        //repository.setGameOverInDB(this.board.getGameId());
+        appController.setGameOverDialog(player);
     }
 
 
