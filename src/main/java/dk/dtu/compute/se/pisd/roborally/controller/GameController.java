@@ -21,11 +21,13 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -39,6 +41,9 @@ public class GameController {
     public boolean winnerFound = false;
     IRepository repository;
     private AppController appController;
+
+    private List<Integer> finishedGames = new ArrayList<>();
+
 
     public GameController(@NotNull Board board, AppController appController) {
         this.board = board;
@@ -425,7 +430,9 @@ public class GameController {
     protected void setWinner(Player player) {
         winnerFound = true;
         appController.setGameOver(player);
+        repository.setGameOverInDB(this.board.getGameId());
     }
+
 
 }
 

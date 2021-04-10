@@ -66,6 +66,8 @@ class Repository implements IRepository {
 
 	private static final String CARD = "card";
 
+	private List<Integer> finishedGames = new ArrayList<>();
+
 	private Connector connector;
 	private SubRepository subRepository;
 
@@ -288,11 +290,13 @@ class Repository implements IRepository {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(GAME_GAMEID);
+				if (finishedGames.contains(id)) {
+					continue;
+				}
 				String name = rs.getString(GAME_NAME);
 				result.add(new GameInDB(id,name));
 			}
 			rs.close();
-
 		} catch (SQLException e) {
 			// TODO proper error handling
 			e.printStackTrace();
@@ -302,8 +306,15 @@ class Repository implements IRepository {
 
 	}
 
+	@Override
+	public void setGameOverInDB(Integer gameID) {
+		if (!finishedGames.contains(gameID)) {
+			finishedGames.add(gameID);
+		}
+	}
 
-//	public List<String> getGamesOrderedByDate() {
+
+	//	public List<String> getGamesOrderedByDate() {
 //		// TODO when there many games in the DB, fetching all available games
 //		//      from the DB is a bit extreme; eventually there should a
 //		//      methods that can filter the returned games in order to

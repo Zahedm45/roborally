@@ -271,6 +271,7 @@ public class AppController implements Observer {
         setAlertPosition(confirmation);
         Optional<ButtonType> pressedButton = confirmation.showAndWait();
 
+
         //gameController.deleteGameInDB();
         if (pressedButton.isPresent() && pressedButton.get() == playAgain) {
             this.newGame();
