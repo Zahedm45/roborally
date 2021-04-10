@@ -141,11 +141,8 @@ public class Player extends Subject {
     public int getLastCheckPoint() {
         return lastCheckPoint;
     }
-    public boolean addLastCheckPoint(int checkPointNum) {
-        if ((lastCheckPoint + 1) == checkPointNum) {
+
+    public void addLastCheckPoint(int checkPointNum) {
             lastCheckPoint = checkPointNum;
-            return true;
-        }
-        return false;
     }
 }

@@ -70,6 +70,8 @@ class Repository implements IRepository {
 	private static final String GAME_RUNNING = "running";
 	private static final String GAME_OVER = "done";
 
+	private static final String PLAYER_CHECKPOINT = "lastCheckpoint";
+
 
 	//private List<Integer> finishedGames = new ArrayList<>();
 
@@ -316,47 +318,6 @@ class Repository implements IRepository {
 
 	}
 
-//	@Override
-//	public void setGameOverInDB(Integer gameID) {
-//		if (!finishedGames.contains(gameID)) {
-//			finishedGames.add(gameID);
-//		}
-//	}
-
-
-	//	public List<String> getGamesOrderedByDate() {
-//		// TODO when there many games in the DB, fetching all available games
-//		//      from the DB is a bit extreme; eventually there should a
-//		//      methods that can filter the returned games in order to
-//		//      reduce the number of the returned games.
-//		List<LocalDateTime> dateList = new ArrayList<>();
-//
-//		//LocalDateTime localDateTime = LocalDateTime.now();
-//		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//		try {
-//			PreparedStatement ps = getSelectGameIdsStatement();
-//			ResultSet rs = ps.executeQuery();
-//			while (rs.next()) {
-//				//int id = rs.getInt(GAME_GAMEID);
-//				String name = rs.getString(GAME_NAME);
-//				dateList.add(LocalDateTime.parse(name, format));
-//			}
-//			rs.close();
-//
-//		} catch (SQLException e) {
-//			// TODO proper error handling
-//			e.printStackTrace();
-//		}
-//
-//		Collections.sort(dateList);
-//
-//		for (LocalDateTime d : dateList) {
-//			System.out.println(d);
-//
-//		}
-//		return null;
-//
-//	}
 
 
 	private void createPlayersInDB(Board game) throws SQLException {
@@ -375,10 +336,36 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			rs.updateInt(PLAYER_CHECKPOINT, game.getPlayer(i).getLastCheckPoint());
 
 			rs.insertRow();
 		}
 		rs.close();
+	}
+
+
+	private void updatePlayersInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectPlayersStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			int playerId = rs.getInt(PLAYER_PLAYERID);
+			// TODO should be more defensive
+			Player player = game.getPlayer(playerId);
+			// rs.updateString(PLAYER_NAME, player.getName()); // not needed: player's names does not change
+			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
+			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
+			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			// TODO error handling
+			// TODO take care of case when number of players changes, etc
+
+			rs.updateInt(PLAYER_CHECKPOINT, player.getLastCheckPoint());
+			rs.updateRow();
+		}
+		rs.close();
+
+		// TODO error handling/consistency check: check whether all players were updated
 	}
 
 	private void createCardFieldsInDB(Board game) throws SQLException {
@@ -523,6 +510,7 @@ class Repository implements IRepository {
 				player.setSpace(game.getSpace(x,y));
 				int heading = rs.getInt(PLAYER_HEADING);
 				player.setHeading(Heading.values()[heading]);
+				player.addLastCheckPoint(rs.getInt(PLAYER_CHECKPOINT));
 
 				// TODO  should also load players program and hand here
 			} else {
@@ -533,27 +521,7 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
-	private void updatePlayersInDB(Board game) throws SQLException {
-		PreparedStatement ps = getSelectPlayersStatementU();
-		ps.setInt(1, game.getGameId());
 
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			int playerId = rs.getInt(PLAYER_PLAYERID);
-			// TODO should be more defensive
-			Player player = game.getPlayer(playerId);
-			// rs.updateString(PLAYER_NAME, player.getName()); // not needed: player's names does not change
-			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
-			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
-			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
-			// TODO error handling
-			// TODO take care of case when number of players changes, etc
-			rs.updateRow();
-		}
-		rs.close();
-
-		// TODO error handling/consistency check: check whether all players were updated
-	}
 
 
 //	@Override

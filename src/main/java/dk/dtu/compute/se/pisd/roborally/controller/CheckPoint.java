@@ -11,13 +11,16 @@ public class CheckPoint extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
 
-        int i = space.board.getCheckPointNumbers().size();
-
-
 
         if (space.getCheckPoint() != null && space.getPlayer() != null) {
-            space.getPlayer().addLastCheckPoint(this.number);
+            int lastCheckPoint = space.getPlayer().getLastCheckPoint() +1;
 
+            if (lastCheckPoint == space.getCheckPoint().getNumber()) {
+                space.getPlayer().addLastCheckPoint(this.number);
+            }
+
+
+            int i = space.board.getCheckPointNumbers().size();
             if (space.getPlayer().getLastCheckPoint() == i) {
                 gameController.setWinner(space.getPlayer());
             }
