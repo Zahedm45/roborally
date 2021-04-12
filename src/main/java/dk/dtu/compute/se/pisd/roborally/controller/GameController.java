@@ -183,7 +183,7 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
-// action on the fields.
+// All actions on the space execute.
 
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
@@ -325,6 +325,12 @@ public class GameController {
         player.setSpace(space);
     }
 
+
+    /**
+     * Moves backward without changing the facing direction.
+     * @param player the player that has to move.
+     * @author Zahed(s186517)
+     */
     public void backUp(@NotNull Player player) {
         Heading heading = null;
 
@@ -407,7 +413,10 @@ public class GameController {
     }
 
 
-
+    /**
+     * Saves a game into database. It takes care of existing games, if the game exists in the database it just updates it.
+     *  @author Zahed(s186517)
+     */
     public void saveOrUpdateGame() {
         // XXX needs to be implemented eventually
         repository = RepositoryAccess.getRepository();
@@ -421,6 +430,11 @@ public class GameController {
     }
 
 
+    /**
+     * Sets winner of this board.
+     * @param player the winner
+     * @author Zahed(s186517)
+     */
 
     protected void setWinner(Player player) {
         board.setWinnerFound(true);

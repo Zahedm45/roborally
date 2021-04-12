@@ -32,7 +32,7 @@ public class PlayerTest {
 
 //        RoboRally roboRally = new RoboRally();
 //        Board board = new Board(8,8);
-//        GameController gm = new GameController(board);
+//        GameController gm = new GameController(board, new AppController(roboRally));
 //        Player player = new Player(board,"yellow", "player2");
 //
 //        player.setSpace(board.getSpace(3, 3));
