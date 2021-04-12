@@ -121,6 +121,13 @@ public class AppController implements Observer {
         }
     }
 
+    /**
+     * Initializes players (from 1 to 6) with colors and positions.
+     * @param result user selected item
+     * @param board current board
+     * @author Zahed(s186517)
+     */
+
     private void initializePlayers(Optional<Integer> result, Board board) {
         gameController = new GameController(board, this);
 
@@ -145,6 +152,10 @@ public class AppController implements Observer {
 //        }
 //    }
 
+    /**
+     * Loads user desired games from database with all board-elements and players conditions.
+     * @author Zahed(s186517)
+     */
     public void loadGame() {
 
         // XXX needs to be implememted eventually
@@ -229,7 +240,11 @@ public class AppController implements Observer {
         // XXX do nothing for now
     }
 
-
+    /**
+     * Loads a game-board (only Json file) from pc and initializes a new game.
+     * It takes care of all board-elements that exist in the loaded board.
+     * @author Zahed(s186517)
+     */
     public void loadBoard(){
 
         Board loadBoard = LoadBoard.loadBoardFromPC(LoadBoard.getFileSource());
@@ -251,7 +266,7 @@ public class AppController implements Observer {
         }
     }
 
-    public void saveBoardPC(){
+    public void saveBoardToPC(){
         if (this.gameController != null) {
             LoadBoard.saveCurrentBoardToPC(this.gameController.board);
         }

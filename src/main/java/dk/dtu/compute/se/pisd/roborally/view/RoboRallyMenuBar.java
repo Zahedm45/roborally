@@ -22,14 +22,9 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ...
@@ -85,7 +80,7 @@ public class RoboRallyMenuBar extends MenuBar {
 //        controlMenu.getItems().add(downloadBoard);
 
         saveBoardPC = new MenuItem("Save Board");
-        saveBoardPC.setOnAction(e -> this.appController.saveBoardPC());
+        saveBoardPC.setOnAction(e -> this.appController.saveBoardToPC());
         controlMenu.getItems().add(saveBoardPC);
 
 
