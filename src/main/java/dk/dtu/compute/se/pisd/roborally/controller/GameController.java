@@ -323,7 +323,6 @@ public class GameController {
             }
         }
         player.setSpace(space);
-        //space.runActions(this);
     }
 
     public void backUp(@NotNull Player player) {
