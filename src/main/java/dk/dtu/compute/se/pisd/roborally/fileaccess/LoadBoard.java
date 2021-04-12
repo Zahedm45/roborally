@@ -249,8 +249,8 @@ public class LoadBoard {
 
 
    public static void saveCurrentBoardToPC(Board board) {
-
-        if (getDirectory() == null) {
+       File directory = getDirectory();
+        if (directory == null) {
             return;
         }
 
@@ -275,7 +275,7 @@ public class LoadBoard {
        OutputStream outputStream = null;
 
        try {
-           outputStream = new FileOutputStream(getDirectory());
+           outputStream = new FileOutputStream(directory);
        } catch (FileNotFoundException e) {
            e.printStackTrace();
        }
