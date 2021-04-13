@@ -256,6 +256,22 @@
       ],
       "x": 5,
       "y": 1
+    },
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Gear",
+          "INSTANCE": {
+            "degree": 270
+          }
+        }
+      ],
+      "x": 8,
+      "y": 4
     }
   ]
 }
