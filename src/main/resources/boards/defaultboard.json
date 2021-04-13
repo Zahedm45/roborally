@@ -227,7 +227,6 @@
     },
 
 
-
     {
       "walls": [
         "EAST"
@@ -242,6 +241,21 @@
       ],
       "x": 7,
       "y": 0
+    },
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Gear",
+          "INSTANCE": {
+            "degree": 90
+          }
+        }
+      ],
+      "x": 5,
+      "y": 1
     }
   ]
 }

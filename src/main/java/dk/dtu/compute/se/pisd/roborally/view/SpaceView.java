@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.Gear;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -114,6 +115,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             for (FieldAction action : this.space.getActions()) {
                 if (action instanceof CheckPoint) {
                     addImage("image/checkpoint" + ((CheckPoint) action).getNumber() + ".png", -90);
+                }
+                if (action instanceof Gear) {
+                    addImage("image/gears/gear" + ((Gear) action).getDegree() + ".png");
                 }
             }
             updateBelt();

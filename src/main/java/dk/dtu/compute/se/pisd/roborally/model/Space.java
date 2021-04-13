@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.Gear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,9 @@ public class Space extends Subject {
     private List<FieldAction> actions = new ArrayList<>();
 
     public final Board board;
-    ConveyorBelt belt = null;
+    private ConveyorBelt belt = null;
+    private CheckPoint checkPoint = null;
+    private Gear gear = null;
     public final int x;
     public final int y;
 
@@ -81,7 +84,6 @@ public class Space extends Subject {
     public List<FieldAction> getActions() {
         return actions;
     }
-    CheckPoint checkPoint = null;
 
     public void setActions(List<FieldAction> actions) {
         this.actions = actions;
@@ -95,6 +97,10 @@ public class Space extends Subject {
             if (action instanceof ConveyorBelt && belt == null) {
                 belt = (ConveyorBelt) action;
 
+            }
+
+            if (action instanceof Gear && gear == null) {
+                gear = (Gear) action;
             }
         }
 
@@ -129,6 +135,10 @@ public class Space extends Subject {
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
         notifyChange();
+    }
+
+    public Gear getGear() {
+        return gear;
     }
 
 }
