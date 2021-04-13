@@ -272,6 +272,22 @@
       ],
       "x": 8,
       "y": 4
+    },
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Pit",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 3,
+      "y": 0
     }
+
   ]
 }
