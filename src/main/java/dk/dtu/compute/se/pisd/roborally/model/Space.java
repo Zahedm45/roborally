@@ -50,6 +50,7 @@ public class Space extends Subject {
     private CheckPoint checkPoint = null;
     private Gear gear = null;
     private Pit pit = null;
+    private PushPanel pushPanel = null;
 
 
     public Space(Board board, int x, int y) {
@@ -108,6 +109,10 @@ public class Space extends Subject {
             if (action instanceof Pit && pit == null) {
                 pit = (Pit) action;
             }
+
+            if (action instanceof PushPanel && pushPanel == null) {
+                pushPanel = (PushPanel) action;
+            }
         }
 
     }
@@ -149,5 +154,9 @@ public class Space extends Subject {
 
     public Pit getPit() {
         return pit;
+    }
+
+    public PushPanel getPushPanel() {
+        return pushPanel;
     }
 }
