@@ -15,15 +15,16 @@ public class Gear extends FieldAction{
 
         if (space.getGear() != null && space.getPlayer() != null) {
             Player player  = space.getPlayer();
-            //Heading currentHeading = player.getHeading();
+
             if (degree == 90) {
                 gameController.turnRight(player);
+                return true;
+
             } else if (degree == 270) {
                 gameController.turnLeft(player);
+                return true;
             }
         }
-
-
 
         return false;
     }
