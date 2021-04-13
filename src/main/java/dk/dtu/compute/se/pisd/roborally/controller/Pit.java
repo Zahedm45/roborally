@@ -6,6 +6,10 @@ public class Pit extends FieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
+
+        if (space.getPit() != null && space.getPlayer() != null) {
+
+        }
         return false;
     }
 }
