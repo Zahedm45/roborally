@@ -43,7 +43,7 @@ public class Space extends Subject {
     private List<FieldAction> actions = new ArrayList<>();
 
     public final Board board;
-
+    ConveyorBelt belt = null;
     public final int x;
     public final int y;
 
@@ -90,19 +90,23 @@ public class Space extends Subject {
             if (action instanceof CheckPoint && checkPoint == null) {
                 checkPoint = (CheckPoint) action;
                 this.board.setCheckPointNumbers( checkPoint.getNumber() );
-               // System.out.println(this.board.getCheckPointNumbers().size());
+            }
+
+            if (action instanceof ConveyorBelt && belt == null) {
+                belt = (ConveyorBelt) action;
+
             }
         }
 
     }
 
     public ConveyorBelt getConveyorBelt() {
-        ConveyorBelt belt = null;
-        for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt && belt == null) {
-                belt = (ConveyorBelt) action;
-            }
-        }
+//        ConveyorBelt belt = null;
+//        for (FieldAction action : this.actions) {
+//            if (action instanceof ConveyorBelt && belt == null) {
+//                belt = (ConveyorBelt) action;
+//            }
+//        }
         return belt;
     }
 
