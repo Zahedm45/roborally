@@ -296,7 +296,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.PushPanel",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "WEST"
           }
         }
       ],

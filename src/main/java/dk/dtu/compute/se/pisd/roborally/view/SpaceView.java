@@ -221,7 +221,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         switch (heading) {
             case NORTH -> addImage("image/pushP.png", 180);
             case SOUTH -> addImage("image/pushP.png", 0);
-
             case WEST -> addImage("image/pushP.png", 90);
             case EAST -> addImage("image/pushP.png", 270);
         }

@@ -26,9 +26,6 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * ...
  *
@@ -41,8 +38,7 @@ public class GameController {
 
     IRepository repository;
     private AppController appController;
-
-    private List<Integer> finishedGames = new ArrayList<>();
+    int executionCounter;
 
 
     public GameController(@NotNull Board board, AppController appController) {
@@ -154,17 +150,22 @@ public class GameController {
 
     }
 
+
     // XXX: V2
     private void continuePrograms() {
+
+        executionCounter = 0;
+
+
         do {
+            executionCounter++;
+            System.out.println(executionCounter);
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
     // XXX: V2
     private void executeNextStep() {
-        //if (winnerFound) { return;}
-        //AppController appController;
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -192,6 +193,7 @@ public class GameController {
                                 board.setPhase(Phase.INITIALISATION);
                                 break;
                             }
+
                         }
                     }
 
@@ -256,6 +258,7 @@ public class GameController {
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
+
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
