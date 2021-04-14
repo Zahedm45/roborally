@@ -9,13 +9,14 @@ public class PushPanel extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
 
-        int exCounter = gameController.executionCounter;
-        System.out.println(exCounter);
+        int exCounter = space.board.getStep();
+
+
 
         if (space.getPushPanel() != null &&
                 space.getPlayer() != null &&
                 exCounter == 2 || exCounter == 4 ) {
-
+            System.out.println(exCounter);
             Heading heading = space.getPushPanel().heading;
             Space target = space.board.getNeighbour(space, heading);
 

@@ -153,19 +153,15 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {
-
         executionCounter = 0;
-
-
         do {
-            executionCounter++;
-            System.out.println(executionCounter);
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
     // XXX: V2
     private void executeNextStep() {
+
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -257,6 +253,8 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
+
+
         if (player != null && player.board == board && command != null) {
 
             // XXX This is a very simplistic way of dealing with some basic cards and
