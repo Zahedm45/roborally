@@ -46,7 +46,8 @@ public enum Command {
     MOVE_3("Move3"),
     //AGAIN("Again"),
     U_TURN("U Turn"),
-    BACK_UP("Back Up");
+    BACK_UP("Back Up"),
+    DAMAGE_CARD("Damage Card");
 
     final public String displayName;
 
@@ -83,6 +84,7 @@ public enum Command {
             case "Move3" -> MOVE_3;
             case "U Turn" -> U_TURN;
             case "Back Up" -> BACK_UP;
+            case "Damage Card" -> DAMAGE_CARD;
             default -> null;
         };
     }

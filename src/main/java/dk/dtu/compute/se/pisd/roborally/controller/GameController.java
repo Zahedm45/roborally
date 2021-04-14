@@ -253,9 +253,9 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (this.board.getPlayersInPit().contains(player)) {
-            return;
-        }
+//        if (this.board.getPlayersInPit().contains(player)) {
+//            return;
+//        }
 
         if (player != null && player.board == board && command != null) {
 
@@ -283,9 +283,10 @@ public class GameController {
                     this.move3(player);
                     break;
                 case BACK_UP:
-                    backUp(player);
+                    this.backUp(player);
                     break;
-
+                case DAMAGE_CARD:
+                    this.rebootPlayer(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -341,6 +342,11 @@ public class GameController {
         for (int i = 0; i < 3; i++) {
             this.moveForward(player);
         }
+
+    }
+
+    public void rebootPlayer(@NotNull Player player) {
+        this.board.getPlayersInPit().remove(player);
 
     }
 
