@@ -48,6 +48,7 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
+    private List<Player> playersInPit = new ArrayList<>();
 
     private Player current;
 
@@ -164,6 +165,17 @@ public class Board extends Subject {
         }
     }
 
+
+    public List<Player> getPlayersInPit() {
+        return playersInPit;
+    }
+
+    public void setPlayersInPit(@NotNull  Player player) {
+        if (!this.playersInPit.contains(player)) {
+            this.playersInPit.add(player);
+        }
+    }
+
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
             return players.indexOf(player);
@@ -232,6 +244,8 @@ public class Board extends Subject {
     public void setWinnerFound(boolean winnerFound) {
         this.winnerFound = winnerFound;
     }
+
+
 
 
 }

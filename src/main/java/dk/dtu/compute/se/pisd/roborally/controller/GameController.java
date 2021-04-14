@@ -253,7 +253,9 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-
+        if (this.board.getPlayersInPit().contains(player)) {
+            return;
+        }
 
         if (player != null && player.board == board && command != null) {
 
@@ -275,12 +277,10 @@ public class GameController {
                     this.fastForward(player);
                     break;
                 case U_TURN:
-                    this.turnRight(player);
-                    this.turnRight(player);
+                    this.uTurn(player);
                     break;
                 case MOVE_3:
-                    this.fastForward(player);
-                    this.moveForward(player);
+                    this.move3(player);
                     break;
                 case BACK_UP:
                     backUp(player);
@@ -331,8 +331,22 @@ public class GameController {
     }
 
 
+    public void uTurn(@NotNull Player player) {
+        for (int i = 0; i < 4; i++) {
+            turnRight(player);
+        }
+    }
 
-    public Heading swapHeading(Player player) {
+    public void move3(@NotNull Player player) {
+        for (int i = 0; i < 3; i++) {
+            this.moveForward(player);
+        }
+
+    }
+
+
+
+    public Heading swapHeading(@NotNull Player player) {
         Heading swappedHeading = null;
         switch (player.getHeading()) {
             case SOUTH:
@@ -448,7 +462,7 @@ public class GameController {
      * @author Zahed(s186517)
      */
 
-    protected void setWinner(Player player) {
+    protected void setWinner(@NotNull Player player) {
         board.setWinnerFound(true);
         appController.setGameOverDialog(player);
     }
