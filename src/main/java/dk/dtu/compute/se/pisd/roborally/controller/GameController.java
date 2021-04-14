@@ -253,9 +253,9 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-//        if (this.board.getPlayersInPit().contains(player)) {
-//            return;
-//        }
+        if (this.board.getPlayersInPit().contains(player)) {
+            return;
+        }
 
         if (player != null && player.board == board && command != null) {
 
@@ -311,13 +311,13 @@ public class GameController {
             ImpossibleMoveException {
         Player other = space.getPlayer();
         // if there is a wall
-        boolean isWall = player.getSpace().getWalls().contains(heading);
-
-        Heading swappedHeading = swapHeading(player);
-
-        if (space.getWalls().contains(swappedHeading) || isWall) {
-            return;
-        }
+//        boolean isWall = player.getSpace().getWalls().contains(heading);
+//
+//        Heading swappedHeading = swapHeading(player);
+//
+//        if (space.getWalls().contains(swappedHeading) || isWall) {
+//            return;
+//        }
 
 
         if (other != null) {
