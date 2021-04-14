@@ -15,20 +15,16 @@ public class PushPanel extends FieldAction {
 
         if (space.getPushPanel() != null &&
                 space.getPlayer() != null &&
-                exCounter == 2 || exCounter == 4 ) {
-            System.out.println(exCounter);
+                exCounter == 1 || exCounter == 3 ) {
+
             Heading heading = space.getPushPanel().heading;
             Space target = space.board.getNeighbour(space, heading);
 
-            switch (heading) {
-                case WEST -> {
-                    try {
-                        gameController.moveToSpace(space.getPlayer(), target, heading);
-                    } catch (ImpossibleMoveException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+            try {
+                gameController.moveToSpace(space.getPlayer(), target, heading);
+                return true;
+            } catch (ImpossibleMoveException e) {
+                e.printStackTrace();
             }
 
 
