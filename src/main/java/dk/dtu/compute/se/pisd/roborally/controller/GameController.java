@@ -310,7 +310,11 @@ public class GameController {
             ImpossibleMoveException {
         Player other = space.getPlayer();
         // if there is a wall
-        if (player.getSpace().getWalls().contains(heading)) {
+        boolean isWall = player.getSpace().getWalls().contains(heading);
+
+        Heading swappedHeading = swapHeading(player);
+
+        if (space.getWalls().contains(swappedHeading) || isWall) {
             return;
         }
 
@@ -327,28 +331,35 @@ public class GameController {
     }
 
 
+
+    public Heading swapHeading(Player player) {
+        Heading swappedHeading = null;
+        switch (player.getHeading()) {
+            case SOUTH:
+                swappedHeading = Heading.NORTH;
+                break;
+            case EAST:
+                swappedHeading = Heading.WEST;
+                break;
+            case NORTH:
+                swappedHeading = Heading.SOUTH;
+                break;
+            case WEST:
+                swappedHeading = Heading.EAST;
+                break;
+        }
+        return swappedHeading;
+    }
+
+
     /**
      * Moves backward without changing the facing direction.
      * @param player the player that has to move.
      * @author Zahed(s186517)
      */
     public void backUp(@NotNull Player player) {
-        Heading heading = null;
+        Heading heading = swapHeading(player);
 
-        switch (player.getHeading()) {
-            case SOUTH:
-                heading = Heading.NORTH;
-                break;
-            case EAST:
-                heading = Heading.WEST;
-                break;
-            case NORTH:
-                heading = Heading.SOUTH;
-                break;
-            case WEST:
-                heading = Heading.EAST;
-                break;
-        }
         Space target =
                 player.getSpace().board.getNeighbour(player.getSpace(), heading);
         try {
