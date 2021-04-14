@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 /**
  * ...
  *
@@ -254,13 +256,11 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-
-        System.out.println(this.board.getPlayersInPit());
-        if (this.board.getPlayersInPit().contains(player)) {
-            System.out.println("player-contains");
+        if (this.board.getPlayersInPit().contains(player) ) {
             if (command == Command.DAMAGE_CARD) {
                 this.rebootPlayer(player);
             } else return;
+
         }
 
         if (player != null && player.board == board && command != null) {
@@ -350,8 +350,7 @@ public class GameController {
     }
 
     public void rebootPlayer(@NotNull Player player) {
-        this.board.removePlayerInPit(player);
-
+        this.board.getPlayersInPit().remove(player);
     }
 
 

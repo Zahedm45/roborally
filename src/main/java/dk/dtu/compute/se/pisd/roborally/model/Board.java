@@ -48,8 +48,7 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
-    private List<Player> playersInPit = new ArrayList<Player>();
-
+    private List<Player> playersInPit;
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -72,6 +71,7 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        this.playersInPit = new ArrayList<>();
         this.stepMode = false;
     }
 
@@ -171,14 +171,11 @@ public class Board extends Subject {
     }
 
     public void setPlayersInPit(@NotNull  Player player) {
-        if (!this.playersInPit.contains(player)) {
+        //if (!this.playersInPit.contains(player)) {
             this.playersInPit.add(player);
-        }
+       // }
     }
 
-    public void removePlayerInPit(@NotNull Player player) {
-        playersInPit.remove(player);
-    }
 
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
