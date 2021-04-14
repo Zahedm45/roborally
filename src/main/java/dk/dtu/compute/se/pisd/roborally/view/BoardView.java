@@ -104,6 +104,7 @@ public class BoardView extends VBox implements ViewObserver {
         final public GameController gameController;
 
         public SpaceEventHandler(@NotNull GameController gameController) {
+
             this.gameController = gameController;
         }
 
