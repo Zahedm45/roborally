@@ -48,7 +48,7 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
-    private List<Player> playersInPit = new ArrayList<>();
+    private List<Player> playersInPit = new ArrayList<Player>();
 
     private Player current;
 
@@ -174,6 +174,10 @@ public class Board extends Subject {
         if (!this.playersInPit.contains(player)) {
             this.playersInPit.add(player);
         }
+    }
+
+    public void removePlayerInPit(@NotNull Player player) {
+        playersInPit.remove(player);
     }
 
     public int getPlayerNumber(@NotNull Player player) {

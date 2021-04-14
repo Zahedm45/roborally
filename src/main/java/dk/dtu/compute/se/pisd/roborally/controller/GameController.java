@@ -169,7 +169,8 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
-                    if (command.isInteractive()) {
+                    boolean isCurrentPlayerInPit = board.getPlayersInPit().contains(currentPlayer);
+                    if (command.isInteractive() && !isCurrentPlayerInPit) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
                         saveOrUpdateGame();
                         return;
@@ -253,8 +254,13 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
+
+        System.out.println(this.board.getPlayersInPit());
         if (this.board.getPlayersInPit().contains(player)) {
-            return;
+            System.out.println("player-contains");
+            if (command == Command.DAMAGE_CARD) {
+                this.rebootPlayer(player);
+            } else return;
         }
 
         if (player != null && player.board == board && command != null) {
@@ -285,8 +291,6 @@ public class GameController {
                 case BACK_UP:
                     this.backUp(player);
                     break;
-                case DAMAGE_CARD:
-                    this.rebootPlayer(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -346,7 +350,7 @@ public class GameController {
     }
 
     public void rebootPlayer(@NotNull Player player) {
-        this.board.getPlayersInPit().remove(player);
+        this.board.removePlayerInPit(player);
 
     }
 
