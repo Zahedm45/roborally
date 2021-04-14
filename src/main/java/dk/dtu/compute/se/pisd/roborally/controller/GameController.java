@@ -38,7 +38,7 @@ public class GameController {
 
     IRepository repository;
     private AppController appController;
-    int executionCounter;
+
 
 
     public GameController(@NotNull Board board, AppController appController) {
@@ -153,7 +153,7 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {
-        executionCounter = 0;
+
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
