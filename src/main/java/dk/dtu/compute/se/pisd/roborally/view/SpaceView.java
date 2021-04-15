@@ -52,7 +52,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static int SPACE_WIDTH = 75;  // 60; // 75;
 
     public final Space space;
-    //public final SpaceTemplate spaceMap;
 
 
     public SpaceView(@NotNull Space space) {
@@ -130,7 +129,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();
             }
-
+            updatePitBoundary();
             updatePlayer();
         }
     }
@@ -191,6 +190,53 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    public void updatePitBoundary() {
+        Player player = space.getPlayer();
+        if (space.getPit() != null && player != null) {
+
+            if (!player.hasDamageCard()) {
+
+                Pane pane = new Pane();
+                Rectangle rectangle =
+                        new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+                rectangle.setFill(Color.TRANSPARENT);
+                pane.getChildren().add(rectangle);
+
+                Line line =
+                        new Line(2, SPACE_HEIGHT-2, SPACE_WIDTH-2,
+                                SPACE_HEIGHT-2);
+                line.setStroke(Color.RED);
+                line.setStrokeWidth(5);
+                pane.getChildren().add(line);
+
+
+                Line line2 =
+                        new Line(2,  2, 2, SPACE_HEIGHT-2);
+                line2.setStroke(Color.RED);
+                line2.setStrokeWidth(5);
+                pane.getChildren().add(line2);
+
+
+                Line line3 =
+                        new Line(2, 2, SPACE_WIDTH-2,
+                                2);
+                line3.setStroke(Color.RED);
+                line3.setStrokeWidth(5);
+                pane.getChildren().add(line3);
+
+
+
+                Line line4 = new Line(SPACE_HEIGHT-2, 2, SPACE_WIDTH-2,
+                        SPACE_HEIGHT-2);
+                line4.setStroke(Color.RED);
+                line4.setStrokeWidth(5);
+                pane.getChildren().add(line4);
+                this.getChildren().add(pane);
+            }
+
+        }
+
+    }
 
     private void updateBelt(){
         ConveyorBelt belt = space.getConveyorBelt();

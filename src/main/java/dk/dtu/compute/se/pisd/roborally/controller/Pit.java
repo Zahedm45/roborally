@@ -11,7 +11,6 @@ public class Pit extends FieldAction {
 
         if (space.getPit() != null && space.getPlayer() != null &&
                 !playerInPit && !space.getPlayer().hasDamageCard()) {
-
             gameController.board.setPlayersInPit(space.getPlayer());
             return true;
         }

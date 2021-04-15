@@ -29,8 +29,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -134,6 +136,7 @@ public class PlayerView extends Tab implements ViewObserver {
             update(player.board);
         }
     }
+
 
     @Override
     public void updateView(Subject subject) {

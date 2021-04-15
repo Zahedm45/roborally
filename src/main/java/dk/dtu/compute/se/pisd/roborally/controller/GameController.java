@@ -155,11 +155,15 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {
-
+        Space beforeMove = board.getCurrentPlayer().getSpace();
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-        this.board.getCurrentPlayer().setDamageCard(false);
+
+        Space afterMove = board.getCurrentPlayer().getSpace();
+        if (beforeMove != afterMove) {
+            this.board.getCurrentPlayer().setDamageCard(false);
+        }
     }
 
     // XXX: V2
@@ -266,6 +270,7 @@ public class GameController {
             if (command == Command.DAMAGE_CARD) {
                 this.rebootPlayer(player);
                 player.setDamageCard(true);
+                this.uTurn(player);
 
             } else return;
 
