@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.IllegalFormatCodePointException;
+
 /**
  * ...
  *
@@ -351,14 +353,14 @@ public class GameController {
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
-//        if (player.getSpace().getWalls().contains(player.getHeading())) {
-//            return;
-//        }
 
-        Space target = board.getNeighbour(space, heading);
+        boolean hasWall = player.getSpace().getWalls().contains(heading);
+        if (hasWall) {
+            return;
+        }
         Player other = space.getPlayer();
         if (other != null){
-
+            Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 // XXX Note that there might be additional problems with
                 //     infinite recursion here (in some special cases)!
@@ -374,10 +376,9 @@ public class GameController {
             }
         }
 
-        if (target == null) {
+        if (space.getPlayer() == null) {
             player.setSpace(space);
         }
-
 
     }
 
