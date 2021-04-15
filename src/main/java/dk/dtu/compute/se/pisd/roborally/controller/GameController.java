@@ -233,6 +233,7 @@ public class GameController {
                 option != null) {
             board.setPhase(Phase.ACTIVATION);
             executeCommand(currentPlayer, option);
+           // currentPlayer.setDamageCard(false);
             int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
             if (nextPlayerNumber < board.getPlayersNumber()) {
                 board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
@@ -256,7 +257,8 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (this.board.getPlayersInPit().contains(player) ) {
+        if (this.board.getPlayersInPit().contains(player) && !player.hasDamageCard()) {
+
             if (command == Command.DAMAGE_CARD) {
                 this.rebootPlayer(player);
             } else return;
@@ -351,6 +353,7 @@ public class GameController {
 
     public void rebootPlayer(@NotNull Player player) {
         this.board.getPlayersInPit().remove(player);
+        //player.setDamageCard(true);
     }
 
 

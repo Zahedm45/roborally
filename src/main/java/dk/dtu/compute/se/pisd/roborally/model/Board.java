@@ -48,7 +48,7 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
-    private List<Player> playersInPit;
+    private List<Player> playersInPit = new ArrayList<Player>();
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -71,7 +71,7 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
-        this.playersInPit = new ArrayList<>();
+
         this.stepMode = false;
     }
 

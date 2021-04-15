@@ -49,6 +49,7 @@ public class Player extends Subject {
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
+    private boolean damageCard = false;
 
     private int lastCheckPoint;
 
@@ -144,5 +145,13 @@ public class Player extends Subject {
 
     public void addLastCheckPoint(int checkPointNum) {
             lastCheckPoint = checkPointNum;
+    }
+
+    public boolean hasDamageCard() {
+        return damageCard;
+    }
+
+    public void setDamageCard(@NotNull boolean damageCard) {
+        this.damageCard = damageCard;
     }
 }
