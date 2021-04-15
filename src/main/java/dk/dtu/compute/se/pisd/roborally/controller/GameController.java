@@ -26,8 +26,6 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-
 /**
  * ...
  *
@@ -270,7 +268,7 @@ public class GameController {
             if (command == Command.DAMAGE_CARD) {
                 this.rebootPlayer(player);
                 player.setDamageCard(true);
-                this.uTurn(player);
+                this.roundInCircle(player);
 
             } else return;
 
@@ -328,13 +326,12 @@ public class GameController {
             ImpossibleMoveException {
         Player other = space.getPlayer();
         // if there is a wall
-//        boolean isWall = player.getSpace().getWalls().contains(heading);
-//
-//        Heading swappedHeading = swapHeading(player);
-//
-//        if (space.getWalls().contains(swappedHeading) || isWall) {
-//            return;
-//        }
+        boolean isWall = player.getSpace().getWalls().contains(heading);
+        Heading swappedHeading = swapHeading(player);
+        boolean targetSpWall = space.getWalls().contains(swappedHeading);
+        if (isWall || targetSpWall) {
+            return;
+        }
 
 
         if (other != null) {
@@ -350,6 +347,12 @@ public class GameController {
 
 
     public void uTurn(@NotNull Player player) {
+        for (int i = 0; i < 2; i++) {
+            turnRight(player);
+        }
+    }
+
+    public void roundInCircle(@NotNull Player player) {
         for (int i = 0; i < 4; i++) {
             turnRight(player);
         }
