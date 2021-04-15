@@ -321,21 +321,42 @@ public class GameController {
      * @author Zahed(s186517)
      */
 
+//    public void moveToSpace(@NotNull Player player,
+//                            @NotNull Space space, @NotNull Heading heading) throws
+//            ImpossibleMoveException {
+//        // if there is a wall
+//        System.out.println(player.getSpace().getWalls());
+//        boolean isWall = player.getSpace().getWalls().contains(heading);
+//        System.out.println(isWall);
+////        Heading swappedHeading = swapHeading(player);
+////        boolean targetSpWall = space.getWalls().contains(swappedHeading);
+//        if (isWall) {
+//            System.out.println("return");
+//            return;
+//        }
+//
+//        Player other = space.getPlayer();
+//        if (other != null) {
+//            Space target = board.getNeighbour(space, heading);
+//            if (target != null) {
+//                moveToSpace(other, target, heading);
+//            } else {
+//                throw new ImpossibleMoveException(player, space, heading);
+//            }
+//        }
+//        player.setSpace(space);
+//    }
+
     public void moveToSpace(@NotNull Player player,
                             @NotNull Space space, @NotNull Heading heading) throws
             ImpossibleMoveException {
+        Player other = space.getPlayer();
         // if there is a wall
-        System.out.println(player.getSpace().getWalls());
-        boolean isWall = player.getSpace().getWalls().contains(heading);
-        System.out.println(isWall);
-//        Heading swappedHeading = swapHeading(player);
-//        boolean targetSpWall = space.getWalls().contains(swappedHeading);
-        if (isWall) {
-            System.out.println("return");
+        if (player.getSpace().getWalls().contains(heading)) {
             return;
         }
 
-        Player other = space.getPlayer();
+
         if (other != null) {
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
@@ -345,6 +366,7 @@ public class GameController {
             }
         }
         player.setSpace(space);
+        //space.runActions(this);
     }
 
 
@@ -413,19 +435,37 @@ public class GameController {
     }
 
 
-    // TODO Assignment V2
+//    // TODO Assignment V2
+//    public void moveForward(@NotNull Player player) {
+//        Space current = player.getSpace();
+//        Heading heading = player.getHeading();
+//
+//
+//        if (current != null && player.board == current.board) {
+//            Space target = board.getNeighbour(current, player.getHeading());
+//            if (target != null) {
+//                try {
+//                    moveToSpace(player, target, heading);
+//
+//                } catch (ImpossibleMoveException e) {// we don't do anything here  for now;// we just catch theexception so that// we do no pass it on to the caller// (which would be very bad style).}   }   }   }
+//                }
+//            }
+//        }
+//    }
+
     public void moveForward(@NotNull Player player) {
-        Space current = player.getSpace();
-        Heading heading = player.getHeading();
+        if (player.board == board) {
+            Space space = player.getSpace();
+            Heading heading = player.getHeading();
 
-
-        if (current != null && player.board == current.board) {
-            Space target = board.getNeighbour(current, player.getHeading());
+            Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 try {
                     moveToSpace(player, target, heading);
-
-                } catch (ImpossibleMoveException e) {// we don't do anything here  for now;// we just catch theexception so that// we do no pass it on to the caller// (which would be very bad style).}   }   }   }
+                } catch (ImpossibleMoveException e) {
+                    // we don't do anything here  for now; we just catch the
+                    // exception so that we do no pass it on to the caller
+                    // (which would be very bad style).
                 }
             }
         }
