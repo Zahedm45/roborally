@@ -353,7 +353,21 @@ public class GameController {
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
-        Heading swappedHeading = swapHeading(player);
+
+
+        if (space.getPushPanel() != null) {
+            Heading targetSpPushPanel = space.getPushPanel().getHeading();
+            Heading swappedHeading = swapHeading(targetSpPushPanel);
+            if (targetSpPushPanel.equals(heading) || swappedHeading.equals(heading)) {
+                return;
+            }
+            //Heading swappedTargetPsPp = swapHeading(targetSpPushPanel);
+
+        }
+
+
+
+        Heading swappedHeading = swapHeading(player.getHeading());
         boolean targetSpHasWall = space.getWalls().contains(swappedHeading);
         boolean hasWall = player.getSpace().getWalls().contains(heading);
 
@@ -411,9 +425,9 @@ public class GameController {
 
 
 
-    public Heading swapHeading(@NotNull Player player) {
+    public Heading swapHeading(@NotNull Heading heading) {
         Heading swappedHeading = null;
-        switch (player.getHeading()) {
+        switch (heading) {
             case SOUTH:
                 swappedHeading = Heading.NORTH;
                 break;
@@ -437,7 +451,7 @@ public class GameController {
      * @author Zahed(s186517)
      */
     public void backUp(@NotNull Player player) {
-        Heading heading = swapHeading(player);
+        Heading heading = swapHeading(player.getHeading());
 
         Space target =
                 player.getSpace().board.getNeighbour(player.getSpace(), heading);
