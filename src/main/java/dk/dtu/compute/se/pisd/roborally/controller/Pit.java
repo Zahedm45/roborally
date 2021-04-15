@@ -8,8 +8,9 @@ public class Pit extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
         boolean playerInPit = space.board.getPlayersInPit().contains(space.getPlayer());
-
-        if (space.getPit() != null && space.getPlayer() != null && !playerInPit) {
+        //System.out.println(space.getPlayer().hasDamageCard());
+        if (space.getPit() != null && space.getPlayer() != null && !playerInPit && !space.getPlayer().hasDamageCard()) {
+            //System.out.println("pit");
             gameController.board.setPlayersInPit(space.getPlayer());
             return true;
         }

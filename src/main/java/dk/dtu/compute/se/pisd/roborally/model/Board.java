@@ -171,9 +171,9 @@ public class Board extends Subject {
     }
 
     public void setPlayersInPit(@NotNull  Player player) {
-        //if (!this.playersInPit.contains(player)) {
+        if (!this.playersInPit.contains(player)) {
             this.playersInPit.add(player);
-       // }
+        }
     }
 
 

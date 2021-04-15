@@ -159,6 +159,7 @@ public class GameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        this.board.getCurrentPlayer().setDamageCard(false);
     }
 
     // XXX: V2
@@ -206,6 +207,7 @@ public class GameController {
                     }
                 }
                 saveOrUpdateGame();
+
             } else {
                 // this should not happen
                 assert false;
@@ -233,11 +235,13 @@ public class GameController {
                 option != null) {
             board.setPhase(Phase.ACTIVATION);
             executeCommand(currentPlayer, option);
-           // currentPlayer.setDamageCard(false);
+
+
             int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
             if (nextPlayerNumber < board.getPlayersNumber()) {
                 board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
             } else {
+
                 int step = board.getStep() + 1;
                 if (step < Player.NO_REGISTERS) {
                     makeProgramFieldsVisible(step);
@@ -257,10 +261,12 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (this.board.getPlayersInPit().contains(player) && !player.hasDamageCard()) {
+        if (this.board.getPlayersInPit().contains(player)) {
 
             if (command == Command.DAMAGE_CARD) {
                 this.rebootPlayer(player);
+                player.setDamageCard(true);
+
             } else return;
 
         }
@@ -353,7 +359,6 @@ public class GameController {
 
     public void rebootPlayer(@NotNull Player player) {
         this.board.getPlayersInPit().remove(player);
-        //player.setDamageCard(true);
     }
 
 
