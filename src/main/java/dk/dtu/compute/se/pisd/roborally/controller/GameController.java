@@ -271,6 +271,7 @@ public class GameController {
                 this.rebootPlayer(player);
                 player.setDamageCard(true);
                 this.roundInCircle(player);
+                player.getSpace().getPit().player = null;
 
             } else return;
 
@@ -363,6 +364,12 @@ public class GameController {
             }
             //Heading swappedTargetPsPp = swapHeading(targetSpPushPanel);
 
+        }
+
+        if (space.getPit() != null) {
+            if (space.getPit().player != null) {
+                return;
+            }
         }
 
 
