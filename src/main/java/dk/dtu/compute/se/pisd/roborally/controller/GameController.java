@@ -353,11 +353,14 @@ public class GameController {
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
-
+        Heading swappedHeading = swapHeading(player);
+        boolean targetSpHasWall = space.getWalls().contains(swappedHeading);
         boolean hasWall = player.getSpace().getWalls().contains(heading);
-        if (hasWall) {
+
+        if ( hasWall || targetSpHasWall ) {
             return;
         }
+
         Player other = space.getPlayer();
         if (other != null){
             Space target = board.getNeighbour(space, heading);
