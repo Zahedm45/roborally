@@ -24,8 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -52,6 +50,9 @@ public class Player extends Subject {
     private boolean damageCard = false;
 
     private int lastCheckPoint;
+    private boolean destroyed = false;
+    private boolean energyBank = false;
+    private boolean survivingMode = false;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -153,5 +154,29 @@ public class Player extends Subject {
 
     public void setDamageCard(@NotNull boolean damageCard) {
         this.damageCard = damageCard;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(@NotNull boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
+    public boolean hasEnergyBank() {
+        return energyBank;
+    }
+
+    public void setEnergyBank(@NotNull boolean energyBank) {
+        this.energyBank = energyBank;
+    }
+
+    public boolean isSurvivingMode() {
+        return survivingMode;
+    }
+
+    public void setSurvivingMode(@NotNull boolean survivingMode) {
+        this.survivingMode = survivingMode;
     }
 }

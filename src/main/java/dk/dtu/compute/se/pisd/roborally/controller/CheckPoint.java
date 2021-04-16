@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 public class CheckPoint extends FieldAction {
@@ -11,18 +12,22 @@ public class CheckPoint extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
 
+        Player player = space.getPlayer();
 
-        if (space.getCheckPoint() != null && space.getPlayer() != null) {
-            int lastCheckPoint = space.getPlayer().getLastCheckPoint() +1;
+        if (space.getCheckPoint() != null && player != null) {
+            int lastCheckPoint = player.getLastCheckPoint() +1;
 
             if (lastCheckPoint == space.getCheckPoint().getNumber()) {
-                space.getPlayer().addLastCheckPoint(this.number);
+                if (!player.isSurvivingMode()) {
+                    player.addLastCheckPoint(this.number);
+                }
+
             }
 
 
             int i = space.board.getCheckPointNumbers().size();
-            if (space.getPlayer().getLastCheckPoint() == i) {
-                gameController.setWinner(space.getPlayer());
+            if (player.getLastCheckPoint() == i) {
+                gameController.setWinner(player);
             }
 
             return true;
