@@ -8,15 +8,9 @@ public class EnergySpace extends FieldAction {
     public boolean doAction(GameController gameController, Space space) {
 
         Player player = space.getPlayer();
-        if (player != null && space.getEnergySpace() != null) {
+        if (player != null && space.getEnergySpace() != null && !player.hasEnergyBank()) {
 
-//            if (player.isSurvivingMode()) {
-//                player.setSurvivingMode(false);
-//
-//
-//            } else {
-//                player.setSubEnergyBank(true);
-//            }
+            player.setEnergyBank(true);
 
         }
 

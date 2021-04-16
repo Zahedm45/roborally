@@ -167,15 +167,13 @@ public class GameController {
             crtPlayer.setDamageCard(false);
         }
 
-        if (crtPlayer.isSubSurvivingMode()) {
-            crtPlayer.setSurvivingMode(true);
-            crtPlayer.setSubSurvivingMode(false);
-        }
-
-//        if (this.board.getCurrentPlayer().isSubEnergyBank()) {
-//            this.board.getCurrentPlayer().setEnergyBank(true);
-//
+//        if (crtPlayer.isSubSurvivingMode()) {
+//            crtPlayer.setSurvivingMode(true);
+//            crtPlayer.setSubSurvivingMode(false);
 //        }
+//
+
+
     }
 
     // XXX: V2
@@ -211,6 +209,8 @@ public class GameController {
                             }
 
                         }
+
+
                     }
 
                     step++;
