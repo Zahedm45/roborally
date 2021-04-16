@@ -323,34 +323,6 @@ public class GameController {
      * to move other then players, for instance walls.
      * @author Zahed(s186517)
      */
-//
-//    public void moveToSpace(@NotNull Player player,
-//                            @NotNull Space space, @NotNull Heading heading) throws
-//            ImpossibleMoveException {
-//        // if there is a wall
-//        //System.out.println(player.getSpace().getWalls());
-//        boolean isWall = player.getSpace().getWalls().contains(heading);
-//        //System.out.println(isWall);
-//        Heading swappedHeading = swapHeading(player);
-//        boolean targetSpWall = space.getWalls().contains(swappedHeading);
-//        if (isWall) {
-//            System.out.println("return");
-//            return;
-//        }
-//
-//        Player other = space.getPlayer();
-//        if (other != null) {
-//            Space target = board.getNeighbour(space, heading);
-//            if (target != null) {
-//                moveToSpace(other, target, heading);
-//            } else {
-//                throw new ImpossibleMoveException(player, space, heading);
-//            }
-//        }
-//        if (other == null) {
-//           player.setSpace(space);
-//        }
-//    }
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -358,8 +330,8 @@ public class GameController {
 
         if (space.getPushPanel() != null) {
             Heading targetSpPushPanel = space.getPushPanel().getHeading();
-            Heading swappedHeading = swapHeading(targetSpPushPanel);
-            if (targetSpPushPanel.equals(heading) || swappedHeading.equals(heading)) {
+            Heading swappedPushPHeading = swapHeading(targetSpPushPanel);
+            if (targetSpPushPanel.equals(heading) || swappedPushPHeading.equals(heading)) {
                 return;
             }
             //Heading swappedTargetPsPp = swapHeading(targetSpPushPanel);
@@ -372,9 +344,28 @@ public class GameController {
             }
         }
 
+        //  if the target space has a board-laser
+        if (space.getBoardLaser() != null) {
+            Heading boardLaserHeading = space.getBoardLaser().heading;
+
+            if (heading.equals(boardLaserHeading)) {
+                return;
+            }
+        }
+
+        // if current space has a board-laser
+        BoardLaser boardLaser = player.getSpace().getBoardLaser();
+        if (boardLaser != null) {
+            Heading swdLaserHeading = swapHeading(boardLaser.getHeading());
+
+            if ( swdLaserHeading.equals(heading) ) {
+                return;
+            }
+        }
 
 
         Heading swappedHeading = swapHeading(heading);
+
         boolean targetSpaceWall = space.getWalls().contains(swappedHeading);
         boolean hasWall = player.getSpace().getWalls().contains(heading);
 
@@ -405,8 +396,10 @@ public class GameController {
         }
 
 
-
     }
+
+
+
 
 
     public void uTurn(@NotNull Player player) {
