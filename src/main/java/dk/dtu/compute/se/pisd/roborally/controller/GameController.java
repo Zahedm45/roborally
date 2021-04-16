@@ -374,11 +374,11 @@ public class GameController {
 
 
 
-        Heading swappedHeading = swapHeading(player.getHeading());
-        boolean targetSpHasWall = space.getWalls().contains(swappedHeading);
+        Heading swappedHeading = swapHeading(heading);
+        boolean targetSpaceWall = space.getWalls().contains(swappedHeading);
         boolean hasWall = player.getSpace().getWalls().contains(heading);
 
-        if ( hasWall || targetSpHasWall ) {
+        if ( hasWall || targetSpaceWall ) {
             return;
         }
 
@@ -403,6 +403,8 @@ public class GameController {
         if (space.getPlayer() == null) {
             player.setSpace(space);
         }
+
+
 
     }
 
