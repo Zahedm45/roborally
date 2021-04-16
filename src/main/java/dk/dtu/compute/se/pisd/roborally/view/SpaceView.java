@@ -129,6 +129,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();
             }
+            updateBoardLasers();
             updatePitBoundary();
             updatePlayer();
         }
@@ -264,11 +265,27 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void updatePushPanels() {
         Heading heading = space.getPushPanel().getHeading();
+        addImage(heading, "image/pushP.png");
+
+    }
+
+
+
+
+
+    private void updateBoardLasers() {
+        if (space.getBoardLaser() != null) {
+            Heading heading = space.getBoardLaser().getHeading();
+            addImage(heading, "image/boardLasers/b1.png");
+        }
+    }
+
+    private void addImage(@NotNull Heading heading, String imageName) {
         switch (heading) {
-            case NORTH -> addImage("image/pushP.png", 180);
-            case SOUTH -> addImage("image/pushP.png", 0);
-            case WEST -> addImage("image/pushP.png", 90);
-            case EAST -> addImage("image/pushP.png", 270);
+            case NORTH -> addImage(imageName, 180);
+            case SOUTH -> addImage(imageName, 0);
+            case WEST -> addImage(imageName, 90);
+            case EAST -> addImage(imageName, 270);
         }
     }
 
