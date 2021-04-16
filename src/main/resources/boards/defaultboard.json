@@ -375,6 +375,56 @@
 
 
 
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Gear",
+          "INSTANCE": {
+            "degree": 270
+          }
+        }
+      ],
+      "x": 0,
+      "y": 0
+    },
+
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Gear",
+          "INSTANCE": {
+            "degree": 270
+          }
+        }
+      ],
+      "x": 0,
+      "y": 7
+    },
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Gear",
+          "INSTANCE": {
+            "degree": 270
+          }
+        }
+      ],
+      "x": 8,
+      "y": 7
+    },
+
+
+
 
     {
       "walls": [
@@ -537,6 +587,40 @@
       ],
       "x": 3,
       "y": 2
+    },
+
+
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.EnergySpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 1,
+      "y": 7
+    },
+
+
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.EnergySpace",
+          "INSTANCE": {
+          }
+        }
+      ],
+      "x": 7,
+      "y": 7
     }
   ]
 }

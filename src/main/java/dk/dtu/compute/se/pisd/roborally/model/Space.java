@@ -52,6 +52,7 @@ public class Space extends Subject {
     private Pit pit = null;
     private PushPanel pushPanel = null;
     private BoardLaser boardLaser = null;
+    private EnergySpace energySpace = null;
 
 
     public Space(Board board, int x, int y) {
@@ -117,6 +118,10 @@ public class Space extends Subject {
 
             if (action instanceof BoardLaser && boardLaser == null) {
                 boardLaser = (BoardLaser) action;
+            }
+
+            if (action instanceof EnergySpace && energySpace == null) {
+                energySpace = (EnergySpace) action;
             }
         }
 

@@ -124,6 +124,10 @@ public class SpaceView extends StackPane implements ViewObserver {
                     updatePushPanels();
                 }
 
+                if ( action instanceof EnergySpace ) {
+                    addImage("image/energySpace/nSpace.png");
+                }
+
             }
             updateBelt();
             if (!this.space.getWalls().isEmpty()) {
