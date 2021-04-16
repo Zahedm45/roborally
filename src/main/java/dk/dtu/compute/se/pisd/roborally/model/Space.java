@@ -173,4 +173,12 @@ public class Space extends Subject {
     public BoardLaser getBoardLaser() {
         return boardLaser;
     }
+
+    public EnergySpace getEnergySpace() {
+        return energySpace;
+    }
+
+    public void setEnergySpace(EnergySpace energySpace) {
+        this.energySpace = energySpace;
+    }
 }

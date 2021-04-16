@@ -160,10 +160,22 @@ public class GameController {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
 
-        Space afterMove = board.getCurrentPlayer().getSpace();
+        Player crtPlayer = board.getCurrentPlayer();
+
+        Space afterMove = crtPlayer.getSpace();
         if (beforeMove != afterMove) {
-            this.board.getCurrentPlayer().setDamageCard(false);
+            crtPlayer.setDamageCard(false);
         }
+
+        if (crtPlayer.isSubSurvivingMode()) {
+            crtPlayer.setSurvivingMode(true);
+            crtPlayer.setSubSurvivingMode(false);
+        }
+
+//        if (this.board.getCurrentPlayer().isSubEnergyBank()) {
+//            this.board.getCurrentPlayer().setEnergyBank(true);
+//
+//        }
     }
 
     // XXX: V2

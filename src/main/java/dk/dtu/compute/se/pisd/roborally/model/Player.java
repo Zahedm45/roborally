@@ -50,9 +50,13 @@ public class Player extends Subject {
     private boolean damageCard = false;
 
     private int lastCheckPoint;
-    private boolean destroyed = false;
+
+
     private boolean energyBank = false;
     private boolean survivingMode = false;
+
+    private boolean subSurvivingMode = false;
+    private boolean subEnergyBank = false;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -156,13 +160,7 @@ public class Player extends Subject {
         this.damageCard = damageCard;
     }
 
-    public boolean isDestroyed() {
-        return destroyed;
-    }
 
-    public void setDestroyed(@NotNull boolean destroyed) {
-        this.destroyed = destroyed;
-    }
 
     public boolean hasEnergyBank() {
         return energyBank;
@@ -178,5 +176,23 @@ public class Player extends Subject {
 
     public void setSurvivingMode(@NotNull boolean survivingMode) {
         this.survivingMode = survivingMode;
+    }
+
+
+    public boolean isSubSurvivingMode() {
+        return subSurvivingMode;
+    }
+
+    public void setSubSurvivingMode(@NotNull boolean subSurvivingMode) {
+        this.subSurvivingMode = subSurvivingMode;
+    }
+
+
+    public boolean isSubEnergyBank() {
+        return subEnergyBank;
+    }
+
+    public void setSubEnergyBank(@NotNull boolean subEnergyBank) {
+        this.subEnergyBank = subEnergyBank;
     }
 }
