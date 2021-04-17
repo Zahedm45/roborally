@@ -167,6 +167,7 @@ public class GameController {
             crtPlayer.setDamageCard(false);
         }
 
+
 //        if (crtPlayer.isSubSurvivingMode()) {
 //            crtPlayer.setSurvivingMode(true);
 //            crtPlayer.setSubSurvivingMode(false);
@@ -207,11 +208,17 @@ public class GameController {
                                 board.setPhase(Phase.INITIALISATION);
                                 break;
                             }
-
                         }
+
+//                        if (currentPlayer.isSurvivingMode()) {
+//                            currentPlayer.setSurvivingMode(false);
+//
+//                        }
 
 
                     }
+
+
 
                     step++;
                     if (step < Player.NO_REGISTERS) {
