@@ -52,7 +52,7 @@ public class Player extends Subject {
     private int lastCheckPoint;
 
     private boolean energyBank = false;
-    private boolean survivingMode = false;
+    private boolean survivalMode = false;
 
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -167,12 +167,12 @@ public class Player extends Subject {
         this.energyBank = energyBank;
     }
 
-    public boolean isSurvivingMode() {
-        return survivingMode;
+    public boolean isSurvivalMode() {
+        return survivalMode;
     }
 
-    public void setSurvivingMode(@NotNull boolean survivingMode) {
-        this.survivingMode = survivingMode;
+    public void setSurvivalMode(@NotNull boolean survivalMode) {
+        this.survivalMode = survivalMode;
     }
 
 }

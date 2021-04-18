@@ -93,7 +93,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
-            if (this.board.getCurrentPlayer().isSurvivingMode()) {
+            if (this.board.getCurrentPlayer().isSurvivalMode()) {
                 statusLabel.setTextFill(Paint.valueOf("red"));
 
             }else  statusLabel.setTextFill(Paint.valueOf("white"));

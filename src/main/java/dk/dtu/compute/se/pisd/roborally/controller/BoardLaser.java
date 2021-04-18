@@ -28,7 +28,7 @@ public class BoardLaser extends FieldAction {
             if ( player.hasEnergyBank() ) {
                 player.setEnergyBank(false);
 
-            } else player.setSurvivingMode(true);
+            } else player.setSurvivalMode(true);
             players.add(player);
             return true;
         }

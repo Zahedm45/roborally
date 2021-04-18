@@ -20,8 +20,8 @@ public class EnergySpace extends FieldAction {
                 return false;
             }
 
-            if (player.isSurvivingMode()) {
-                player.setSurvivingMode(false);
+            if (player.isSurvivalMode()) {
+                player.setSurvivalMode(false);
 
             } else {
                 player.setEnergyBank(true);

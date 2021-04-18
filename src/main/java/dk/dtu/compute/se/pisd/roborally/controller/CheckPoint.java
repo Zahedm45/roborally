@@ -18,7 +18,7 @@ public class CheckPoint extends FieldAction {
             int lastCheckPoint = player.getLastCheckPoint() +1;
 
             if (lastCheckPoint == space.getCheckPoint().getNumber()) {
-                if (!player.isSurvivingMode()) {
+                if (!player.isSurvivalMode()) {
                     player.addLastCheckPoint(this.number);
                 }
 
