@@ -71,6 +71,10 @@ class Repository implements IRepository {
 	private static final String GAME_OVER = "done";
 
 	private static final String PLAYER_CHECKPOINT = "lastCheckpoint";
+	private static final String PLAYER_IN_PIT = "inPit";
+	private static final String PLAYER_ENERGY_BANK = "energyBank";
+	private static final String SURVIVAL_MODE = "survivalMode";
+
 
 
 	//private List<Integer> finishedGames = new ArrayList<>();
@@ -337,6 +341,12 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
 			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
 			rs.updateInt(PLAYER_CHECKPOINT, game.getPlayer(i).getLastCheckPoint());
+			//rs.updateString(PLAYER_IN_PIT ,game.getPlayer(i).);
+			String str = String.valueOf(game.getPlayer(i).hasEnergyBank());
+			rs.updateString(PLAYER_ENERGY_BANK, str);
+
+			String str2 =  String.valueOf(game.getPlayer(i).isSurvivalMode());
+			rs.updateString(SURVIVAL_MODE, str2);
 
 			rs.insertRow();
 		}
@@ -361,6 +371,8 @@ class Repository implements IRepository {
 			// TODO take care of case when number of players changes, etc
 
 			rs.updateInt(PLAYER_CHECKPOINT, player.getLastCheckPoint());
+			rs.updateString(PLAYER_ENERGY_BANK, String.valueOf(player.hasEnergyBank()));
+			rs.updateString(SURVIVAL_MODE, String.valueOf(player.isSurvivalMode()));
 			rs.updateRow();
 		}
 		rs.close();
@@ -511,6 +523,11 @@ class Repository implements IRepository {
 				int heading = rs.getInt(PLAYER_HEADING);
 				player.setHeading(Heading.values()[heading]);
 				player.addLastCheckPoint(rs.getInt(PLAYER_CHECKPOINT));
+
+				boolean energyBank = Boolean.parseBoolean(rs.getString(PLAYER_ENERGY_BANK));
+				boolean survivalMode = Boolean.parseBoolean(rs.getString(SURVIVAL_MODE));
+				player.setEnergyBank(energyBank);
+				player.setSurvivalMode(survivalMode);
 
 				// TODO  should also load players program and hand here
 			} else {

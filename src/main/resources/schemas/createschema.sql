@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS Player (
   positionY int,
   heading tinyint,
   lastCheckpoint tinyint NULL,
+  energyBank varchar(5),
+  survivalMode varchar(5),
 
 
   PRIMARY KEY (gameID, playerID),
