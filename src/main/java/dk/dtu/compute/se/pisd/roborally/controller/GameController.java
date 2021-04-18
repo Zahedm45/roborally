@@ -143,12 +143,14 @@ public class GameController {
         board.setStepMode(false);
         continuePrograms();
 
+
     }
 
     // XXX: V2
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
+
 
     }
 
@@ -168,11 +170,11 @@ public class GameController {
         }
 
 
-//        if (crtPlayer.isSubSurvivingMode()) {
-//            crtPlayer.setSurvivingMode(true);
-//            crtPlayer.setSubSurvivingMode(false);
-//        }
-//
+        BoardLaser boardLaser = crtPlayer.getSpace().getBoardLaser();
+        if (boardLaser != null) {
+            boardLaser.getPlayers().remove(crtPlayer);
+        }
+
 
 
     }
@@ -209,13 +211,6 @@ public class GameController {
                                 break;
                             }
                         }
-
-//                        if (currentPlayer.isSurvivingMode()) {
-//                            currentPlayer.setSurvivingMode(false);
-//
-//                        }
-
-
                     }
 
 
