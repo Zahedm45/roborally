@@ -36,6 +36,7 @@ public class EnergySpace extends FieldAction {
     }
 
 
-
-
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.*;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -36,6 +37,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.net.URISyntaxException;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
@@ -126,6 +128,14 @@ public class SpaceView extends StackPane implements ViewObserver {
 
                 if ( action instanceof EnergySpace ) {
                     addImage("image/energySpace/nSpace.png");
+
+
+                    Label label = new Label("<no status>");
+
+                    label.setText(playersOnEnergyBank());
+                    label.setTextFill(Color.RED);
+                    this.getChildren().add(label);
+
                 }
 
             }
@@ -137,6 +147,19 @@ public class SpaceView extends StackPane implements ViewObserver {
             updatePitBoundary();
             updatePlayer();
         }
+    }
+
+
+    private String playersOnEnergyBank() {
+        String playerList = "";
+        for ( Player players: space.getEnergySpace().getPlayers()) {
+
+            String str = players.getName().replaceAll("[^0-9]","");
+
+            playerList = playerList  + str +", ";
+
+        }
+        return playerList;
     }
 
 
