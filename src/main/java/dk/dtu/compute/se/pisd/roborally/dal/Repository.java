@@ -348,6 +348,11 @@ class Repository implements IRepository {
 			String str2 =  String.valueOf(game.getPlayer(i).isSurvivalMode());
 			rs.updateString(SURVIVAL_MODE, str2);
 
+
+			if (game.getPlayersInPit().contains(player)) {
+				rs.updateString(PLAYER_IN_PIT, "true");
+			}
+
 			rs.insertRow();
 		}
 		rs.close();
@@ -373,6 +378,11 @@ class Repository implements IRepository {
 			rs.updateInt(PLAYER_CHECKPOINT, player.getLastCheckPoint());
 			rs.updateString(PLAYER_ENERGY_BANK, String.valueOf(player.hasEnergyBank()));
 			rs.updateString(SURVIVAL_MODE, String.valueOf(player.isSurvivalMode()));
+
+			if (game.getPlayersInPit().contains(player)) {
+				rs.updateString(PLAYER_IN_PIT, "true");
+			}
+
 			rs.updateRow();
 		}
 		rs.close();
@@ -528,6 +538,11 @@ class Repository implements IRepository {
 				boolean survivalMode = Boolean.parseBoolean(rs.getString(SURVIVAL_MODE));
 				player.setEnergyBank(energyBank);
 				player.setSurvivalMode(survivalMode);
+
+				boolean inPit = Boolean.parseBoolean(rs.getString(PLAYER_IN_PIT));
+				if (inPit) {
+					game.getPlayersInPit().add(player);
+				}
 
 				// TODO  should also load players program and hand here
 			} else {
