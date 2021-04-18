@@ -129,9 +129,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                 if ( action instanceof EnergySpace ) {
                     addImage("image/energySpace/nSpace.png");
 
-
                     Label label = new Label("<no status>");
-
                     label.setText(playersOnEnergyBank());
                     label.setTextFill(Color.RED);
                     this.getChildren().add(label);
@@ -155,7 +153,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         for ( Player players: space.getEnergySpace().getPlayers()) {
 
             String str = players.getName().replaceAll("[^0-9]","");
-
             playerList = playerList  + str +", ";
 
         }
