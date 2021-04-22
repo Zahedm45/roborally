@@ -97,10 +97,10 @@ public class RoboRallyMenuBar extends MenuBar {
 //    private int game() {
 //        gameToDownLoad.add(1);
 //        gameToDownLoad.add(2);
-////        controlMenu = new Menu("Maya");
+////        controlMenu = new Menu("");
 ////        this.getMenus().add(controlMenu);
 //        MenuItem ne = new MenuItem("SELECT");
-//        ne.setText("dlældæs");
+//        ne.setText();
 //        controlMenu.getItems().add(ne);
 //
 //        System.out.println("helr");
