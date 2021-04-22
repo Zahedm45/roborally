@@ -25,6 +25,7 @@ public class EnergySpace extends FieldAction {
 
             } else {
                 player.setEnergyBank(true);
+
             }
 
             players.add(player);

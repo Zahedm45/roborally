@@ -523,7 +523,7 @@
         }
       ],
       "x": 5,
-      "y": 3
+      "y": 2
     },
 
 
@@ -588,6 +588,46 @@
       "x": 3,
       "y": 2
     },
+
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.BoardLaser",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 4
+    },
+
+
+
+    {
+      "walls": [
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.BoardLaser",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 5
+    },
+
+
+
+
+
+
 
 
 
