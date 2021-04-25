@@ -11,7 +11,7 @@ Reach all the checkPoints in numerical order (first 1, then 2, then...)
 Whoever reaches all the checkPoints before anyone else, will be the winner.
 
 
-## Features (without database connection) :
+## Features (without database connection) 
 1. You will able to save a board on your computer and then you can edit the board as you wish and load the board from your computer
 
 2. Walls -  robots/players can't go through a wall.
@@ -34,7 +34,7 @@ Checkpoints will not be counted, when a robot in survival mode. If a robot has a
 10. Once a game is done you will be asked if you want to play another game, exit or go to the game lobby.
 
 
-## Extended features with a database connection.
+## Extended features with database connection.
 
 1. Games will be saved automatically in the database right after a user interaction occurred. 
 So, that the game is repayable if the game stopped for any reasons, and everything will be as it was before it stopped.
@@ -57,7 +57,7 @@ So that the last game comes first.
 
 
 ## Database connection:
-This program requires a database in order to save a game.
+This program requires a database in order to save and resume a game.
 
 First thing you need to do is create a database on your own computer, and to create a database you have to install MariaDB. Down below links provided
 
@@ -70,19 +70,19 @@ Once you installed the software, you can now create a database either through MS
 
 Flow the instructions if you do it in command line.
 
-Start mysql
+#####Start mysql
 
 Mac: `mysql–u root -p
 
 Windows: `MariaDB->MySQL Client`
 
-Enter you root password.
+Enter your root password.
 
-Create a database`
+#####Create a database
 
 MariaDB[(none)]> `create database nameOfDatabase;`
 
-Now you go to class `Connection roborally->dal->Connection and write your database, username and password. 
+Now you go to class `Connection` roborally->dal->Connection and write your database name, username and password. 
 
 Done!
 
