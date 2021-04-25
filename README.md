@@ -3,6 +3,8 @@
 
 ## How to play 
 
+Change Java version to Java 15 in the project structure.
+
 Start main method from `StartRoboRally` class. 
 
 Reach all the checkPoints in numerical order (first 1, then 2, then...) 
