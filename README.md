@@ -1,46 +1,47 @@
-#ROBORALLY GAME
+#ROBORALLY 
 
+This is Robarally game 
 
-### How to play 
+## How to play 
 
 Start main method from `StartRoboRally` class. 
 
-Achieve all the checkPoints in order (first 1, then 2, then...) 
+Reach all the checkPoints in numerical order (first 1, then 2, then...) 
 
-Who ever achieves all the checkPoints before anyone else, will be the winner.
+Whoever reaches all the checkPoints before anyone else, will be the winner.
 
 
-### Features (database connection is not needed) :
-1. You will able to save a board to your computer.
+## Features (without database connection) :
+1. You will able to save a board on your computer and then you can edit the board as you wish and load the board from your computer
 
-2. load a board from your computer
+2. Walls -  robots/players can't go through a wall.
 
-3. choose number of player from 1 to 6
+3. Robot can push other robots.
 
-4. Walls - a robot/player can't go through a wall.
+4. Gear - turns a robot either right or left.
 
-5. A robot can push other robots.
+5. PushPanel - pushes robots in PushPanel's direction. Though, only on step 2 and 4.
 
-6. Gear - turns a robot either right or left.
-
-7. PushPanel - pushes the robot in PushPanel's direction. Though, only on step 2 and 4.
-
-8. BoardLaser and EnergySpace - BoardLaser sets a robot in survival mode, so that the robot has to get to the energySpace/energyBack first. 
+6. BoardLaser and EnergySpace - BoardLaser sets robots in survival mode, so that the robots have to get to the energySpace/energyBack first. 
 Checkpoints will not be counted, when a robot in survival mode. If a robot has an eneryBank in advance then the robot won't be set in survival mode.
 
-9. EnergySpace - can be picked up only once from a particular space in a game by one robot.
+7. EnergySpace - can be picked up only once from one particular space in a game by one robot.
 
-10. Pit - draws walls around the robot. To get out of a pit the robot has to use a damageCard.
+8. Pit - draws walls around the robot. To get out of a pit the robot has to use a damageCard.
 
-11. ConveyorBelt - pushes the robot in conveyorBelt's direction.
+9. ConveyorBelt - pushes robots in conveyorBelt's direction.
+
+10. Once a game is done you will be asked if you want to play another game, exit or go to the game lobby.
 
 
+## Extended features with a database connection.
 
-### extended features with a database connection.
+1. Games will be saved automatically in the database right after a user interaction occurred. 
+So, that the game is repayable if the game stopped for any reasons, and everything will be as it was before it stopped.
 
-12. The game will be saved automatically in the database right after a user interaction occurred. 
-So that the game is repayable if the game stopped for any reasons. 
-
+2. It is only the running (no winner yet) games you will be able to load from DB. 
+The game list is sorted by date and time. Whenever a game is loaded from DB, it gets updated by current date and time.
+So that the last game comes first.
 
 
 
@@ -55,7 +56,7 @@ So that the game is repayable if the game stopped for any reasons.
 
 
 
-### Database connection:
+## Database connection:
 This program requires a database in order to save a game.
 
 First thing you need to do is create a database on your own computer, and to create a database you have to install MariaDB. Down below links provided
