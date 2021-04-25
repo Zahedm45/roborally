@@ -1,6 +1,5 @@
 #ROBORALLY 
 
-This is Robarally game 
 
 ## How to play 
 
@@ -11,7 +10,7 @@ Reach all the checkPoints in numerical order (first 1, then 2, then...)
 Whoever reaches all the checkPoints before anyone else, will be the winner.
 
 
-## Features (without database connection) 
+## Features 
 1. You will able to save a board on your computer and then you can edit the board as you wish and load the board from your computer
 
 2. Walls -  robots/players can't go through a wall.
@@ -33,13 +32,10 @@ Checkpoints will not be counted, when a robot in survival mode. If a robot has a
 
 10. Once a game is done you will be asked if you want to play another game, exit or go to the game lobby.
 
-
-## Extended features with database connection.
-
-1. Games will be saved automatically in the database right after a user interaction occurred. 
+11. Games will be saved automatically in the database right after a user interaction occurred. 
 So, that the game is repayable if the game stopped for any reasons, and everything will be as it was before it stopped.
 
-2. It is only the running (no winner yet) games you will be able to load from DB. 
+12. It is only the running (no winner yet) games that you will be able to load from DB. 
 The game list is sorted by date and time. Whenever a game is loaded from DB, it gets updated by current date and time.
 So that the last game comes first.
 
