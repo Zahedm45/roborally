@@ -224,16 +224,22 @@ public class Board extends Subject {
         // XXX: V2 changed the status so that it shows the phase, the player and the step
 
 
-        String energyBank = String.valueOf(getCurrentPlayer().hasEnergyBank()).toUpperCase();
-        String survivalMode = String.valueOf(getCurrentPlayer().isSurvivalMode()).toUpperCase();
+        //String survivalMode = String.valueOf(getCurrentPlayer().isSurvivalMode()).toUpperCase();
 
+        boolean survivalMode = getCurrentPlayer().isSurvivalMode();
+
+        if (survivalMode) {
+            return "Player =  " + getCurrentPlayer().getName() +
+                    ", You are in survival mode. To power up reach to an EnergyBank!";
+        }
+
+        String energyBank = String.valueOf(getCurrentPlayer().hasEnergyBank()).toUpperCase();
 
         return "Phase: " + getPhase().name() +
                 ",  Player = " + getCurrentPlayer().getName() +
                 ",  Step: " + getStep() +
                 ",   LastCheckpoint: " + getCurrentPlayer().getLastCheckPoint() +
-                ",   EnergyBank: " + energyBank +
-                ",   SurvivalMode: " + survivalMode;
+                ",   EnergyBank: " + energyBank;
     }
 
 
