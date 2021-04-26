@@ -106,10 +106,12 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-             Board board = LoadBoard.loadBoard(null);
+            String boardName = boardOption();
+
+             Board board = LoadBoard.loadBoard(boardName);
             initializePlayers(result, board);
 
-            LoadBoard.loadBoard(null);
+            //LoadBoard.loadBoard(null);
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
 
@@ -120,6 +122,25 @@ public class AppController implements Observer {
 
         }
     }
+
+
+    public String boardOption() {
+        List<String> boards = new ArrayList<>();
+        boards.add("defaultboard");
+        boards.add("board2");
+
+
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        dialog.setContentText("Choose a board: ");
+        dialog.getItems().addAll(boards);
+        dialog.setSelectedItem(boards.get(0));
+        dialog.showAndWait();
+
+        return dialog.getResult();
+
+    }
+
 
     /**
      * Initializes players (from 1 to 6) with colors and positions.
