@@ -56,8 +56,6 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "brown", "magenta");
 
-    final private List<String> DIFFERENT_BOARD_OPTION = Arrays.asList("standard", "10x10");
-
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -106,7 +104,7 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            String boardName = boardOption();
+            String boardName = showBoardOption();
 
              Board board = LoadBoard.loadBoard(boardName);
             initializePlayers(result, board);
@@ -124,22 +122,6 @@ public class AppController implements Observer {
     }
 
 
-    public String boardOption() {
-        List<String> boards = new ArrayList<>();
-        boards.add("defaultboard");
-        boards.add("board2");
-
-
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>();
-        dialog.setContentText("Choose a board: ");
-        dialog.getItems().addAll(boards);
-        dialog.setSelectedItem(boards.get(0));
-        dialog.showAndWait();
-
-        return dialog.getResult();
-
-    }
 
 
     /**
@@ -287,7 +269,29 @@ public class AppController implements Observer {
         }
     }
 
+
+
+    public String showBoardOption() {
+        List<String> boards = new ArrayList<>();
+        boards.add("defaultboard");
+        boards.add("board2");
+        boards.add("board3");
+
+
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        dialog.setContentText("Choose a board: ");
+        dialog.getItems().addAll(boards);
+        dialog.setSelectedItem(boards.get(0));
+        dialog.showAndWait();
+
+        return dialog.getResult();
+
+    }
+
+
     public void saveBoardToPC(){
+
         if (this.gameController != null) {
             LoadBoard.saveCurrentBoardToPC(this.gameController.board);
         }
