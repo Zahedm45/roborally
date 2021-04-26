@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,9 @@ public class Space extends Subject {
 
     public final int x;
     public final int y;
+
+    private boolean antenna = false;
+
 
 
     private ConveyorBelt belt = null;
@@ -123,6 +127,8 @@ public class Space extends Subject {
             if (action instanceof EnergySpace && energySpace == null) {
                 energySpace = (EnergySpace) action;
             }
+
+
         }
 
     }
@@ -180,5 +186,15 @@ public class Space extends Subject {
 
     public void setEnergySpace(EnergySpace energySpace) {
         this.energySpace = energySpace;
+    }
+
+    public boolean isAntenna() {
+        return antenna;
+    }
+
+    public void setAntenna(@NotNull boolean antenna) {
+        if (this.antenna == false) {
+            this.antenna = antenna;
+        }
     }
 }

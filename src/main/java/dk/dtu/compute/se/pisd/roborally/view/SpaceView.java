@@ -135,8 +135,13 @@ public class SpaceView extends StackPane implements ViewObserver {
                     this.getChildren().add(label);
 
                 }
-
             }
+
+            if (space.isAntenna()) {
+                System.out.println("hello");
+                addImage("image/antenna.png");
+            }
+
             updateBelt();
             if (!this.space.getWalls().isEmpty()) {
                 updateWalls();

@@ -55,6 +55,8 @@ public class Board extends Subject {
 
     private int step = 0;
 
+    private Space antenna;
+
     private boolean stepMode;
     private boolean winnerFound = false;
 
@@ -261,6 +263,16 @@ public class Board extends Subject {
     }
 
 
+    public Space getAntennaPosition() {
+        return antenna;
+    }
 
+    public void setAntenna(@NotNull int x, int y) {
+        if (this.antenna == null) {
+            this.antenna = spaces[x][y];
+            spaces[x][y].setAntenna(true);
 
+        }
+
+    }
 }
