@@ -111,6 +111,7 @@ class Repository implements IRepository {
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
 				ps.setString(5, GAME_RUNNING);
+				ps.setString(6, game.boardName);
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
@@ -592,7 +593,7 @@ class Repository implements IRepository {
 
 
 	private static final String SQL_INSERT_GAME =
-			"INSERT INTO Game(name, currentPlayer, phase, step, gameStatus) VALUES (?, ?, ?, ?, ?)";
+			"INSERT INTO Game(name, currentPlayer, phase, step, gameStatus, boardName) VALUES (?, ?, ?, ?, ?, ?)";
 
 	private PreparedStatement insert_game_stmt = null;
 
