@@ -272,17 +272,14 @@ public class AppController implements Observer {
 
 
     public String showBoardOption() {
-        List<String> boards = new ArrayList<>();
-        boards.add("defaultboard");
-        boards.add("board2");
-        boards.add("board3");
 
-
+        List<String> boardName = LoadBoard.getBoardOptions();
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        setDialogPosition(dialog);
         dialog.setContentText("Choose a board: ");
-        dialog.getItems().addAll(boards);
-        dialog.setSelectedItem(boards.get(0));
+        dialog.getItems().addAll(boardName);
+        dialog.setSelectedItem(boardName.get(0));
         dialog.showAndWait();
 
         return dialog.getResult();

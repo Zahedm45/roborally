@@ -36,6 +36,8 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -43,6 +45,8 @@ import java.io.*;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
+
+
 
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
@@ -103,6 +107,13 @@ public class LoadBoard {
         return null;
     }
 
+    public static List<String> getBoardOptions() {
+        List<String> boardName = new ArrayList<>();
+        boardName.add("defaultboard");
+        boardName.add("board2");
+        boardName.add("board3");
+        return boardName;
+    }
 
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
