@@ -40,6 +40,8 @@ import java.util.Date;
  */
 class Repository implements IRepository {
 
+	private static final String BOARD_NAME = "boardName";
+
 	private static final String GAME_GAMEID = "gameID";
 
 	private static final String GAME_NAME = "name";
@@ -255,7 +257,9 @@ class Repository implements IRepository {
 				// game = new Board(width,height);
 				// TODO and we should also store the used game board in the database
 				//      for now, we use the default game board
-				game = LoadBoard.loadBoard(null);
+
+				String boardName = rs.getString(BOARD_NAME);
+				game = LoadBoard.loadBoard(boardName);
 				if (game == null) {
 					return null;
 				}

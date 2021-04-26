@@ -77,7 +77,7 @@ public class LoadBoard {
             template = gson.fromJson(reader, BoardTemplate.class);
             //System.out.println("it has being called");
 
-            result = new Board(template.width, template.height);
+            result = new Board(template.width, template.height, boardname);
             for (SpaceTemplate spaceTemplate: template.spaces) {
                 Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
                 if (space != null) {
