@@ -105,8 +105,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
-            //addImage("image/square/s2.png", 0);
-            //addImage("image/square/s5.png", 0);
             addImage("image/square/s4.png", 0);
 
 
@@ -138,7 +136,6 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
 
             if (space.isAntenna()) {
-                System.out.println("hello");
                 addImage("image/antenna.png");
             }
 

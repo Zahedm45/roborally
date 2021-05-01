@@ -55,6 +55,8 @@ public class Player extends Subject {
     private boolean survivalMode = false;
 
 
+    private int distanceToAntenna;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -175,4 +177,11 @@ public class Player extends Subject {
         this.survivalMode = survivalMode;
     }
 
+    public double getDistanceToAntenna() {
+        return distanceToAntenna;
+    }
+
+    public void setDistanceToAntenna(int distanceToAntenna) {
+            this.distanceToAntenna = distanceToAntenna;
+    }
 }

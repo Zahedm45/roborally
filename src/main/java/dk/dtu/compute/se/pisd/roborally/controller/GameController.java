@@ -26,7 +26,10 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.IllegalFormatCodePointException;
+import java.util.List;
 
 /**
  * ...
@@ -77,10 +80,54 @@ public class GameController {
         }
     }
 
+    public void setPlayerByAntenna() {
+        Space antenna = board.getAntennaPosition();
+        //Double[][] distanceList = new Double[board.getPlayersNumber()][];
+        //List<Integer> playerNum = new ArrayList<>();
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Space playerSpace = board.getPlayer(i).getSpace();
+
+            int x = playerSpace.x - antenna.x;
+            int y = playerSpace.y - antenna.y;
+
+            x= Math.abs(x);
+            y = Math.abs(y);
+
+            //double distance = Math.sqrt( Math.pow(x, 2) + Math.pow(y, 2));
+
+            int distance = x + y;
+            //distance = Math.abs(distance);
+
+
+
+            //distance = Math.round(distance*100.0)/100.0;
+
+            board.getPlayer(i).setDistanceToAntenna(distance);
+//            distanceList[i][0] = distance;
+//            distanceList[i][1] = (double) i;
+        }
+
+//        for (int i = 0; i < board.getPlayersNumber(); i++) {
+//            System.out.println(board.getPlayer(i).getName() + " " + board.getPlayer(i).getDistanceToAntenna());
+//        }
+//
+//        System.out.println();
+//        for (Player dis :board.sortPlayerByDistance()) {
+//            System.out.println(dis.getName() +" " + dis.getDistanceToAntenna());
+//        }
+        board.sortPlayerByDistance();
+
+    }
+
+
+
+
     // XXX: V2
     public void startProgrammingPhase() {
+        setPlayerByAntenna();
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
+        //board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
