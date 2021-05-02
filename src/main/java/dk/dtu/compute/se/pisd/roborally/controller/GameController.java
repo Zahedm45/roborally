@@ -116,7 +116,9 @@ public class GameController {
 //        for (Player dis :board.sortPlayerByDistance()) {
 //            System.out.println(dis.getName() +" " + dis.getDistanceToAntenna());
 //        }
-        board.sortPlayerByDistance();
+        List<Player> sortedPlayers = board.sortPlayerByDistance();
+
+
 
     }
 

@@ -285,20 +285,15 @@ public class Board extends Subject {
         sortedByDist.sort(Comparator.comparing(Player::getDistanceToAntenna));
 
         List<Player> multiSameDistPlayers = new ArrayList<>();
-       // System.out.println(sortedByDist.size());
 
-        for (Player p : sortedByDist) {
-            System.out.println(p.getName() + " " + p.getDistanceToAntenna());
-
-        }
-
-        System.out.println();
         boolean callRandomMethod = false;
 
         for (int i = 0; i < sortedByDist.size()-1; i++) {
 
             Player currPlr = sortedByDist.get(i);
             Player nextPlr = sortedByDist.get(i+1);
+
+
             if (currPlr.getDistanceToAntenna() == nextPlr.getDistanceToAntenna()) {
 
                 if (! multiSameDistPlayers.contains( currPlr) ) {
@@ -315,97 +310,43 @@ public class Board extends Subject {
             } else if (callRandomMethod) {
 
                 randomSort(multiSameDistPlayers);
+                randomSort(multiSameDistPlayers);
                 callRandomMethod = false;
                 finalListPlr.addAll(multiSameDistPlayers);
+                //finalListPlr.add(currPlr);
                 multiSameDistPlayers.clear();
 
 
             } else {
 
-                finalListPlr.add(currPlr);
+                if (!finalListPlr.contains(currPlr)) {
+                    finalListPlr.add(currPlr);
+                }
 
             }
 
+
+            if (i == sortedByDist.size()-2 && !finalListPlr.contains(nextPlr)) {
+                finalListPlr.add(nextPlr);
+            }
+
         }
+        if (callRandomMethod) {
+            randomSort(multiSameDistPlayers);
+            randomSort(multiSameDistPlayers);
+            callRandomMethod = false;
+            finalListPlr.addAll(multiSameDistPlayers);
+            multiSameDistPlayers.clear();
+        }
+
+
+        for (Player player: finalListPlr) {
+            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
+        }
+        System.out.println();
 
         return finalListPlr;
 
-
-
-
-//        if(!multiSameDistPlayers.isEmpty()) {
-//            for (Player p :multiSameDistPlayers) {
-//                System.out.println(p.getName() + " " + p.getDistanceToAntenna());
-//
-//            }
-//
-//            System.out.println();
-//        }
-
-//        boolean callRandomMethod = false;
-//        List<Player> sameDistPlayers = new ArrayList<>();
-//        for (int i = 0; i < multiSameDistPlayers.size()-1; i++) {
-//            Player currPlr =  multiSameDistPlayers.get(i);
-//            Player nextPlr = multiSameDistPlayers.get(i+1);
-//            if ( currPlr.getDistanceToAntenna() == nextPlr.getDistanceToAntenna() ) {
-//
-//                if (!sameDistPlayers.contains(currPlr)) {
-//                    sameDistPlayers.add(currPlr);
-//                }
-//
-//                if (!sameDistPlayers.contains(nextPlr)) {
-//                    sameDistPlayers.add(nextPlr);
-//                }
-//                callRandomMethod = true;
-//
-//
-//            }  else if (callRandomMethod) {
-//
-//            }
-//        }
-
-
-
-
-
-//        List<String> index = new ArrayList<>();
-//        int k = 0;
-//        int j = 0;
-//        boolean add = false;
-
-//        for (int i = 0; i < multiSameDistPlayers.size()-1; i++) {
-//
-//            if ( multiSameDistPlayers.get(i).getDistanceToAntenna() == multiSameDistPlayers.get(i+1).getDistanceToAntenna() ) {
-//                if (!add) {
-//                    j = i;
-//                }
-//
-//                //index[k] = j + " " + i;
-//                if (add) {
-//                    index.remove(index.size()-1);
-//                }
-//
-//
-//                if (i == multiSameDistPlayers.size()-2) {
-//                    System.out.println("heloo " + i);
-//                    index.add(j + " " + (i + 1) );
-//
-//                } else {
-//                    index.add(j + " " + i);
-//                }
-//
-//                add = true;
-//
-//            } else {
-//               // k++;
-//                add = false;
-//            }
-//
-//        }
-
-//        for (String id : index) {
-//            System.out.println(id);
-//        }
     }
 
     public void randomSort(List<Player> players) {
@@ -416,6 +357,13 @@ public class Board extends Subject {
         List<Player> subArr2 = new ArrayList<>();
 
 
+        if (players.size() < 3) {
+            int rand = (new Random().nextInt(2));
+            Player firstPlr = players.get(rand);
+            players.remove(rand);
+            players.add(firstPlr);
+        }
+
         for (int i = 0; i < plrNumbers; i++) {
             Player curr = players.get(i);
 
@@ -424,17 +372,6 @@ public class Board extends Subject {
 
             } else subArr2.add(curr);
 
-        }
-
-
-
-        for (Player player: subArr1) {
-            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
-        }
-
-
-        for (Player player: subArr2) {
-            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
         }
 
 
@@ -462,6 +399,7 @@ public class Board extends Subject {
             players.add( subArr2.get(counter) );
             counter++;
         }
+
 
     }
 }

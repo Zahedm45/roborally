@@ -300,7 +300,6 @@ class Repository implements IRepository {
 	}
 
 
-
 	@Override
 	public List<GameInDB> getGames() {
 		// TODO when there many games in the DB, fetching all available games
@@ -323,9 +322,41 @@ class Repository implements IRepository {
 			e.printStackTrace();
 		}
 		result.sort(Comparator.comparing(GameInDB:: getName).reversed());
+
 		return result;
 
 	}
+
+//	@Override
+//	public List<GameInDB> getGames() {
+//		// TODO when there many games in the DB, fetching all available games
+//		//      from the DB is a bit extreme; eventually there should a
+//		//      methods that can filter the returned games in order to
+//		//      reduce the number of the returned games.
+//		List<GameInDB> result = new ArrayList<>();
+//		try {
+//			PreparedStatement ps = getSelectGameIdsStatement();
+//			ps.setString(1, GAME_RUNNING);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				int id = rs.getInt(GAME_GAMEID);
+//				String name = rs.getString(GAME_NAME);
+//				result.add(new GameInDB(id,name));
+//			}
+//			rs.close();
+//		} catch (SQLException e) {
+//			// TODO proper error handling
+//			e.printStackTrace();
+//		}
+//		result.sort(Comparator.comparing(GameInDB:: getName).reversed());
+//
+//		for (GameInDB gameInDB : result) {
+//			System.out.println(gameInDB);
+//
+//		}
+//		return result;
+//
+//	}
 
 
 
