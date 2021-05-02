@@ -82,8 +82,6 @@ public class GameController {
 
     public void setPlayerByAntenna() {
         Space antenna = board.getAntennaPosition();
-        //Double[][] distanceList = new Double[board.getPlayersNumber()][];
-        //List<Integer> playerNum = new ArrayList<>();
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Space playerSpace = board.getPlayer(i).getSpace();
@@ -94,31 +92,13 @@ public class GameController {
             x= Math.abs(x);
             y = Math.abs(y);
 
-            //double distance = Math.sqrt( Math.pow(x, 2) + Math.pow(y, 2));
-
             int distance = x + y;
-            //distance = Math.abs(distance);
-
-
-
-            //distance = Math.round(distance*100.0)/100.0;
 
             board.getPlayer(i).setDistanceToAntenna(distance);
-//            distanceList[i][0] = distance;
-//            distanceList[i][1] = (double) i;
+
         }
 
-//        for (int i = 0; i < board.getPlayersNumber(); i++) {
-//            System.out.println(board.getPlayer(i).getName() + " " + board.getPlayer(i).getDistanceToAntenna());
-//        }
-//
-//        System.out.println();
-//        for (Player dis :board.sortPlayerByDistance()) {
-//            System.out.println(dis.getName() +" " + dis.getDistanceToAntenna());
-//        }
-        List<Player> sortedPlayers = board.sortPlayerByDistance();
-
-
+        board.sortPlayerByDistance();
 
     }
 
@@ -231,6 +211,7 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
 
+        //Player currentPlayer = board.getCurrentPlayer();
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -248,6 +229,8 @@ public class GameController {
                 }
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) {
+
+                    //Player currentPlr = board.getSortedPlayers();
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
 // All actions on the space execute.

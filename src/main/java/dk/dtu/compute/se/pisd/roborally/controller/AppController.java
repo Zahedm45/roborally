@@ -114,6 +114,7 @@ public class AppController implements Observer {
              //board.setCurrentPlayer(board.getPlayer(1));
 
             gameController.startProgrammingPhase();
+            //board.setCurrentPlayer(board.getSortedPlayers().get(0));
 
             roboRally.createBoardView(gameController);
 

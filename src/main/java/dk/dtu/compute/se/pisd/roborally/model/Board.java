@@ -63,6 +63,7 @@ public class Board extends Subject {
     private boolean winnerFound = false;
 
     private List<Integer> checkPointNumbers = new ArrayList<Integer>();
+    private List<Player> sortedPlayers;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -278,9 +279,10 @@ public class Board extends Subject {
 
     }
 
-    public List<Player> sortPlayerByDistance() {
+    public void sortPlayerByDistance() {
+        sortedPlayers = new ArrayList<>();
+
         List<Player> sortedByDist = new ArrayList<>();
-        List<Player> finalListPlr = new ArrayList<>();
         sortedByDist.addAll(players);
         sortedByDist.sort(Comparator.comparing(Player::getDistanceToAntenna));
 
@@ -312,22 +314,22 @@ public class Board extends Subject {
                 randomSort(multiSameDistPlayers);
                 randomSort(multiSameDistPlayers);
                 callRandomMethod = false;
-                finalListPlr.addAll(multiSameDistPlayers);
-                //finalListPlr.add(currPlr);
+                sortedPlayers.addAll(multiSameDistPlayers);
+                //sortedPlayers.add(currPlr);
                 multiSameDistPlayers.clear();
 
 
             } else {
 
-                if (!finalListPlr.contains(currPlr)) {
-                    finalListPlr.add(currPlr);
+                if (!sortedPlayers.contains(currPlr)) {
+                    sortedPlayers.add(currPlr);
                 }
 
             }
 
 
-            if (i == sortedByDist.size()-2 && !finalListPlr.contains(nextPlr)) {
-                finalListPlr.add(nextPlr);
+            if (i == sortedByDist.size()-2 && !sortedPlayers.contains(nextPlr)) {
+                sortedPlayers.add(nextPlr);
             }
 
         }
@@ -335,17 +337,15 @@ public class Board extends Subject {
             randomSort(multiSameDistPlayers);
             randomSort(multiSameDistPlayers);
             callRandomMethod = false;
-            finalListPlr.addAll(multiSameDistPlayers);
+            sortedPlayers.addAll(multiSameDistPlayers);
             multiSameDistPlayers.clear();
         }
 
 
-        for (Player player: finalListPlr) {
-            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
-        }
-        System.out.println();
-
-        return finalListPlr;
+//        for (Player player: sortedPlayers) {
+//            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
+//        }
+//        System.out.println();
 
     }
 
@@ -373,12 +373,8 @@ public class Board extends Subject {
             } else subArr2.add(curr);
 
         }
-
-
         players.clear();
         int counter = 0;
-
-
 
         while (counter < subArr1.size() && counter < subArr2.size()) {
 
@@ -401,5 +397,9 @@ public class Board extends Subject {
         }
 
 
+    }
+
+    public List<Player> getSortedPlayers() {
+        return sortedPlayers;
     }
 }
