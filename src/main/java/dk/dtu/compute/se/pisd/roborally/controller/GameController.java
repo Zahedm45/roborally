@@ -109,7 +109,7 @@ public class GameController {
     public void startProgrammingPhase() {
         setPlayerByAntenna();
         board.setPhase(Phase.PROGRAMMING);
-        //board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(board.getSortedPlayers().get(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {

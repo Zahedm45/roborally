@@ -311,11 +311,15 @@ public class Board extends Subject {
 
             } else if (callRandomMethod) {
 
+
                 randomSort(multiSameDistPlayers);
                 randomSort(multiSameDistPlayers);
                 callRandomMethod = false;
                 sortedPlayers.addAll(multiSameDistPlayers);
                 //sortedPlayers.add(currPlr);
+//                if (! sortedPlayers.add(currPlr)) {
+//                    sortedPlayers.add(currPlr);
+//                }
                 multiSameDistPlayers.clear();
 
 
@@ -328,10 +332,6 @@ public class Board extends Subject {
             }
 
 
-            if (i == sortedByDist.size()-2 && !sortedPlayers.contains(nextPlr)) {
-                sortedPlayers.add(nextPlr);
-            }
-
         }
         if (callRandomMethod) {
             randomSort(multiSameDistPlayers);
@@ -341,11 +341,17 @@ public class Board extends Subject {
             multiSameDistPlayers.clear();
         }
 
+        Player lastPlayer = sortedByDist.get(sortedByDist.size()-1);
 
-//        for (Player player: sortedPlayers) {
-//            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
-//        }
-//        System.out.println();
+        if (!sortedPlayers.contains(lastPlayer)) {
+            sortedPlayers.add(lastPlayer);
+        }
+
+
+        for (Player player: sortedPlayers) {
+            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
+        }
+        System.out.println();
 
     }
 
