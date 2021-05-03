@@ -26,11 +26,6 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
-import java.util.List;
-
 /**
  * ...
  *
@@ -80,7 +75,7 @@ public class GameController {
         }
     }
 
-    public void setPlayerByAntenna() {
+    public void measurePlayersDistToAntenna() {
         Space antenna = board.getAntennaPosition();
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -107,9 +102,9 @@ public class GameController {
 
     // XXX: V2
     public void startProgrammingPhase() {
-        setPlayerByAntenna();
+        measurePlayersDistToAntenna();
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getSortedPlayers().get(0));
+        board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {

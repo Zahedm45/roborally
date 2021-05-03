@@ -347,8 +347,11 @@ public class Board extends Subject {
             sortedPlayers.add(lastPlayer);
         }
 
+        players.clear();
+        players.addAll(sortedPlayers);
 
-        for (Player player: sortedPlayers) {
+
+        for (Player player: players) {
             System.out.println(player.getName() + " " + player.getDistanceToAntenna());
         }
         System.out.println();
@@ -405,7 +408,10 @@ public class Board extends Subject {
 
     }
 
-    public List<Player> getSortedPlayers() {
-        return sortedPlayers;
+    public Player getSortedPlayers(@NotNull int playerNum) {
+        if (playerNum < sortedPlayers.size() && playerNum >= 0) {
+            return sortedPlayers.get(playerNum);
+
+        } else return null;
     }
 }
