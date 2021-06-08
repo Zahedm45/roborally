@@ -53,12 +53,14 @@ public class BoardView extends VBox implements ViewObserver {
     private PlayersView playersView;
 
     private Label statusLabel;
+    GameController gameController;
 
     private SpaceEventHandler spaceEventHandler;
     final public static Background CARD_FIELD_BACKGROUND =
             new Background(new BackgroundFill(Color.BLACK, null, null));
             // BLANCHEDALMOND
     public BoardView(@NotNull GameController gameController) {
+        this.gameController = gameController;
         board = gameController.board;
         this.setBackground(CARD_FIELD_BACKGROUND);
 
@@ -92,6 +94,8 @@ public class BoardView extends VBox implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == board) {
             Phase phase = board.getPhase();
+            playersView = new PlayersView(gameController);
+
             statusLabel.setText(board.getStatusMessage());
             if (this.board.getCurrentPlayer().isSurvivalMode()) {
                 statusLabel.setTextFill(Paint.valueOf("red"));

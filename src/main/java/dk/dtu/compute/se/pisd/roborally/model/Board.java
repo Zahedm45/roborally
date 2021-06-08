@@ -50,6 +50,8 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
+    private final List<Player> sortedPlayersByAntenna = new ArrayList<>();
+
     private List<Player> playersInPit = new ArrayList<Player>();
     private Player current;
 
@@ -63,7 +65,7 @@ public class Board extends Subject {
     private boolean winnerFound = false;
 
     private List<Integer> checkPointNumbers = new ArrayList<Integer>();
-    private List<Player> sortedPlayers;
+
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -105,9 +107,11 @@ public class Board extends Subject {
         } else {
             return null;
         }
+
     }
 
     public int getPlayersNumber() {
+
         return players.size();
     }
 
@@ -280,21 +284,19 @@ public class Board extends Subject {
     }
 
     public void sortPlayerByDistance() {
-        sortedPlayers = new ArrayList<>();
+        List<Player>  playersArr = new ArrayList<>();
 
         List<Player> sortedByDist = new ArrayList<>();
         sortedByDist.addAll(players);
         sortedByDist.sort(Comparator.comparing(Player::getDistanceToAntenna));
 
         List<Player> multiSameDistPlayers = new ArrayList<>();
-
         boolean callRandomMethod = false;
 
         for (int i = 0; i < sortedByDist.size()-1; i++) {
 
             Player currPlr = sortedByDist.get(i);
             Player nextPlr = sortedByDist.get(i+1);
-
 
             if (currPlr.getDistanceToAntenna() == nextPlr.getDistanceToAntenna()) {
 
@@ -305,28 +307,18 @@ public class Board extends Subject {
                 if (! multiSameDistPlayers.contains( nextPlr) ) {
                     multiSameDistPlayers.add( nextPlr );
                 }
-
                 callRandomMethod = true;
-
-
             } else if (callRandomMethod) {
-
-
                 randomSort(multiSameDistPlayers);
                 randomSort(multiSameDistPlayers);
                 callRandomMethod = false;
-                sortedPlayers.addAll(multiSameDistPlayers);
-                //sortedPlayers.add(currPlr);
-//                if (! sortedPlayers.add(currPlr)) {
-//                    sortedPlayers.add(currPlr);
-//                }
+                playersArr.addAll(multiSameDistPlayers);
                 multiSameDistPlayers.clear();
-
 
             } else {
 
-                if (!sortedPlayers.contains(currPlr)) {
-                    sortedPlayers.add(currPlr);
+                if (!playersArr.contains(currPlr)) {
+                    playersArr.add(currPlr);
                 }
 
             }
@@ -336,23 +328,31 @@ public class Board extends Subject {
         if (callRandomMethod) {
             randomSort(multiSameDistPlayers);
             randomSort(multiSameDistPlayers);
-            callRandomMethod = false;
-            sortedPlayers.addAll(multiSameDistPlayers);
+            playersArr.addAll(multiSameDistPlayers);
             multiSameDistPlayers.clear();
         }
 
         Player lastPlayer = sortedByDist.get(sortedByDist.size()-1);
 
-        if (!sortedPlayers.contains(lastPlayer)) {
-            sortedPlayers.add(lastPlayer);
+        if (!playersArr.contains(lastPlayer)) {
+            playersArr.add(lastPlayer);
         }
 
         players.clear();
-        players.addAll(sortedPlayers);
+        players.addAll(playersArr);
 
+        sortedPlayersByAntenna.clear();
+        sortedPlayersByAntenna.addAll(playersArr);
 
-        for (Player player: players) {
-            System.out.println(player.getName() + " " + player.getDistanceToAntenna());
+        System.out.println(".......");
+        for (Player player: sortedPlayersByAntenna) {
+            System.out.println(player.getName() + " distance to antenna: " + player.getDistanceToAntenna());
+        }
+        System.out.println(".......");
+
+        // just printing out the sorted list.
+        for (Player player: sortedPlayersByAntenna) {
+            System.out.println(player.getName() + " distance to antenna: " + player.getDistanceToAntenna());
         }
         System.out.println();
 
@@ -408,10 +408,15 @@ public class Board extends Subject {
 
     }
 
-    public Player getSortedPlayers(@NotNull int playerNum) {
-        if (playerNum < sortedPlayers.size() && playerNum >= 0) {
-            return sortedPlayers.get(playerNum);
+//    public Player getSortedPlayers(@NotNull int playerNum) {
+//        if (playerNum < sortedPlayers.size() && playerNum >= 0) {
+//            return sortedPlayers.get(playerNum);
+//
+//        } else return null;
+//    }
 
-        } else return null;
+
+    public List<Player> getSortedPlayersByAntenna() {
+        return sortedPlayersByAntenna;
     }
 }

@@ -101,7 +101,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         label = new Label("This is a slightly longer text");
         label.setWrapText(true);
         label.setMouseTransparent(true);
-        this.add(label, 0, 0);
+        this.add(label, 2, 0);
 
 
 
