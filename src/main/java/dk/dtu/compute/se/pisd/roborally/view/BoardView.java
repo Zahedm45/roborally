@@ -92,10 +92,8 @@ public class BoardView extends VBox implements ViewObserver {
 
     @Override
     public void updateView(Subject subject) {
-        if (subject == board) {
-            Phase phase = board.getPhase();
-            playersView = new PlayersView(gameController);
 
+        if (subject == board) {
             statusLabel.setText(board.getStatusMessage());
             if (this.board.getCurrentPlayer().isSurvivalMode()) {
                 statusLabel.setTextFill(Paint.valueOf("red"));
