@@ -134,8 +134,14 @@ public class AppController implements Observer {
 
     private void initializePlayers(Optional<Integer> result, Board board) {
         gameController = new GameController(board, this);
-
         int no = result.get();
+        List<Integer> randomX = new ArrayList<>(board.width);
+        List<Integer> randomY = new ArrayList<>(board.height);
+
+
+
+
+
         for (int i = 0; i < no; i++) {
             Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
             board.addPlayer(player);
