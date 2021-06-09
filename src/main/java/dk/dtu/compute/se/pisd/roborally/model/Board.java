@@ -283,7 +283,36 @@ public class Board extends Subject {
 
     }
 
-    public void sortPlayerByDistance() {
+
+
+
+    public void measurePlayersDistToAntenna() {
+        Space antenna = getAntennaPosition();
+
+        for (int i = 0; i < getPlayersNumber(); i++) {
+            Space playerSpace = getPlayer(i).getSpace();
+
+            int x = playerSpace.x - antenna.x;
+            int y = playerSpace.y - antenna.y;
+
+            x= Math.abs(x);
+            y = Math.abs(y);
+
+            int distance = x + y;
+
+            getPlayer(i).setDistanceToAntenna(distance);
+
+        }
+
+        List<Player> stdPlayers = sortPlayerByDistance(this.players);
+        addSortedPlayerToPlayerList(stdPlayers);
+        notifyChange();
+
+    }
+
+
+
+    public List<Player> sortPlayerByDistance(List<Player> players) {
         List<Player>  playersArr = new ArrayList<>();
 
         List<Player> sortedByDist = new ArrayList<>();
@@ -338,8 +367,6 @@ public class Board extends Subject {
             playersArr.add(lastPlayer);
         }
 
-        players.clear();
-        players.addAll(playersArr);
 
         sortedPlayersByAntenna.clear();
         sortedPlayersByAntenna.addAll(playersArr);
@@ -355,6 +382,8 @@ public class Board extends Subject {
             System.out.println(player.getName() + " distance to antenna: " + player.getDistanceToAntenna());
         }
         System.out.println();
+
+        return sortedPlayersByAntenna;
 
     }
 
@@ -408,12 +437,13 @@ public class Board extends Subject {
 
     }
 
-//    public Player getSortedPlayers(@NotNull int playerNum) {
-//        if (playerNum < sortedPlayers.size() && playerNum >= 0) {
-//            return sortedPlayers.get(playerNum);
-//
-//        } else return null;
-//    }
+
+    private void addSortedPlayerToPlayerList(List<Player> players){
+        this.players.clear();
+        this.players.addAll(players);
+    }
+
+
 
 
     public List<Player> getSortedPlayersByAntenna() {

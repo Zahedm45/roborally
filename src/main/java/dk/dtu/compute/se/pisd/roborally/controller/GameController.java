@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * ...
  *
@@ -75,34 +77,13 @@ public class GameController {
         }
     }
 
-    public void measurePlayersDistToAntenna() {
-        Space antenna = board.getAntennaPosition();
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Space playerSpace = board.getPlayer(i).getSpace();
-
-            int x = playerSpace.x - antenna.x;
-            int y = playerSpace.y - antenna.y;
-
-            x= Math.abs(x);
-            y = Math.abs(y);
-
-            int distance = x + y;
-
-            board.getPlayer(i).setDistanceToAntenna(distance);
-
-        }
-
-        board.sortPlayerByDistance();
-
-    }
 
 
 
 
     // XXX: V2
     public void startProgrammingPhase() {
-        measurePlayersDistToAntenna();
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
@@ -605,6 +586,12 @@ public class GameController {
     protected void setWinner(@NotNull Player player) {
         board.setWinnerFound(true);
         appController.setGameOverDialog(player);
+    }
+
+    protected void setPlayerInOrder () {
+        board.measurePlayersDistToAntenna();
+        board.getSortedPlayersByAntenna();
+
     }
 
 
