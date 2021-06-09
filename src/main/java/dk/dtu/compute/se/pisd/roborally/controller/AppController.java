@@ -66,6 +66,9 @@ public class AppController implements Observer {
     }
 
 
+    /**
+     * This method initializes a new game with given number of players and a board .
+     */
     public void newGame() {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -107,7 +110,7 @@ public class AppController implements Observer {
             //     here we just create an empty board with the required number of players.
             String boardName = showBoardOption();
 
-             Board board = LoadBoard.loadBoard(boardName);
+            Board board = LoadBoard.loadBoard(boardName);
             initializePlayers(result, board);
 
 
@@ -141,9 +144,12 @@ public class AppController implements Observer {
             while( !availableSpaceFound ) {
 
                 space = getRandomSpace(board);
-                if (space.getPlayer() == null) {
-                    availableSpaceFound = true;
+                if (space != null) {
+                    if (space.getPlayer() == null) {
+                        availableSpaceFound = true;
+                    }
                 }
+
             }
 
             Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -155,9 +161,8 @@ public class AppController implements Observer {
 
 
     private Space getRandomSpace(Board board) {
-        int randomX = (int) (Math.random() * board.height);
-        int randomY = (int) (Math.random() * board.width);
-
+        int randomX = (int) (Math.random() * board.width);
+        int randomY = (int) (Math.random() * board.height);
         return board.getSpace(randomX, randomY);
     }
 
@@ -213,7 +218,6 @@ public class AppController implements Observer {
             }
             gameController = null;
             roboRally.start(this.roboRally.getStage());
-            //roboRally.createBoardView(null);
             return true;
         }
         return false;

@@ -38,8 +38,6 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private Menu controlMenu;
 
-    //private MenuItem saveGame;
-
     private MenuItem newGame;
 
     private MenuItem loadGame;
@@ -48,7 +46,6 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
-   // private MenuItem downloadBoard;
     private MenuItem saveBoardPC;
 
 
@@ -66,18 +63,13 @@ public class RoboRallyMenuBar extends MenuBar {
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
 
-//        saveGame = new MenuItem("Save Game");
-//        saveGame.setOnAction( e -> this.appController.saveGame());
-//        controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
 
-//        downloadBoard = new MenuItem("Load Board");
-//        downloadBoard.setOnAction(e -> this.appController.loadBoard());
-//        controlMenu.getItems().add(downloadBoard);
+
 
         saveBoardPC = new MenuItem("Save Board");
         saveBoardPC.setOnAction(e -> this.appController.saveBoardToPC());
@@ -94,32 +86,16 @@ public class RoboRallyMenuBar extends MenuBar {
         update();
     }
 
-//    private int game() {
-//        gameToDownLoad.add(1);
-//        gameToDownLoad.add(2);
-////        controlMenu = new Menu("");
-////        this.getMenus().add(controlMenu);
-//        MenuItem ne = new MenuItem("SELECT");
-//        ne.setText();
-//        controlMenu.getItems().add(ne);
-//
-//        System.out.println("helr");
-//        update();
-//
-//        return 0;
-//    }
 
     private void update() {
         if (appController.isGameRunning()) {
             newGame.setVisible(false);
             stopGame.setVisible(true);
-           // saveGame.setVisible(true);
             loadGame.setVisible(false);
             saveBoardPC.setVisible(true);
         } else {
             newGame.setVisible(true);
             stopGame.setVisible(false);
-            //saveGame.setVisible(false);
             loadGame.setVisible(true);
             saveBoardPC.setVisible(false);
         }
