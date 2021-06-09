@@ -147,17 +147,7 @@ public class AppController implements Observer {
     }
 
 
-//    public void saveGame() {
-//        // XXX needs to be implemented eventually
-//        IRepository repository = RepositoryAccess.getRepository();
-//        Integer currentGameID = this.gameController.board.getGameId();
-//        // need to rewrite
-//        if (currentGameID == null && !repository.getGames().contains(currentGameID)) {
-//            repository.createGameInDB(this.gameController.board);
-//        } else {
-//            repository.updateGameInDB(this.gameController.board);
-//        }
-//    }
+
 
     /**
      * Loads user desired games from database with all board-elements and players conditions.
@@ -185,9 +175,7 @@ public class AppController implements Observer {
                 this.gameController =
                         new GameController(repository.loadGameFromDB(playerChosenGID), this);
                 this.roboRally.createBoardView(this.gameController);
-//            if (this.gameController.board.getPhase() == Phase.INITIALISATION) {
-//                this.gameController.board.setPhase();
-//            }
+
             }
         }
 
