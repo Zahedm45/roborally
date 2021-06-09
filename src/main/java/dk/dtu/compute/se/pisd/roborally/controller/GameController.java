@@ -26,7 +26,6 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 
 /**
  * ...
@@ -78,11 +77,11 @@ public class GameController {
     }
 
 
-
-
-
-
-    // XXX: V2
+    /**
+     * This is our method that sets the game in programming phase and
+     * allows players to program their robots.
+     * @author Zahed(s186517)
+     */
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -105,6 +104,12 @@ public class GameController {
         }
     }
 
+    /**
+     * This method generates a random number and then initializes
+     * a command card by giving the random number as a index.
+     * @return command card
+     * @author Zahed(s186517)
+     */
     // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
@@ -112,6 +117,11 @@ public class GameController {
         return new CommandCard(commands[random]);
     }
 
+
+    /**
+     * Sets games in activation phase, which means programming robots will
+     * not be allowed and programmed commands will be ready to execute.
+     */
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -121,6 +131,11 @@ public class GameController {
         board.setStep(0);
     }
 
+
+    /**
+     *
+     * @param register
+     */
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
@@ -209,8 +224,8 @@ public class GameController {
                     //Player currentPlr = board.getSortedPlayers();
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
-// All actions on the space execute.
 
+                    // All actions on the space execute.
                     for (int i = 0; i < this.board.getPlayersNumber(); i++) {
                         for (FieldAction action : this.board.getPlayer(i).getSpace().getActions()) {
                             action.doAction(this, this.board.getPlayer(i).getSpace());
@@ -356,7 +371,6 @@ public class GameController {
             if (targetSpPushPanel.equals(heading) || swappedPushPHeading.equals(heading)) {
                 return;
             }
-            //Heading swappedTargetPsPp = swapHeading(targetSpPushPanel);
 
         }
 
@@ -489,23 +503,6 @@ public class GameController {
     }
 
 
-////    // TODO Assignment V2
-//    public void moveForward(@NotNull Player player) {
-//        Space current = player.getSpace();
-//        Heading heading = player.getHeading();
-//
-//
-//        if (current != null && player.board == current.board) {
-//            Space target = board.getNeighbour(current, player.getHeading());
-//            if (target != null) {
-//                try {
-//                    moveToSpace(player, target, heading);
-//
-//                } catch (ImpossibleMoveException e) {// we don't do anything here  for now;// we just catch theexception so that// we do no pass it on to the caller// (which would be very bad style).}   }   }   }
-//                }
-//            }
-//        }
-//    }
 
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
@@ -561,8 +558,9 @@ public class GameController {
 
 
     /**
-     * Saves a game into database. It takes care of existing games, if the game exists in the database it just updates it.
-     *  @author Zahed(s186517)
+     * Saves a game into database. It takes care of existing games, if the game
+     * exists in the database it just updates it.
+     * @author Zahed(s186517)
      */
     public void saveOrUpdateGame() {
         // XXX needs to be implemented eventually

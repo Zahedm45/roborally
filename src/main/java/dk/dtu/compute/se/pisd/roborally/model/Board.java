@@ -226,17 +226,7 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // this is actually a view aspect, but for making assignment V1 easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
-
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
-
-
-        //String survivalMode = String.valueOf(getCurrentPlayer().isSurvivalMode()).toUpperCase();
-
         boolean survivalMode = getCurrentPlayer().isSurvivalMode();
-
         if (survivalMode) {
             return "Player =  " + getCurrentPlayer().getName() +
                     ", You are in survival mode. To power up reach to an EnergyBank!";
@@ -284,7 +274,17 @@ public class Board extends Subject {
     }
 
 
-
+    /**
+     * This method first measures the distance between players and antenna, and
+     * then sets the distance to their player's attribute "distanceToAntenna".
+     *
+     * Afterwords, calls function "sortPlayerByDistance" to sort the
+     * players according to the distances.
+     * And lastly, calls another function "addSortedPlayerToPlayerList",
+     * which just adds the sorted players to players list of "Board" class.
+     *
+     * @author Zahed(186517)
+     */
 
     public void measurePlayersDistToAntenna() {
         Space antenna = getAntennaPosition();
@@ -299,18 +299,23 @@ public class Board extends Subject {
             y = Math.abs(y);
 
             int distance = x + y;
-
             getPlayer(i).setDistanceToAntenna(distance);
-
         }
 
         List<Player> stdPlayers = sortPlayerByDistance(this.players);
         addSortedPlayerToPlayerList(stdPlayers);
         notifyChange();
-
     }
 
 
+    /**
+     * Sorts players according to their distance to the antenna. And players will be sorted randomly If
+     * multiple players have same distance.
+     *
+     * @param players a list of players
+     * @return a list of players
+     * @author Zahed(186517)
+     */
 
     public List<Player> sortPlayerByDistance(List<Player> players) {
         List<Player>  playersArr = new ArrayList<>();
@@ -383,6 +388,10 @@ public class Board extends Subject {
 
     }
 
+    /**
+     * Sorts players randomly.
+     * @param players
+     */
     public void randomSort(List<Player> players) {
 
         int plrNumbers = players.size();
