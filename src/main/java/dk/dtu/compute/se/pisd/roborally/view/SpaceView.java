@@ -87,9 +87,9 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Player player = space.getPlayer();
         if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0 );
+            Polygon arrow = new Polygon(2.0, 0.0,
+                    13.0, 25.0,
+                    25.0, 0.0 );
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
@@ -269,21 +269,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         ConveyorBelt belt = space.getConveyorBelt();
         if (belt != null) {
             addImage( belt.getHeading(), "image/triangle/t8.png");
-//            switch (rotation) {
-//                case 0 -> addImage("image/triangle/t8.png", 180);
-//                case 1 -> addImage("image/triangle/t8.png", 270);
-//                case 2 -> addImage("image/triangle/t8.png", 0);
-//                case 3 -> addImage("image/triangle/t8.png", 90);
-//            }
-
-//            Polygon fig = new Polygon(0.0, 0.0,
-//                    60.0, 0.0,
-//                    30.0, 60.0);
-//
-//            fig.setFill(Color.LIGHTGRAY);
-//
-//            fig.setRotate((90*belt.getHeading().ordinal())%360);
-//            this.getChildren().add(fig);
         }
     }
 

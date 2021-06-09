@@ -36,6 +36,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -54,7 +55,7 @@ import java.util.List;
 public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
-    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "brown", "magenta");
+    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "aqua", "Teal", "magenta");
 
     final private RoboRally roboRally;
 
@@ -132,18 +133,32 @@ public class AppController implements Observer {
     private void initializePlayers(Optional<Integer> result, Board board) {
         gameController = new GameController(board, this);
         int no = result.get();
-        List<Integer> randomX = new ArrayList<>(board.width);
-        List<Integer> randomY = new ArrayList<>(board.height);
 
-
-
-
-
+        Space space = null;
         for (int i = 0; i < no; i++) {
+
+            boolean availableSpaceFound = false;
+            while( !availableSpaceFound ) {
+
+                space = getRandomSpace(board);
+                if (space.getPlayer() == null) {
+                    availableSpaceFound = true;
+                }
+            }
+
             Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
             board.addPlayer(player);
-            player.setSpace(board.getSpace(i % board.width, i));
+            player.setSpace(space);
+            //player.setSpace(board.getSpace(i % board.width, i));
         }
+    }
+
+
+    private Space getRandomSpace(Board board) {
+        int randomX = (int) (Math.random() * board.height);
+        int randomY = (int) (Math.random() * board.width);
+
+        return board.getSpace(randomX, randomY);
     }
 
 

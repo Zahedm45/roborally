@@ -374,7 +374,8 @@ public class Board extends Subject {
         // Printing out the sorted player list just to see the distance that individual player has.
         System.out.println(".......");
         for (Player player: sortedPlayersByAntenna) {
-            System.out.println(player.getName() + " distance to antenna: " + player.getDistanceToAntenna());
+            System.out.println(player.getName() + " distance to antenna: " +
+                   player.getDistanceToAntenna());
         }
         System.out.println(".......");
 
